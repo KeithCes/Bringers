@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		532BF3E5276F96FB00D8ADA3 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */; };
+		532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */; };
 		537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D6276EDB5E00F541B5 /* BringersApp.swift */; };
 		537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D8276EDB5E00F541B5 /* ContentView.swift */; };
 		537718DB276EDB6100F541B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 537718DA276EDB6100F541B5 /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
+		532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hexcode.swift"; sourceTree = "<group>"; };
 		537718D3276EDB5E00F541B5 /* Bringers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bringers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		537718D6276EDB5E00F541B5 /* BringersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersApp.swift; sourceTree = "<group>"; };
 		537718D8276EDB5E00F541B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		532BF3E6276F978000D8ADA3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		537718CA276EDB5E00F541B5 = {
 			isa = PBXGroup;
 			children = (
@@ -94,8 +106,10 @@
 		537718D5276EDB5E00F541B5 /* Bringers */ = {
 			isa = PBXGroup;
 			children = (
+				532BF3E6276F978000D8ADA3 /* Extensions */,
 				537718D6276EDB5E00F541B5 /* BringersApp.swift */,
 				537718D8276EDB5E00F541B5 /* ContentView.swift */,
+				532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */,
 				537718DA276EDB6100F541B5 /* Assets.xcassets */,
 				537718DC276EDB6100F541B5 /* Preview Content */,
 			);
@@ -257,7 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */,
 				537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */,
+				532BF3E5276F96FB00D8ADA3 /* CustomColors.swift in Sources */,
 				537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +443,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,6 +473,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
