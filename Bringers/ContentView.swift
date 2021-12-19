@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var name: String = "ass"
+    @State private var name: String = ""
     
     init() {
         UITabBar.appearance().barTintColor = UIColor(CustomColors.tabbarGray)
@@ -19,15 +19,20 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            Text("Home Tab")
-                .font(.system(size: 30, weight: .bold, design: .rounded))
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(CustomColors.seafoamGreen)
-                .ignoresSafeArea()
+            VStack {
+                Text("LOOKING FOR SOMETHING?")
+                    .font(.system(size: 48, weight: .bold, design: .rounded))
+                
+                CustomTextbox(field: $name)
+                    
+            }
+            .tabItem {
+                Image(systemName: "house.fill")
+                Text("Home")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(CustomColors.seafoamGreen)
+            .ignoresSafeArea()
             
             
             Text("Bookmark Tab")
