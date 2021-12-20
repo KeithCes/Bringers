@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var itemName: String = ""
     @State private var description: String = ""
     
+    @ObservedObject private var keyboard = KeyboardResponder()
+    
     init() {
         UITabBar.appearance().barTintColor = UIColor(CustomColors.tabbarGray)
         UITabBar.appearance().alpha = 0.5
@@ -30,29 +32,40 @@ struct ContentView: View {
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                 
                 CustomTextbox(field: $pickupBuy, placeholderText: "Pick-up or buy?")
-                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
+                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
                 
                 HStack {
                     CustomTextbox(field: $deliveryFee, placeholderText: "Delivery Fee", width: 153)
                     CustomTextbox(field: $maxItemPrice, placeholderText: "Max Item Price", width: 153)
                 }
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 5, trailing: 20))
                 
                 CustomTextbox(field: $itemName, placeholderText: "Name of Item")
-                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
+                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 30, trailing: 20))
                 
                 TextEditor(text: $description)
-                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
+                    .padding()
                     .font(.system(size: 18, weight: .regular, design: .rounded))
+                    .foregroundColor(CustomColors.midGray)
                     .background(Rectangle()
                                     .fill(Color.white.opacity(0.5))
                                     .frame(width: 322, height: 153)
                                     .cornerRadius(15))
-                    .frame(minWidth: 0, maxWidth: 200, minHeight: 0, maxHeight: 200)
-                    .placeholder(when: self.description.isEmpty) {
+                    .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
+                    .placeholderTopLeft(when: self.description.isEmpty) {
                         Text("Description").foregroundColor(CustomColors.midGray.opacity(0.6))
+                        // makes placeholder even with text in box, not sure why we need this padding
+                            .padding(.top, 24)
+                            .padding(.leading, 20)
+                    }
+                    .onReceive(self.description.publisher.collect()) {
+                        self.description = String($0.prefix(200))
                     }
             }
+            .padding(.bottom, keyboard.currentHeight)
+            .edgesIgnoringSafeArea(.bottom)
+            .animation(.easeOut(duration: 0.16))
+            
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
