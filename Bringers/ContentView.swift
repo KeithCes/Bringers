@@ -65,7 +65,6 @@ struct ContentView: View {
             .padding(.bottom, keyboard.currentHeight)
             .edgesIgnoringSafeArea(.bottom)
             .animation(.easeOut(duration: 0.16))
-            
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
@@ -73,6 +72,7 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(CustomColors.seafoamGreen)
             .ignoresSafeArea()
+            .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
             
             
             Text("Bookmark Tab")
