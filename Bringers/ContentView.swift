@@ -61,6 +61,18 @@ struct ContentView: View {
                     .onReceive(self.description.publisher.collect()) {
                         self.description = String($0.prefix(200))
                     }
+                
+                Button("PLACE ORDER") {
+                    print("Button tapped!")
+                }
+                .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: 322, height: 70)
+                                .cornerRadius(15))
+                
             }
             .padding(.bottom, keyboard.currentHeight)
             .edgesIgnoringSafeArea(.bottom)
