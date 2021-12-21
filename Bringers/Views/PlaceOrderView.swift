@@ -10,7 +10,9 @@ import SwiftUI
 
 struct PlaceOrderView: View {
     
-    @State private var pickupBuy: String = ""
+    @State private var pickupBuy: String = "Pick-up or buy?"
+    @State private var pickupBuyColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
+    @State private var pickupBuyImageName: String = ""
     @State private var deliveryFee: String = ""
     @State private var maxItemPrice: String = ""
     @State private var itemName: String = ""
@@ -25,8 +27,36 @@ struct PlaceOrderView: View {
             Text("LOOKING FOR SOMETHING?")
                 .font(.system(size: 48, weight: .bold, design: .rounded))
             
-            CustomTextbox(field: $pickupBuy, placeholderText: "Pick-up or buy?")
-                .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
+            Menu {
+                Button {
+                    pickupBuy = "Buy"
+                    pickupBuyColor = CustomColors.midGray
+                    pickupBuyImageName = "tag"
+                } label: {
+                    Text("Buy")
+                    Image(systemName: "tag")
+                }
+                Button {
+                    pickupBuy = "Pick-up"
+                    pickupBuyColor = CustomColors.midGray
+                    pickupBuyImageName = "bag"
+                } label: {
+                    Text("Pick-up")
+                    Image(systemName: "bag")
+                }
+            } label: {
+                 Text(pickupBuy)
+                Image(systemName: pickupBuyImageName)
+            }
+            .font(.system(size: 18, weight: .regular, design: .rounded))
+            .foregroundColor(pickupBuyColor)
+            .fixedSize(horizontal: false, vertical: true)
+            .multilineTextAlignment(.center)
+            .background(Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(width: 322, height: 50)
+                            .cornerRadius(15))
+            .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
             
             HStack {
                 CustomTextbox(field: $deliveryFee, placeholderText: "Delivery Fee", width: 153)
@@ -39,6 +69,12 @@ struct PlaceOrderView: View {
             
             TextEditor(text: $description)
                 .padding()
+                .placeholderTopLeft(when: self.description.isEmpty) {
+                    Text("Description").foregroundColor(CustomColors.midGray.opacity(0.5))
+                    // makes placeholder even with text in box, not sure why we need this padding
+                        .padding(.top, 24)
+                        .padding(.leading, 20)
+                }
                 .font(.system(size: 18, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .background(Rectangle()
@@ -46,12 +82,6 @@ struct PlaceOrderView: View {
                                 .frame(width: 322, height: 153)
                                 .cornerRadius(15))
                 .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
-                .placeholderTopLeft(when: self.description.isEmpty) {
-                    Text("Description").foregroundColor(CustomColors.midGray.opacity(0.6))
-                    // makes placeholder even with text in box, not sure why we need this padding
-                        .padding(.top, 24)
-                        .padding(.leading, 20)
-                }
                 .onReceive(self.description.publisher.collect()) {
                     self.description = String($0.prefix(200))
                 }
@@ -75,8 +105,8 @@ struct PlaceOrderView: View {
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))
         .tabItem {
-            Image(systemName: "house.fill")
-            Text("Home")
+            Image(systemName: "cart")
+            Text("Order")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

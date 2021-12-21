@@ -19,24 +19,23 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            
             PlaceOrderView()
             
-            Text("Bookmark Tab")
+            Text("User Profile Tab")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .tabItem {
-                    Image(systemName: "bookmark.circle.fill")
-                    Text("Bookmark")
+                    Image(systemName: "person")
+                    Text("Profile")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(CustomColors.seafoamGreen)
                 .ignoresSafeArea()
             
-            Text("Video Tab")
+            Text("Bringers Tab")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .tabItem {
-                    Image(systemName: "video.circle.fill")
-                    Text("Video")
+                    Image(systemName: "bag")
+                    Text("Bring")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(CustomColors.seafoamGreen)
