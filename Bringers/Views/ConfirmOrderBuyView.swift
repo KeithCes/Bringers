@@ -12,12 +12,12 @@ struct ConfirmOrderBuyView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var isShowingOrderComing = false
+    @State private var isShowingWaitingForBringer = false
     
-    var deliveryFee: Int
-    var maxItemPrice: Int
+    var deliveryFee: CGFloat
+    var maxItemPrice: CGFloat
     
-    init(deliveryFee: Int, maxItemPrice: Int) {
+    init(deliveryFee: CGFloat, maxItemPrice: CGFloat) {
         self.deliveryFee = deliveryFee
         self.maxItemPrice = maxItemPrice
     }
@@ -35,10 +35,10 @@ struct ConfirmOrderBuyView: View {
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
             let estTax = round(CGFloat(maxItemPrice) * 0.0625 * 100) / 100.0
            
-            CustomLabel(labelText: "MAX ITEM PRICE = $" + String(maxItemPrice) + "\nDELIVERY FEE = $" + String(deliveryFee) + "\nESTIMATED SALES TAX = $" + "\(estTax)", height: 100)
+            CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", maxItemPrice) + "\nDELIVERY FEE = $" + String(format:"%.02f", deliveryFee) + "\nESTIMATED SALES TAX = $" + "\(estTax)", height: 100)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
             
-            CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + "\(estTax + CGFloat(maxItemPrice) + CGFloat(deliveryFee))", height: 75, isBold: true)
+            CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + String(format:"%.02f", (estTax + maxItemPrice + deliveryFee)), height: 75, isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             CustomLabel(labelText: "Note: Final costs may be slightly different than estimates due to actual item prices", height: 75, fontSize: 14)
@@ -52,7 +52,7 @@ struct ConfirmOrderBuyView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                isShowingOrderComing.toggle()
+                isShowingWaitingForBringer.toggle()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -61,7 +61,7 @@ struct ConfirmOrderBuyView: View {
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: 322, height: 70)
                             .cornerRadius(15))
-            .fullScreenCover(isPresented: $isShowingOrderComing, content: OrderComingMapView.init)
+            .fullScreenCover(isPresented: $isShowingWaitingForBringer, content: WaitingForBringerView.init)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

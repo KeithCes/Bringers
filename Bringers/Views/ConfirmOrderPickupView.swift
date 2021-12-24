@@ -12,11 +12,11 @@ struct ConfirmOrderPickupView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var isShowingOrderComing = false
+    @State private var isShowingWaitingForBringer = false
     
-    var deliveryFee: Int
+    var deliveryFee: CGFloat
     
-    init(deliveryFee: Int) {
+    init(deliveryFee: CGFloat) {
         self.deliveryFee = deliveryFee
     }
     
@@ -27,10 +27,10 @@ struct ConfirmOrderPickupView: View {
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
                 .fixedSize(horizontal: false, vertical: true)
             
-            CustomLabel(labelText: "DELIVERY FEE = $" + String(deliveryFee))
+            CustomLabel(labelText: "DELIVERY FEE = $" + String(format:"%.02f", deliveryFee))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
             
-            CustomLabel(labelText: "TOTAL COST = $5", isBold: true)
+            CustomLabel(labelText: "TOTAL COST = $" + String(format:"%.02f", deliveryFee), isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Text("By pressing “PLACE ORDER” you agree to the terms and conditions of the Bringers app")
@@ -41,7 +41,7 @@ struct ConfirmOrderPickupView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                isShowingOrderComing.toggle()
+                isShowingWaitingForBringer.toggle()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -50,6 +50,7 @@ struct ConfirmOrderPickupView: View {
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: 322, height: 70)
                             .cornerRadius(15))
+            .fullScreenCover(isPresented: $isShowingWaitingForBringer, content: WaitingForBringerView.init)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

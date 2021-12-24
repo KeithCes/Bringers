@@ -99,7 +99,6 @@ struct OrderComingMapView: View {
             .frame(width: 49, height: 28)
             .background(CustomColors.lightRed)
             .cornerRadius(15)
-            .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
         }
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))

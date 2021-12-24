@@ -14,8 +14,8 @@ struct PlaceOrderView: View {
     @State private var pickupBuy: String = "Pick-up or buy?"
     @State private var pickupBuyColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     @State private var pickupBuyImageName: String = ""
-    @State private var deliveryFee: Int = 0
-    @State private var maxItemPrice: Int = 0
+    @State private var deliveryFee: CGFloat = 0
+    @State private var maxItemPrice: CGFloat = 0
     @State private var itemName: String = ""
     @State private var description: String = ""
     
@@ -64,7 +64,7 @@ struct PlaceOrderView: View {
             HStack {
                 CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
                 if pickupBuy != "Pick-up" {
-                CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
+                    CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
                 }
             }
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 5, trailing: 20))

@@ -12,11 +12,11 @@ struct CustomTextboxCurrency: View {
     
     // https://github.com/onmyway133/blog/issues/844
     
-    @Binding var field: Int
+    @Binding var field: CGFloat
     
     var placeholderText: String
     
-    init(field: Binding<Int>, placeholderText: String) {
+    init(field: Binding<CGFloat>, placeholderText: String) {
         self._field = field
         self.placeholderText = placeholderText
     }
@@ -24,7 +24,10 @@ struct CustomTextboxCurrency: View {
     var body: some View {
         let text = Binding<String>(
             get: {
-                field > 0 ? "$\(field)" : ""
+                if field > 999 {
+                    field = 999
+                }
+                return field > 0 ? "$" + String(format: "%.0f", field) : ""
             },
             set: { text in
                 let text = text.replacingOccurrences(of: "$", with: "")
@@ -32,7 +35,7 @@ struct CustomTextboxCurrency: View {
                     field = 10
                 }
                 else {
-                    field = Int(text.prefix(4)) ?? 0
+                    field = CGFloat(Int(text) ?? 0)
                 }
             }
         )
