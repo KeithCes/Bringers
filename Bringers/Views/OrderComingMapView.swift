@@ -16,6 +16,8 @@ struct OrderComingMapView: View {
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
+    var receiptImageName = "receipt"
+    
     var body: some View {
         VStack {
             Text("[SCARRA] IS COMING WITH YOUR ORDER!")
@@ -27,9 +29,9 @@ struct OrderComingMapView: View {
                     viewModel.checkIfLocationServicesEnabled()
                 }
             HStack {
+                
                 Button(action: {
                     isShowingUserProfile.toggle()
-
                 }) {
                     Image("scarra")
                         .resizable()
@@ -38,7 +40,9 @@ struct OrderComingMapView: View {
                 .popover(isPresented: $isShowingUserProfile, content: {
                     UserProfileView()
                 })
+                
                 VStack {
+                    
                     Button {
                         // TODO: implement texting
                     } label: {
@@ -50,6 +54,8 @@ struct OrderComingMapView: View {
                     .frame(width: 49, height: 28)
                     .background(CustomColors.seafoamGreen)
                     .cornerRadius(15)
+                    .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
+                    
                     Button {
                         // TODO: implement calling
                     } label: {
@@ -61,22 +67,39 @@ struct OrderComingMapView: View {
                     .frame(width: 49, height: 28)
                     .background(CustomColors.seafoamGreen)
                     .cornerRadius(15)
+                    .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
                 }
-                Button(action: {
-                    isShowingReceipt.toggle()
-
-                }) {
-                    Image("receipt")
-                        .resizable()
-                        .frame(width: 74, height: 74)
+                
+                if receiptImageName != "" {
+                    Button(action: {
+                        isShowingReceipt.toggle()
+                    }) {
+                        Image(receiptImageName)
+                            .resizable()
+                            .frame(width: 74, height: 74)
+                    }
+                    .popover(isPresented: $isShowingReceipt, content: {
+                        ReceiptView()
+                    })
                 }
-                .popover(isPresented: $isShowingReceipt, content: {
-                    ReceiptView()
-                })
             }
             .background(CustomColors.blueGray.opacity(0.6))
             .cornerRadius(15)
             .frame(width: 322, height: 108, alignment: .center)
+            
+            Button {
+                // TODO: confirmation screen/backend call to cancel order
+                UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+            } label: {
+                Image(systemName: "x.circle")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(CustomColors.darkGray)
+            }
+            .frame(width: 49, height: 28)
+            .background(CustomColors.lightRed)
+            .cornerRadius(15)
+            .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
         }
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))

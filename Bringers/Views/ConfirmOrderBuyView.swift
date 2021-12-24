@@ -12,6 +12,8 @@ struct ConfirmOrderBuyView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var isShowingOrderComing = false
+    
     var body: some View {
         VStack {
             Text("CONFIRM THE FOLLOWING:")
@@ -39,7 +41,7 @@ struct ConfirmOrderBuyView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                presentationMode.wrappedValue.dismiss()
+                isShowingOrderComing.toggle()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -48,6 +50,7 @@ struct ConfirmOrderBuyView: View {
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: 322, height: 70)
                             .cornerRadius(15))
+            .fullScreenCover(isPresented: $isShowingOrderComing, content: OrderComingMapView.init)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

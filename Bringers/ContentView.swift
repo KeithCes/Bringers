@@ -19,8 +19,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-//            PlaceOrderView()
-            OrderComingMapView()
+            PlaceOrderView()
             
             Text("User Profile Tab")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
