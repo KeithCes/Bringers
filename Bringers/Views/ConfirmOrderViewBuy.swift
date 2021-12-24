@@ -1,5 +1,5 @@
 //
-//  ConfirmOrderView.swift
+//  ConfirmOrderViewBuy.swift
 //  Bringers
 //
 //  Created by Keith C on 12/20/21.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ConfirmOrderView: View {
+struct ConfirmOrderViewBuy: View {
     
     @Environment(\.presentationMode) var presentationMode
     

@@ -91,7 +91,12 @@ struct PlaceOrderView: View {
                 self.showConfirmScreen()
             }
             .popover(isPresented: $isShowingConfirm) {
-                ConfirmOrderView()
+                if self.pickupBuy == "Buy" {
+                    ConfirmOrderViewBuy()
+                }
+                else if self.pickupBuy == "Pick-up" {
+                    ConfirmOrderViewPickup()
+                }
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -117,11 +122,11 @@ struct PlaceOrderView: View {
     
     
     func showConfirmScreen() {
-        if (self.pickupBuy == "Buy" || self.pickupBuy == "Pick-up") &&
-            self.deliveryFee > 0 &&
-            self.maxItemPrice > 0 &&
-            self.itemName.count > 0 &&
-            self.description.count > 0
+        if (self.pickupBuy == "Buy" || self.pickupBuy == "Pick-up") 
+//            self.deliveryFee > 0 &&
+//            self.maxItemPrice > 0 &&
+//            self.itemName.count > 0 &&
+//            self.description.count > 0
         {
             isShowingConfirm.toggle()
         }
