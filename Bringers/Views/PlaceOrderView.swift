@@ -63,7 +63,9 @@ struct PlaceOrderView: View {
             
             HStack {
                 CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
+                if pickupBuy != "Pick-up" {
                 CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
+                }
             }
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 5, trailing: 20))
             
@@ -94,10 +96,10 @@ struct PlaceOrderView: View {
             }
             .popover(isPresented: $isShowingConfirm) {
                 if self.pickupBuy == "Buy" {
-                    ConfirmOrderBuyView()
+                    ConfirmOrderBuyView(deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
                 }
                 else if self.pickupBuy == "Pick-up" {
-                    ConfirmOrderPickupView()
+                    ConfirmOrderPickupView(deliveryFee: deliveryFee)
                 }
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))

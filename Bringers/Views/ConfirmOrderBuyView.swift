@@ -14,6 +14,14 @@ struct ConfirmOrderBuyView: View {
     
     @State private var isShowingOrderComing = false
     
+    var deliveryFee: Int
+    var maxItemPrice: Int
+    
+    init(deliveryFee: Int, maxItemPrice: Int) {
+        self.deliveryFee = deliveryFee
+        self.maxItemPrice = maxItemPrice
+    }
+    
     var body: some View {
         VStack {
             Text("CONFIRM THE FOLLOWING:")
@@ -24,10 +32,13 @@ struct ConfirmOrderBuyView: View {
             CustomLabel(labelText: "ESTIMATED MAXIMUM COST:", isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
-            CustomLabel(labelText: "MAX ITEM PRICE = $30\nDELIVERY FEE = $5\nESTIMATED SALES TAX = $1.88", height: 100)
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let estTax = round(CGFloat(maxItemPrice) * 0.0625 * 100) / 100.0
+           
+            CustomLabel(labelText: "MAX ITEM PRICE = $" + String(maxItemPrice) + "\nDELIVERY FEE = $" + String(deliveryFee) + "\nESTIMATED SALES TAX = $" + "\(estTax)", height: 100)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
             
-            CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $36.88", height: 75, isBold: true)
+            CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + "\(estTax + CGFloat(maxItemPrice) + CGFloat(deliveryFee))", height: 75, isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             CustomLabel(labelText: "Note: Final costs may be slightly different than estimates due to actual item prices", height: 75, fontSize: 14)

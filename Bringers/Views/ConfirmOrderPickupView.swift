@@ -12,6 +12,14 @@ struct ConfirmOrderPickupView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var isShowingOrderComing = false
+    
+    var deliveryFee: Int
+    
+    init(deliveryFee: Int) {
+        self.deliveryFee = deliveryFee
+    }
+    
     var body: some View {
         VStack {
             Text("CONFIRM THE FOLLOWING:")
@@ -19,7 +27,7 @@ struct ConfirmOrderPickupView: View {
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
                 .fixedSize(horizontal: false, vertical: true)
             
-            CustomLabel(labelText: "DELIVERY FEE = $5")
+            CustomLabel(labelText: "DELIVERY FEE = $" + String(deliveryFee))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
             
             CustomLabel(labelText: "TOTAL COST = $5", isBold: true)
@@ -33,7 +41,7 @@ struct ConfirmOrderPickupView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                presentationMode.wrappedValue.dismiss()
+                isShowingOrderComing.toggle()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
