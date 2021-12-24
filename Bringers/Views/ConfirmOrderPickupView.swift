@@ -1,5 +1,5 @@
 //
-//  ConfirmOrderViewPickup.swift
+//  ConfirmOrderPickupView.swift
 //  Bringers
 //
 //  Created by Keith C on 12/23/21.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ConfirmOrderViewPickup: View {
+struct ConfirmOrderPickupView: View {
     
     @Environment(\.presentationMode) var presentationMode
     

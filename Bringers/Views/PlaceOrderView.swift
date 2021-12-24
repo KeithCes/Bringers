@@ -92,10 +92,10 @@ struct PlaceOrderView: View {
             }
             .popover(isPresented: $isShowingConfirm) {
                 if self.pickupBuy == "Buy" {
-                    ConfirmOrderViewBuy()
+                    ConfirmOrderBuyView()
                 }
                 else if self.pickupBuy == "Pick-up" {
-                    ConfirmOrderViewPickup()
+                    ConfirmOrderPickupView()
                 }
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
