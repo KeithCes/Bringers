@@ -14,6 +14,7 @@ struct OrderComingMapView: View {
     @StateObject var viewModel = OrderComingMapViewModel()
     
     @State private var isShowingReceipt = false
+    @State private var isShowingUserProfile = false
     
     var body: some View {
         VStack {
@@ -26,13 +27,17 @@ struct OrderComingMapView: View {
                     viewModel.checkIfLocationServicesEnabled()
                 }
             HStack {
-                Button {
-                    print("user")
-                } label: {
+                Button(action: {
+                    isShowingUserProfile.toggle()
+
+                }) {
                     Image("scarra")
                         .resizable()
                         .frame(width: 74, height: 74)
                 }
+                .popover(isPresented: $isShowingUserProfile, content: {
+                    UserProfileView()
+                })
                 VStack {
                     Button {
                         // TODO: implement texting
