@@ -10,10 +10,15 @@ import SwiftUI
 import MapKit
 
 struct OrderComingMapView: View {
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    
+    @StateObject var viewModel = OrderComingMapViewModel()
 
         var body: some View {
-            Map(coordinateRegion: $region)
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .frame(width: 400, height: 300)
+                .accentColor(CustomColors.seafoamGreen)
+                .onAppear {
+                    viewModel.checkIfLocationServicesEnabled()
+                }
         }
 }
