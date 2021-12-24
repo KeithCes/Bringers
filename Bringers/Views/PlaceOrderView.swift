@@ -7,14 +7,15 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct PlaceOrderView: View {
     
     @State private var pickupBuy: String = "Pick-up or buy?"
     @State private var pickupBuyColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     @State private var pickupBuyImageName: String = ""
-    @State private var deliveryFee: String = ""
-    @State private var maxItemPrice: String = ""
+    @State private var deliveryFee: Int = 0
+    @State private var maxItemPrice: Int = 0
     @State private var itemName: String = ""
     @State private var description: String = ""
     
@@ -45,7 +46,7 @@ struct PlaceOrderView: View {
                     Image(systemName: "bag")
                 }
             } label: {
-                 Text(pickupBuy)
+                Text(pickupBuy)
                 Image(systemName: pickupBuyImageName)
             }
             .font(.system(size: 18, weight: .regular, design: .rounded))
@@ -59,8 +60,8 @@ struct PlaceOrderView: View {
             .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
             
             HStack {
-                CustomTextbox(field: $deliveryFee, placeholderText: "Delivery Fee", width: 153)
-                CustomTextbox(field: $maxItemPrice, placeholderText: "Max Item Price", width: 153)
+                CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
+                CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
             }
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 5, trailing: 20))
             
@@ -87,7 +88,7 @@ struct PlaceOrderView: View {
                 }
             
             Button("PLACE ORDER") {
-                isShowingConfirm.toggle()
+                self.showConfirmScreen()
             }
             .popover(isPresented: $isShowingConfirm) {
                 ConfirmOrderView()
@@ -112,5 +113,17 @@ struct PlaceOrderView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
+    }
+    
+    
+    func showConfirmScreen() {
+        if (self.pickupBuy == "Buy" || self.pickupBuy == "Pick-up") &&
+            self.deliveryFee > 0 &&
+            self.maxItemPrice > 0 &&
+            self.itemName.count > 0 &&
+            self.description.count > 0
+        {
+            isShowingConfirm.toggle()
+        }
     }
 }
