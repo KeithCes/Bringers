@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var tabSelection = 2
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor(CustomColors.tabbarGray)
         UITabBar.appearance().alpha = 0.5
@@ -18,11 +20,13 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView {
+        TabView(selection: $tabSelection) {
             
             YourProfileView()
+                .tag(1)
             
             PlaceOrderView()
+                .tag(2)
             
             Text("Bringers Tab")
                 .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -33,6 +37,7 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(CustomColors.seafoamGreen)
                 .ignoresSafeArea()
+                .tag(3)
         }
         .accentColor(Color.black)
     }
