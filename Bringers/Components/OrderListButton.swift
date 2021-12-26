@@ -46,7 +46,7 @@ struct OrderListButton: View {
             })
             
             Rectangle()
-                .foregroundColor(CustomColors.darkGray.opacity(self.distanceAlpha))
+                .foregroundColor(CustomColors.veryDarkGray.opacity(self.distanceAlpha))
                 .frame(width: 60, height: 50)
                 .overlay(
                     Text("\(self.distance)" + "mi")
@@ -57,7 +57,7 @@ struct OrderListButton: View {
                 .cornerRadius(15)
             
             Rectangle()
-                .foregroundColor(CustomColors.darkGray.opacity(self.shippingAlpha))
+                .foregroundColor(CustomColors.veryDarkGray.opacity(self.shippingAlpha))
                 .frame(width: 60, height: 50)
                 .overlay(
                     Text("$" + String(format:"%.0f", self.shippingCost))

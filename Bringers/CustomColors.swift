@@ -14,5 +14,6 @@ struct CustomColors {
     static let tabbarGray = Color(hex: "D7D5D5")
     static let midGray = Color(hex: "989898")
     static let blueGray = Color(hex: "B1BEBD")
+    static let veryDarkGray = Color(hex: "404040")
     static let lightRed = Color(hex: "FA6B6B")
 }
