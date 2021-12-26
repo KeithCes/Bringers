@@ -12,7 +12,7 @@ struct WaitingForBringerView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var isShowingOrderComing = false
+    @Binding var isShowingWaitingForBringer: Bool
     
     @State private var animationAmount: CGFloat = 1
     
@@ -34,7 +34,7 @@ struct WaitingForBringerView: View {
                         .scaleEffect(animationAmount)
                         .opacity(Double(2 - animationAmount))
                         .animation(
-                            .easeInOut(duration: 2)
+                            .easeInOut(duration: 1.5)
                                 .repeatForever(autoreverses: false),
                             value: animationAmount
                         )
@@ -45,7 +45,7 @@ struct WaitingForBringerView: View {
                         .scaleEffect(animationAmount + 2)
                         .opacity(Double(2 - animationAmount))
                         .animation(
-                            .easeInOut(duration: 2)
+                            .easeInOut(duration: 1.5)
                                 .repeatForever(autoreverses: false),
                             value: animationAmount
                         )
@@ -57,7 +57,7 @@ struct WaitingForBringerView: View {
             
             Button {
                 // TODO: confirmation screen/backend call to cancel order
-                UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+                isShowingWaitingForBringer = false
             } label: {
                 Image(systemName: "x.circle")
                     .resizable()
@@ -70,9 +70,8 @@ struct WaitingForBringerView: View {
         }
         // TODO: remove later, replace with logic for bringer picking up order (backend)
         .onTapGesture {
-            isShowingOrderComing.toggle()
+            isShowingWaitingForBringer = false
         }
-        .fullScreenCover(isPresented: $isShowingOrderComing, content: OrderComingMapView.init)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()

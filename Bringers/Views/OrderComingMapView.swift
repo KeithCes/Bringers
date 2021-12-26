@@ -13,6 +13,8 @@ struct OrderComingMapView: View {
     
     @StateObject var viewModel = OrderComingMapViewModel()
     
+    @Binding var isShowingOrderComing: Bool
+    
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
@@ -89,7 +91,7 @@ struct OrderComingMapView: View {
             
             Button {
                 // TODO: confirmation screen/backend call to cancel order
-                UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+                isShowingOrderComing = false
             } label: {
                 Image(systemName: "x.circle")
                     .resizable()

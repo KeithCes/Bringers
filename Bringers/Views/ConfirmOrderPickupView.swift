@@ -50,7 +50,9 @@ struct ConfirmOrderPickupView: View {
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: 322, height: 70)
                             .cornerRadius(15))
-            .fullScreenCover(isPresented: $isShowingWaitingForBringer, content: WaitingForBringerView.init)
+            .fullScreenCover(isPresented: $isShowingWaitingForBringer) {
+                WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

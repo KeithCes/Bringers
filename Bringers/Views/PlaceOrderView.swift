@@ -20,6 +20,8 @@ struct PlaceOrderView: View {
     @State private var description: String = ""
     
     @State private var isShowingConfirm = false
+    @State private var isShowingWaitingForBringer = false
+    @State private var isShowingOrderComing = false
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -94,7 +96,7 @@ struct PlaceOrderView: View {
             }
             .popover(isPresented: $isShowingConfirm) {
                 if self.pickupBuy == "Buy" {
-                    ConfirmOrderBuyView(deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
+                    ConfirmOrderBuyView(isShowingConfirm: $isShowingConfirm, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
                 }
                 else if self.pickupBuy == "Pick-up" {
                     ConfirmOrderPickupView(deliveryFee: deliveryFee)
@@ -120,6 +122,22 @@ struct PlaceOrderView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
+        .onChange(of: isShowingConfirm) { value in
+            if !value {
+                isShowingWaitingForBringer.toggle()
+            }
+        }
+        .onChange(of: isShowingWaitingForBringer) { value in
+            if !value {
+                isShowingOrderComing.toggle()
+            }
+        }
+        .fullScreenCover(isPresented: $isShowingWaitingForBringer) {
+            WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer)
+        }
+        .fullScreenCover(isPresented: $isShowingOrderComing) {
+            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing)
+        }
     }
     
     
