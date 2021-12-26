@@ -10,11 +10,9 @@ import SwiftUI
 
 struct UserProfileView: View {
     
-    // https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
-    
     @Environment(\.presentationMode) var presentationMode
     
-    var rating: CGFloat = 3.8
+    private var rating: CGFloat = 3.8
     
     var body: some View {
         VStack {
