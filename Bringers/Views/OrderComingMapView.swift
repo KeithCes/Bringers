@@ -101,7 +101,6 @@ struct OrderComingMapView: View {
             .cornerRadius(15)
         }
         .edgesIgnoringSafeArea(.bottom)
-        .animation(.easeOut(duration: 0.16))
         .tabItem {
             Image(systemName: "cart")
             Text("Order")

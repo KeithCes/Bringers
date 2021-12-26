@@ -21,8 +21,6 @@ struct PlaceOrderView: View {
     
     @State private var isShowingConfirm = false
     
-    @State var isShowingOrderMap = false
-    
     @ObservedObject private var keyboard = KeyboardResponder()
     
     var body: some View {
