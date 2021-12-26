@@ -26,8 +26,13 @@ struct ChangePasswordView: View {
     
     var body: some View {
         VStack {
-            CustomSecureTextbox(field: $currentPassword, placeholderText: oldPassword)
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+            Text("CHANGE PASSWORD:")
+                .font(.system(size: 18, weight: .regular, design: .rounded))
+                .foregroundColor(CustomColors.midGray)
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
+            
+            CustomSecureTextbox(field: $currentPassword, placeholderText: oldPassword, titleText: "CURRENT PASSWORD")
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 21, trailing: 20))
                 .focused($isCurrentPasswordFocused)
                 .onAppear {
                     // delay before keyboard can pop up; shorter timer doesn't appear at all
@@ -41,16 +46,16 @@ struct ChangePasswordView: View {
                 }
             
             
-            CustomSecureTextbox(field: $newPassword, placeholderText: "-")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
+            CustomSecureTextbox(field: $newPassword, placeholderText: "-", titleText: "NEW PASSWORD")
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                 .focused($isNewPasswordFocused)
                 .submitLabel(.next)
                 .onSubmit {
                     isConfirmPasswordFocused.toggle()
                 }
             
-            CustomSecureTextbox(field: $confirmPassword, placeholderText: "-")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
+            CustomSecureTextbox(field: $confirmPassword, placeholderText: "-", titleText: "CONFIRM PASSWORD")
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                 .focused($isConfirmPasswordFocused)
                 .submitLabel(.done)
                 .onSubmit {

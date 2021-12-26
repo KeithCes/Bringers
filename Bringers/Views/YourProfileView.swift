@@ -69,25 +69,40 @@ struct YourProfileView: View {
             }
             
             
-            CustomTextbox(field: $firstname, placeholderText: "FIRSTNAME")
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+            CustomTextboxTitleText(field: $firstname, placeholderText: "FIRSTNAME", titleText: "FIRST NAME")
+                .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
-            
-            CustomTextbox(field: $lastname, placeholderText: "LASTNAME")
+                .onSubmit {
+                    // TODO: check valid/update value on backend
+                }
+
+            CustomTextboxTitleText(field: $lastname, placeholderText: "LASTNAME", titleText: "LAST NAME")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
+                .onSubmit {
+                    // TODO: check valid/update value on backend
+                }
             
-            CustomTextbox(field: $email, placeholderText: "scarra@dignitas.com")
+            CustomTextboxTitleText(field: $email, placeholderText: "scarra@dignitas.com", titleText: "EMAIL")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
+                .onSubmit {
+                    // TODO: check valid/update value on backend
+                }
             
-            CustomTextbox(field: $phoneNumber, placeholderText: "860-555-5555")
+            CustomTextboxTitleText(field: $phoneNumber, placeholderText: "860-555-5555", titleText: "PHONE NUMBER")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
+                .onSubmit {
+                    // TODO: check valid/update value on backend
+                }
             
-            CustomTextbox(field: $savedCreditCard, placeholderText: "****-****-****-9420")
+            CustomTextboxTitleText(field: $savedCreditCard, placeholderText: "****-****-****-9420", titleText: "SAVED CREDIT CARD")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .submitLabel(.done)
+                .onSubmit {
+                    // TODO: check valid/update value on backend
+                }
             
             
             Text("RATING: " + "\(rating)" + "/5")

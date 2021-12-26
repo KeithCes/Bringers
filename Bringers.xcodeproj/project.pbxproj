@@ -26,6 +26,7 @@
 		532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF41227778C4F00D8ADA3 /* YourProfileView.swift */; };
 		532BF415277819FE00D8ADA3 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */; };
 		532BF4172778314900D8ADA3 /* CustomSecureTextbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */; };
+		532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */; };
 		537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D6276EDB5E00F541B5 /* BringersApp.swift */; };
 		537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D8276EDB5E00F541B5 /* ContentView.swift */; };
 		537718DB276EDB6100F541B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 537718DA276EDB6100F541B5 /* Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		532BF41227778C4F00D8ADA3 /* YourProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourProfileView.swift; sourceTree = "<group>"; };
 		532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
+		532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxTitleText.swift; sourceTree = "<group>"; };
 		537718D3276EDB5E00F541B5 /* Bringers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bringers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		537718D6276EDB5E00F541B5 /* BringersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersApp.swift; sourceTree = "<group>"; };
 		537718D8276EDB5E00F541B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				532BF3FB2771801700D8ADA3 /* CustomLabel.swift */,
 				532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */,
 				532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */,
+				532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				532BF40F27763C1000D8ADA3 /* RatingView.swift in Sources */,
 				532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */,
 				532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */,
+				532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,

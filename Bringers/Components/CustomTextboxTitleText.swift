@@ -1,14 +1,14 @@
 //
-//  CustomSecureTextbox.swift
+//  CustomTextboxTitleText.swift
 //  Bringers
 //
-//  Created by Keith C on 12/19/21.
+//  Created by Keith C on 12/26/21.
 //
 
 import Foundation
 import SwiftUI
 
-struct CustomSecureTextbox: View {
+struct CustomTextboxTitleText: View {
 
     @Binding var field: String
     var placeholderText: String
@@ -27,7 +27,7 @@ struct CustomSecureTextbox: View {
     }
 
     var body: some View {
-        SecureField(self.field, text: self.$field)
+        TextField(self.field, text: self.$field)
             .font(.system(size: 18, weight: .regular, design: .rounded))
             .placeholder(when: self.field.isEmpty) {
                 Text(self.placeholderText).foregroundColor(CustomColors.midGray.opacity(0.5))
