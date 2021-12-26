@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var tabSelection = 2
+    @State private var tabSelection = 3
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(CustomColors.tabbarGray)
@@ -28,16 +28,9 @@ struct ContentView: View {
             PlaceOrderView()
                 .tag(2)
             
-            Text("Bringers Tab")
-                .font(.system(size: 30, weight: .bold, design: .rounded))
-                .tabItem {
-                    Image(systemName: "bag")
-                    Text("Bring")
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(CustomColors.seafoamGreen)
-                .ignoresSafeArea()
+            BringerOrdersView()
                 .tag(3)
+            
         }
         .accentColor(Color.black)
     }

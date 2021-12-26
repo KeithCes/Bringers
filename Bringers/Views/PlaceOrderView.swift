@@ -99,7 +99,7 @@ struct PlaceOrderView: View {
                     ConfirmOrderBuyView(isShowingConfirm: $isShowingConfirm, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
                 }
                 else if self.pickupBuy == "Pick-up" {
-                    ConfirmOrderPickupView(deliveryFee: deliveryFee)
+                    ConfirmOrderPickupView(isShowingConfirm: $isShowingConfirm, deliveryFee: deliveryFee)
                 }
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))

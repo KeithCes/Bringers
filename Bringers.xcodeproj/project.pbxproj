@@ -27,6 +27,8 @@
 		532BF415277819FE00D8ADA3 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */; };
 		532BF4172778314900D8ADA3 /* CustomSecureTextbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */; };
 		532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */; };
+		532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF41A27790A0600D8ADA3 /* BringerOrdersView.swift */; };
+		532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */; };
 		537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D6276EDB5E00F541B5 /* BringersApp.swift */; };
 		537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718D8276EDB5E00F541B5 /* ContentView.swift */; };
 		537718DB276EDB6100F541B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 537718DA276EDB6100F541B5 /* Assets.xcassets */; };
@@ -74,6 +76,8 @@
 		532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
 		532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxTitleText.swift; sourceTree = "<group>"; };
+		532BF41A27790A0600D8ADA3 /* BringerOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrdersView.swift; sourceTree = "<group>"; };
+		532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListButton.swift; sourceTree = "<group>"; };
 		537718D3276EDB5E00F541B5 /* Bringers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bringers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		537718D6276EDB5E00F541B5 /* BringersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersApp.swift; sourceTree = "<group>"; };
 		537718D8276EDB5E00F541B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 				532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */,
 				532BF4162778314900D8ADA3 /* CustomSecureTextbox.swift */,
 				532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */,
+				532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				532BF410277654A100D8ADA3 /* WaitingForBringerView.swift */,
 				532BF41227778C4F00D8ADA3 /* YourProfileView.swift */,
 				532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */,
+				532BF41A27790A0600D8ADA3 /* BringerOrdersView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -361,6 +367,7 @@
 				532BF411277654A100D8ADA3 /* WaitingForBringerView.swift in Sources */,
 				532BF3FA27711E6600D8ADA3 /* ConfirmOrderBuyView.swift in Sources */,
 				532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */,
+				532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */,
 				532BF4172778314900D8ADA3 /* CustomSecureTextbox.swift in Sources */,
 				532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */,
 				532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */,
@@ -375,6 +382,7 @@
 				532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */,
 				532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */,
 				532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */,
+				532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
@@ -548,8 +556,8 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -581,8 +589,8 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

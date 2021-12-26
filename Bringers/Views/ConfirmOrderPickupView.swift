@@ -12,11 +12,12 @@ struct ConfirmOrderPickupView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var isShowingWaitingForBringer = false
+    @Binding private var isShowingConfirm: Bool
     
     var deliveryFee: CGFloat
     
-    init(deliveryFee: CGFloat) {
+    init(isShowingConfirm: Binding<Bool>, deliveryFee: CGFloat) {
+        self._isShowingConfirm = isShowingConfirm
         self.deliveryFee = deliveryFee
     }
     
@@ -41,7 +42,7 @@ struct ConfirmOrderPickupView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                isShowingWaitingForBringer.toggle()
+                isShowingConfirm = false
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -50,9 +51,6 @@ struct ConfirmOrderPickupView: View {
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: 322, height: 70)
                             .cornerRadius(15))
-            .fullScreenCover(isPresented: $isShowingWaitingForBringer) {
-                WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer)
-            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
