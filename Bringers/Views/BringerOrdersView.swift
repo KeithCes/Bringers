@@ -26,6 +26,9 @@ struct BringerOrdersView: View {
         // sort by lowest distance
         // display in order
         
+        
+        // TODO: when backend is added: sort all orders in array by distance and use the properties like activeOrder.distance/activeOrder.shipping
+        // TODO: when backend is added: pass entire order to button so that button can display the correct data AND can use the order data to display the order view
         VStack {
             ScrollView {
                 VStack {

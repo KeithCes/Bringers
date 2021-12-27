@@ -35,6 +35,6 @@ struct CustomLabel: View {
                             .frame(width: self.width, height: self.height)
                             .cornerRadius(15))
             .fixedSize(horizontal: false, vertical: true)
-            .frame(minWidth: 0, maxWidth: self.width-22, minHeight: 0, maxHeight: self.height-10)
+            .frame(minWidth: 0, maxWidth: self.width-20, minHeight: 0, maxHeight: self.height-10)
     }
 }

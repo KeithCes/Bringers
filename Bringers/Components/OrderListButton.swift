@@ -42,7 +42,7 @@ struct OrderListButton: View {
                             .fill(Color.white.opacity(0.5))
                             .cornerRadius(15))
             .popover(isPresented: $isShowingOrder, content: {
-                ReceiptView()
+                BringerSelectedOrderView(isShowingOrder: $isShowingOrder)
             })
             
             Rectangle()
