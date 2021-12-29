@@ -46,7 +46,7 @@ struct BringerOrdersView: View {
                     
                     ForEach(0..<testDistances.count) { i in
                         OrderListButton(
-                            labelText: testOrderNames[i],
+                            orderTitle: testOrderNames[i],
                             distance: testDistances[i],
                             shippingCost: testShipping[i],
                             distanceAlpha: ((testDistances[i] - lowestDistance) * alphaIncrementValDistance) + 0.4,

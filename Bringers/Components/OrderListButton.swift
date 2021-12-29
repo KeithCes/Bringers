@@ -11,15 +11,16 @@ import SwiftUI
 struct OrderListButton: View {
     
     @State private var isShowingOrder: Bool = false
+    @State private var isShowingBringerConfirm: Bool = false
     
-    private var labelText: String
+    private var orderTitle: String
     private var distance: CGFloat
     private var shippingCost: CGFloat
     private var distanceAlpha: CGFloat
     private var shippingAlpha: CGFloat
     
-    init(labelText: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
-        self.labelText = labelText
+    init(orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
+        self.orderTitle = orderTitle
         self.distance = distance
         self.shippingCost = shippingCost
         self.distanceAlpha = distanceAlpha
@@ -31,7 +32,7 @@ struct OrderListButton: View {
             Button(action: {
                 isShowingOrder.toggle()
             }) {
-                Text(self.labelText)
+                Text(self.orderTitle)
                     .font(.system(size: 18, weight: .regular, design: .rounded))
                     .foregroundColor(CustomColors.midGray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -42,7 +43,7 @@ struct OrderListButton: View {
                             .fill(Color.white.opacity(0.5))
                             .cornerRadius(15))
             .popover(isPresented: $isShowingOrder, content: {
-                BringerSelectedOrderView(isShowingOrder: $isShowingOrder)
+//                BringerSelectedOrderView(isShowingOrder: $isShowingOrder)
             })
             
             Rectangle()
@@ -66,6 +67,14 @@ struct OrderListButton: View {
                 )
                 .padding(EdgeInsets(top: 0, leading: 241, bottom: 0, trailing: 0))
                 .cornerRadius(15)
+        }
+        .onChange(of: isShowingOrder) { value in
+            if !value {
+                isShowingBringerConfirm.toggle()
+            }
+        }
+        .fullScreenCover(isPresented: $isShowingBringerConfirm) {
+            BringerConfirmOrderBuyView(isShowingBringerConfirm: $isShowingBringerConfirm, deliveryFee: 69, maxItemPrice: 88)
         }
     }
 }

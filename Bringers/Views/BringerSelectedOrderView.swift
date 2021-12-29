@@ -11,14 +11,25 @@ import Combine
 
 struct BringerSelectedOrderView: View {
     
-    private var pickupBuy: String = "Pick-up"
-    
     @Binding var isShowingOrder: Bool
+    
+    var pickupBuy: String
+    var maxItemPrice: CGFloat
+    var itemName: String
+    var description: String
+    var distance: CGFloat
+    var yourPayout: CGFloat
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>) {
+    init(isShowingOrder: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, itemName: String, description: String, distance: CGFloat, yourPayout: CGFloat) {
         self._isShowingOrder = isShowingOrder
+        self.pickupBuy = pickupBuy
+        self.maxItemPrice = maxItemPrice
+        self.itemName = itemName
+        self.description = description
+        self.distance = distance
+        self.yourPayout = yourPayout
     }
     
     var body: some View {
