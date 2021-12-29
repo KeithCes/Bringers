@@ -12,6 +12,11 @@ struct BringerOrdersView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var isShowingOrder: Bool = false
+    @State private var isShowingBringerConfirm: Bool = false
+    
+    @State private var orderTitleState: String = ""
+    
     private var rating: CGFloat = 3.8
     
     private var testDistances: [CGFloat] = [1.2, 2, 3.5, 7.6, 8.4, 10.6, 12, 13.2, 16, 18, 20, 22.1]
@@ -46,6 +51,8 @@ struct BringerOrdersView: View {
                     
                     ForEach(0..<testDistances.count) { i in
                         OrderListButton(
+                            orderTitleState: $orderTitleState,
+                            isShowingOrder: $isShowingOrder,
                             orderTitle: testOrderNames[i],
                             distance: testDistances[i],
                             shippingCost: testShipping[i],
@@ -75,5 +82,29 @@ struct BringerOrdersView: View {
             presentationMode.wrappedValue.dismiss()
         }
         
+        .popover(isPresented: $isShowingOrder, content: {
+            // TODO: replace hardcoded data with backend values from activeOrder
+            BringerSelectedOrderView(
+                isShowingOrder: $isShowingOrder,
+                pickupBuy: "Buy",
+                maxItemPrice: 68,
+                orderTitle: orderTitleState,
+                description: "it sucks dont buy it",
+                distance: 44,
+                yourProfit: 2)
+        })
+        .onChange(of: isShowingOrder) { value in
+            if !value {
+                isShowingBringerConfirm.toggle()
+            }
+        }
+        .fullScreenCover(isPresented: $isShowingBringerConfirm) {
+            // TODO: replace hardcoded data with backend values from activeOrder
+            BringerConfirmOrderBuyView(
+                isShowingBringerConfirm: $isShowingBringerConfirm,
+                maxItemPrice: 68,
+                yourProfit: 2
+            )
+        }
     }
 }

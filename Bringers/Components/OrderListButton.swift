@@ -10,8 +10,10 @@ import SwiftUI
 
 struct OrderListButton: View {
     
-    @State private var isShowingOrder: Bool = false
-    @State private var isShowingBringerConfirm: Bool = false
+    @Binding private var isShowingOrder: Bool
+    
+    // TODO: change to activeOrder as state once backend connected (pull properties out of here)
+    @Binding private var orderTitleState: String
     
     private var orderTitle: String
     private var distance: CGFloat
@@ -19,7 +21,9 @@ struct OrderListButton: View {
     private var distanceAlpha: CGFloat
     private var shippingAlpha: CGFloat
     
-    init(orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
+    init(orderTitleState: Binding<String>, isShowingOrder: Binding<Bool>, orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
+        self._isShowingOrder = isShowingOrder
+        self._orderTitleState = orderTitleState
         self.orderTitle = orderTitle
         self.distance = distance
         self.shippingCost = shippingCost
@@ -31,6 +35,7 @@ struct OrderListButton: View {
         ZStack {
             Button(action: {
                 isShowingOrder.toggle()
+                orderTitleState = self.orderTitle
             }) {
                 Text(self.orderTitle)
                     .font(.system(size: 18, weight: .regular, design: .rounded))
@@ -42,9 +47,6 @@ struct OrderListButton: View {
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
                             .cornerRadius(15))
-            .popover(isPresented: $isShowingOrder, content: {
-//                BringerSelectedOrderView(isShowingOrder: $isShowingOrder)
-            })
             
             Rectangle()
                 .foregroundColor(CustomColors.veryDarkGray.opacity(self.distanceAlpha))
@@ -68,13 +70,6 @@ struct OrderListButton: View {
                 .padding(EdgeInsets(top: 0, leading: 241, bottom: 0, trailing: 0))
                 .cornerRadius(15)
         }
-        .onChange(of: isShowingOrder) { value in
-            if !value {
-                isShowingBringerConfirm.toggle()
-            }
-        }
-        .fullScreenCover(isPresented: $isShowingBringerConfirm) {
-            BringerConfirmOrderBuyView(isShowingBringerConfirm: $isShowingBringerConfirm, deliveryFee: 69, maxItemPrice: 88)
-        }
+
     }
 }

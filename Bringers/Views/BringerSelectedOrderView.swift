@@ -15,21 +15,21 @@ struct BringerSelectedOrderView: View {
     
     var pickupBuy: String
     var maxItemPrice: CGFloat
-    var itemName: String
+    var orderTitle: String
     var description: String
     var distance: CGFloat
-    var yourPayout: CGFloat
+    var yourProfit: CGFloat
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, itemName: String, description: String, distance: CGFloat, yourPayout: CGFloat) {
+    init(isShowingOrder: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, orderTitle: String, description: String, distance: CGFloat, yourProfit: CGFloat) {
         self._isShowingOrder = isShowingOrder
         self.pickupBuy = pickupBuy
         self.maxItemPrice = maxItemPrice
-        self.itemName = itemName
+        self.orderTitle = orderTitle
         self.description = description
         self.distance = distance
-        self.yourPayout = yourPayout
+        self.yourProfit = yourProfit
     }
     
     var body: some View {
@@ -39,7 +39,7 @@ struct BringerSelectedOrderView: View {
                     CustomLabel(labelText: self.pickupBuy, width: 80, isBold: true)
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                     
-                    CustomLabel(labelText: "OOOOO", width: 216)
+                    CustomLabel(labelText: self.orderTitle, width: 216)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 0))
                 }
                 
@@ -48,7 +48,7 @@ struct BringerSelectedOrderView: View {
                 .fixedSize(horizontal: true, vertical: true)
                 
                 
-                Text("gkerthgwherighiowerhgioerwhgoiwerhgioerjhioghewirohgiowerhiogherihlsierhgisehgluishg luihrliughluiershguiserl qjojoprjwpjqwfpoeg roejhgpiwejghioerhgiowe geurbgiouerhgoiwehrioghinelgrhklahiovhioreagerg")
+                Text(self.description)
                     .font(.system(size: 18, weight: .regular, design: .rounded))
                     .foregroundColor(CustomColors.midGray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -59,13 +59,13 @@ struct BringerSelectedOrderView: View {
                                     .cornerRadius(15))
                     .multilineTextAlignment(.leading)
                 
-                CustomLabelWithTab(labelText: "Current Distance Away", tabText: "1.0mi")
+                CustomLabelWithTab(labelText: "Current Distance Away", tabText: String(format:"%.01f", self.distance) + "mi")
                 
                 if pickupBuy == "Buy" {
-                    CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$50")
+                    CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$" + String(format:"%.0f", self.maxItemPrice))
                 }
                 
-                CustomLabelWithTab(labelText: "Your Payout", tabText: "$5", isBold: true)
+                CustomLabelWithTab(labelText: "Your Profit", tabText: "$" + String(format:"%.0f", self.yourProfit), isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
             }
             .background(Rectangle()

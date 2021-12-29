@@ -14,13 +14,13 @@ struct BringerConfirmOrderBuyView: View {
     
     @Binding var isShowingBringerConfirm: Bool
     
-    var deliveryFee: CGFloat
     var maxItemPrice: CGFloat
+    var yourProfit: CGFloat
     
-    init(isShowingBringerConfirm: Binding<Bool>, deliveryFee: CGFloat, maxItemPrice: CGFloat) {
+    init(isShowingBringerConfirm: Binding<Bool>, maxItemPrice: CGFloat = 0, yourProfit: CGFloat) {
         self._isShowingBringerConfirm = isShowingBringerConfirm
-        self.deliveryFee = deliveryFee
         self.maxItemPrice = maxItemPrice
+        self.yourProfit = yourProfit
     }
     
     var body: some View {
@@ -31,10 +31,12 @@ struct BringerConfirmOrderBuyView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(Color.white)
            
-            CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", maxItemPrice) + "\nDELIVERY FEE = $" + String(format:"%.02f", deliveryFee), height: 75)
+            if maxItemPrice != 0 {
+                CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", maxItemPrice), height: 75)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
+            }
             
-            CustomLabel(labelText: "YOUR PROFIT = $" + String(format:"%.02f", deliveryFee), isBold: true)
+            CustomLabel(labelText: "YOUR PROFIT = $" + String(format:"%.02f", yourProfit), isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
             
             CustomLabel(labelText: "REMEMBER: DO NOT spend more than the max item price on the requested item. Cancel the order or contact the orderer if the price of the item you find exceeds it", height: 90, fontSize: 14)

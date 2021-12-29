@@ -1,5 +1,7 @@
 #  things to do before backend
 
+DISMISS POPOVERS STILL CONTINUES FLOW (SHOULD CANCEL FLOW)
+
 -seperate all logic from view into viewmodel (google to double check exactly what)
 -test app on all device sizes (need to base width/height off screen size)
     -custom class with width height
@@ -9,3 +11,7 @@
 -private all vars
 
 
+
+# stuff to potentially add later
+
+- item name/description on confirmation screen
