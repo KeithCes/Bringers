@@ -15,6 +15,7 @@ struct BringerOrdersView: View {
     @State private var isShowingOrder: Bool = false
     @State private var isShowingBringerConfirm: Bool = false
     @State private var confirmPressed: Bool = false
+    @State private var isShowingBringerMap: Bool = false
     
     @State private var orderTitleState: String = ""
     
@@ -101,6 +102,11 @@ struct BringerOrdersView: View {
                 isShowingBringerConfirm.toggle()
             }
         }
+        .onChange(of: isShowingBringerConfirm) { value in
+            if !value {
+                isShowingBringerMap.toggle()
+            }
+        }
         .fullScreenCover(isPresented: $isShowingBringerConfirm) {
             // TODO: replace hardcoded data with backend values from activeOrder
             BringerConfirmOrderBuyView(
@@ -108,6 +114,9 @@ struct BringerOrdersView: View {
                 maxItemPrice: 68,
                 yourProfit: 2
             )
+        }
+        .fullScreenCover(isPresented: $isShowingBringerMap) {
+            BringerOrderMapView(isShowingBringerMap: $isShowingBringerMap)
         }
     }
 }
