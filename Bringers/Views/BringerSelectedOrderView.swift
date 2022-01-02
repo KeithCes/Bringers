@@ -12,6 +12,7 @@ import Combine
 struct BringerSelectedOrderView: View {
     
     @Binding var isShowingOrder: Bool
+    @Binding var confirmPressed: Bool
     
     var pickupBuy: String
     var maxItemPrice: CGFloat
@@ -22,8 +23,9 @@ struct BringerSelectedOrderView: View {
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, orderTitle: String, description: String, distance: CGFloat, yourProfit: CGFloat) {
+    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, orderTitle: String, description: String, distance: CGFloat, yourProfit: CGFloat) {
         self._isShowingOrder = isShowingOrder
+        self._confirmPressed = confirmPressed
         self.pickupBuy = pickupBuy
         self.maxItemPrice = maxItemPrice
         self.orderTitle = orderTitle
@@ -75,6 +77,7 @@ struct BringerSelectedOrderView: View {
             
             Button("ACCEPT ORDER") {
                 isShowingOrder = false
+                confirmPressed = true
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))

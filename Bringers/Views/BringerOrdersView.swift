@@ -14,6 +14,7 @@ struct BringerOrdersView: View {
     
     @State private var isShowingOrder: Bool = false
     @State private var isShowingBringerConfirm: Bool = false
+    @State private var confirmPressed: Bool = false
     
     @State private var orderTitleState: String = ""
     
@@ -86,6 +87,7 @@ struct BringerOrdersView: View {
             // TODO: replace hardcoded data with backend values from activeOrder
             BringerSelectedOrderView(
                 isShowingOrder: $isShowingOrder,
+                confirmPressed: $confirmPressed,
                 pickupBuy: "Buy",
                 maxItemPrice: 68,
                 orderTitle: orderTitleState,
@@ -94,7 +96,8 @@ struct BringerOrdersView: View {
                 yourProfit: 2)
         })
         .onChange(of: isShowingOrder) { value in
-            if !value {
+            if !value && confirmPressed {
+                confirmPressed = false
                 isShowingBringerConfirm.toggle()
             }
         }

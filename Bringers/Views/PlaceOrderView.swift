@@ -20,6 +20,7 @@ struct PlaceOrderView: View {
     @State private var description: String = ""
     
     @State private var isShowingConfirm = false
+    @State private var confirmPressed: Bool = false
     @State private var isShowingWaitingForBringer = false
     @State private var isShowingOrderComing = false
     
@@ -96,10 +97,10 @@ struct PlaceOrderView: View {
             }
             .popover(isPresented: $isShowingConfirm) {
                 if self.pickupBuy == "Buy" {
-                    ConfirmOrderBuyView(isShowingConfirm: $isShowingConfirm, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
+                    ConfirmOrderBuyView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
                 }
                 else if self.pickupBuy == "Pick-up" {
-                    ConfirmOrderPickupView(isShowingConfirm: $isShowingConfirm, deliveryFee: deliveryFee)
+                    ConfirmOrderPickupView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee)
                 }
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
@@ -123,7 +124,8 @@ struct PlaceOrderView: View {
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
         .onChange(of: isShowingConfirm) { value in
-            if !value {
+            if !value && confirmPressed {
+                confirmPressed = false
                 isShowingWaitingForBringer.toggle()
             }
         }
