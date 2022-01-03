@@ -1,6 +1,6 @@
 #  things to do before backend
 
--seperate all logic from view into viewmodel (google to double check exactly what)
+-SKIPPING FOR NOW -- seperate all logic from view into viewmodel
 -test app on all device sizes (need to base width/height off screen size)
     -custom class with width height
             -mid height, low height, high heght (HEIGHT - x), wtc

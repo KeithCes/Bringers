@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var tabSelection = 3
+    @State private var tabSelection = 2
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(CustomColors.tabbarGray)

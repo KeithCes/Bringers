@@ -96,12 +96,7 @@ struct PlaceOrderView: View {
                 self.showConfirmScreen()
             }
             .popover(isPresented: $isShowingConfirm) {
-                if self.pickupBuy == "Buy" {
-                    ConfirmOrderBuyView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice)
-                }
-                else if self.pickupBuy == "Pick-up" {
-                    ConfirmOrderPickupView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee)
-                }
+                ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice, pickupBuy: pickupBuy)
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))

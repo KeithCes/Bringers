@@ -13,10 +13,9 @@
 		532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3EF276FB08F00D8ADA3 /* CustomTextbox.swift */; };
 		532BF3F3276FDD1300D8ADA3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3F2276FDD1300D8ADA3 /* KeyboardObserver.swift */; };
 		532BF3F827711C8F00D8ADA3 /* PlaceOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3F727711C8E00D8ADA3 /* PlaceOrderView.swift */; };
-		532BF3FA27711E6600D8ADA3 /* ConfirmOrderBuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3F927711E6600D8ADA3 /* ConfirmOrderBuyView.swift */; };
+		532BF3FA27711E6600D8ADA3 /* ConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3F927711E6600D8ADA3 /* ConfirmOrderView.swift */; };
 		532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FB2771801700D8ADA3 /* CustomLabel.swift */; };
 		532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */; };
-		532BF40227755B3400D8ADA3 /* ConfirmOrderPickupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40127755B3400D8ADA3 /* ConfirmOrderPickupView.swift */; };
 		532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF403277562B100D8ADA3 /* OrderComingMapView.swift */; };
 		532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40727761F5B00D8ADA3 /* OrderComingMapViewModel.swift */; };
 		532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4092776359B00D8ADA3 /* ReceiptView.swift */; };
@@ -67,10 +66,9 @@
 		532BF3EF276FB08F00D8ADA3 /* CustomTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextbox.swift; sourceTree = "<group>"; };
 		532BF3F2276FDD1300D8ADA3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		532BF3F727711C8E00D8ADA3 /* PlaceOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderView.swift; sourceTree = "<group>"; };
-		532BF3F927711E6600D8ADA3 /* ConfirmOrderBuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderBuyView.swift; sourceTree = "<group>"; };
+		532BF3F927711E6600D8ADA3 /* ConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderView.swift; sourceTree = "<group>"; };
 		532BF3FB2771801700D8ADA3 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxCurrency.swift; sourceTree = "<group>"; };
-		532BF40127755B3400D8ADA3 /* ConfirmOrderPickupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmOrderPickupView.swift; sourceTree = "<group>"; };
 		532BF403277562B100D8ADA3 /* OrderComingMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderComingMapView.swift; sourceTree = "<group>"; };
 		532BF40727761F5B00D8ADA3 /* OrderComingMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderComingMapViewModel.swift; sourceTree = "<group>"; };
 		532BF4092776359B00D8ADA3 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
@@ -161,8 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				532BF3F727711C8E00D8ADA3 /* PlaceOrderView.swift */,
-				532BF3F927711E6600D8ADA3 /* ConfirmOrderBuyView.swift */,
-				532BF40127755B3400D8ADA3 /* ConfirmOrderPickupView.swift */,
+				532BF3F927711E6600D8ADA3 /* ConfirmOrderView.swift */,
 				532BF403277562B100D8ADA3 /* OrderComingMapView.swift */,
 				532BF4092776359B00D8ADA3 /* ReceiptView.swift */,
 				532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */,
@@ -382,14 +379,13 @@
 			files = (
 				532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */,
 				532BF411277654A100D8ADA3 /* WaitingForBringerView.swift in Sources */,
-				532BF3FA27711E6600D8ADA3 /* ConfirmOrderBuyView.swift in Sources */,
+				532BF3FA27711E6600D8ADA3 /* ConfirmOrderView.swift in Sources */,
 				532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */,
 				532BF41F27794A4100D8ADA3 /* BringerSelectedOrderView.swift in Sources */,
 				532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */,
 				532BF4172778314900D8ADA3 /* CustomSecureTextbox.swift in Sources */,
 				532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */,
 				532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */,
-				532BF40227755B3400D8ADA3 /* ConfirmOrderPickupView.swift in Sources */,
 				532BF415277819FE00D8ADA3 /* ChangePasswordView.swift in Sources */,
 				532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */,
 				532BF3F3276FDD1300D8ADA3 /* KeyboardObserver.swift in Sources */,
