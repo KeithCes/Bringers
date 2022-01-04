@@ -60,18 +60,23 @@ struct PlaceOrderView: View {
                             .fill(Color.white.opacity(0.5))
                             .frame(width: CustomDimensions.width, height: 50)
                             .cornerRadius(15))
-            .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
+            .padding(EdgeInsets(top: 30, leading: 20, bottom: 0, trailing: 20))
             
             HStack {
                 CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                
                 if pickupBuy != "Pick-up" {
                     CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
+                        .padding(EdgeInsets(top: 0, leading: 26, bottom: 0, trailing: 0))
                 }
             }
-            .padding(EdgeInsets(top: 20, leading: 20, bottom: 5, trailing: 20))
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .frame(width: CustomDimensions.width, height: 100)
+            .fixedSize(horizontal: false, vertical: true)
             
             CustomTextbox(field: $itemName, placeholderText: "Name of Item")
-                .padding(EdgeInsets(top: 30, leading: 20, bottom: 30, trailing: 20))
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
             
             TextEditor(text: $description)
                 .padding()

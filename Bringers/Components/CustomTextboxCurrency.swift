@@ -40,6 +40,7 @@ struct CustomTextboxCurrency: View {
             }
         )
 
+        // background frame width on iphone 12 mini = 153, frame width = 133
         TextField("", text: text)
             .keyboardType(.numberPad)
             .font(.system(size: 18, weight: .regular, design: .rounded))
@@ -48,11 +49,12 @@ struct CustomTextboxCurrency: View {
                 Text(self.placeholderText).foregroundColor(CustomColors.midGray.opacity(0.5))
             }
             .foregroundColor(CustomColors.midGray)
-            .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.center)
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
-                            .frame(width: 153, height: 50)
+                            .frame(width: (CustomDimensions.width - 16) / 2, height: 50)
                             .cornerRadius(15))
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(minWidth: 0, maxWidth: ((CustomDimensions.width - 16) / 2) - 20, minHeight: 0, maxHeight: 40)
     }
 }

@@ -44,7 +44,6 @@ struct BringerSelectedOrderView: View {
                     CustomLabel(labelText: self.orderTitle, width: 216)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 0))
                 }
-                
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .frame(width: 302, height: 100)
                 .fixedSize(horizontal: true, vertical: true)
