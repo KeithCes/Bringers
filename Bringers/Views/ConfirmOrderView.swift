@@ -29,11 +29,7 @@ struct ConfirmOrderView: View {
     
     var body: some View {
         VStack {
-            Text("CONFIRM THE FOLLOWING:")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
-                .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
-                .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(Color.white)
+            CustomTitleText(labelText: "CONFIRM THE FOLLOWING:")
             
             if pickupBuy == "Buy" {
                 CustomLabel(labelText: "ESTIMATED MAXIMUM COST:", isBold: true)

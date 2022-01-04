@@ -25,11 +25,8 @@ struct BringerConfirmOrderBuyView: View {
     
     var body: some View {
         VStack {
-            Text("CONFIRM THE FOLLOWING:")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+            CustomTitleText(labelText: "CONFIRM THE FOLLOWING:")
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
-                .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(Color.white)
            
             if maxItemPrice != 0 {
                 CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", maxItemPrice), height: 75)

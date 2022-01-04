@@ -29,8 +29,7 @@ struct PlaceOrderView: View {
     
     var body: some View {
         VStack {
-            Text("LOOKING FOR SOMETHING?")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+            CustomTitleText(labelText: "LOOKING FOR SOMETHING?")
             
             Menu {
                 Button {

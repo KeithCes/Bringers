@@ -23,8 +23,8 @@ struct BringerOrderMapView: View {
     
     var body: some View {
         VStack {
-            Text("DELIVER ITEM!")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+            CustomTitleText(labelText: "DELIVER ITEM!")
+            
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .frame(width: 400, height: 300)
                 .accentColor(CustomColors.seafoamGreen)

@@ -22,8 +22,8 @@ struct OrderComingMapView: View {
     
     var body: some View {
         VStack {
-            Text("[SCARRA] IS COMING WITH YOUR ORDER!")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+            CustomTitleText(labelText: "[SCARRA] IS COMING WITH YOUR ORDER!")
+
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .frame(width: 400, height: 300)
                 .accentColor(CustomColors.seafoamGreen)

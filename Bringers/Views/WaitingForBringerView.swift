@@ -18,10 +18,8 @@ struct WaitingForBringerView: View {
     
     var body: some View {
         VStack {
-            Text("WAITING FOR A BRINGER TO ACCEPT YOUR ORDER...")
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+            CustomTitleText(labelText: "WAITING FOR A BRINGER TO ACCEPT YOUR ORDER...")
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
-                .fixedSize(horizontal: false, vertical: true)
             
             Rectangle()
                 .frame(width: 200, height: 200)
