@@ -10,7 +10,7 @@ import SwiftUI
 
 struct BringerOrdersView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var isShowingOrder: Bool = false
     @State private var isShowingBringerConfirm: Bool = false

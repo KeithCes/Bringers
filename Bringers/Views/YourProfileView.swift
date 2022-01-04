@@ -10,7 +10,7 @@ import SwiftUI
 
 struct YourProfileView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var firstname: String = ""
     @State private var lastname: String = ""

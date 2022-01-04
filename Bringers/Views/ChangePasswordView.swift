@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var currentPassword: String = ""
     @State private var newPassword: String = ""

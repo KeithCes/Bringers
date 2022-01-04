@@ -10,7 +10,7 @@ import SwiftUI
 
 struct UserProfileView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     private var rating: CGFloat = 3.8
     

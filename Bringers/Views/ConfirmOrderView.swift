@@ -10,14 +10,14 @@ import SwiftUI
 
 struct ConfirmOrderView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @Binding private var isShowingConfirm: Bool
     @Binding private var confirmPressed: Bool
     
-    var deliveryFee: CGFloat
-    var maxItemPrice: CGFloat
-    var pickupBuy: String
+    private var deliveryFee: CGFloat
+    private var maxItemPrice: CGFloat
+    private var pickupBuy: String
     
     init(isShowingConfirm: Binding<Bool>, confirmPressed: Binding<Bool>, deliveryFee: CGFloat, maxItemPrice: CGFloat, pickupBuy: String) {
         self._isShowingConfirm = isShowingConfirm

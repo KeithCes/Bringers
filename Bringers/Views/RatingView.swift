@@ -12,8 +12,13 @@ struct RatingView: View {
     
     // https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
     
-    var rating: CGFloat
-    var maxRating: Int
+    private var rating: CGFloat
+    private var maxRating: Int
+    
+    init(rating: CGFloat, maxRating: Int = 5) {
+        self.rating = rating
+        self.maxRating = maxRating
+    }
 
     var body: some View {
         let stars = HStack(spacing: 0) {

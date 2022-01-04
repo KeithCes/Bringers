@@ -11,7 +11,7 @@ import MapKit
 
 struct OrderComingMapView: View {
     
-    @StateObject var viewModel = OrderComingMapViewModel()
+    @StateObject private var viewModel = OrderComingMapViewModel()
     
     @Binding var isShowingOrderComing: Bool
     

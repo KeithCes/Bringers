@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WaitingForBringerView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @Binding var isShowingWaitingForBringer: Bool
     

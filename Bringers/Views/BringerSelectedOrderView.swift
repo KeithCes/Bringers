@@ -14,12 +14,12 @@ struct BringerSelectedOrderView: View {
     @Binding var isShowingOrder: Bool
     @Binding var confirmPressed: Bool
     
-    var pickupBuy: String
-    var maxItemPrice: CGFloat
-    var orderTitle: String
-    var description: String
-    var distance: CGFloat
-    var yourProfit: CGFloat
+    private var pickupBuy: String
+    private var maxItemPrice: CGFloat
+    private var orderTitle: String
+    private var description: String
+    private var distance: CGFloat
+    private var yourProfit: CGFloat
     
     @ObservedObject private var keyboard = KeyboardResponder()
     

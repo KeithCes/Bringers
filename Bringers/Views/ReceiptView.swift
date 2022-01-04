@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ReceiptView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         VStack {

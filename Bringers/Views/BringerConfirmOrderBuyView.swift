@@ -10,12 +10,12 @@ import SwiftUI
 
 struct BringerConfirmOrderBuyView: View {
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @Binding var isShowingBringerConfirm: Bool
     
-    var maxItemPrice: CGFloat
-    var yourProfit: CGFloat
+    private var maxItemPrice: CGFloat
+    private var yourProfit: CGFloat
     
     init(isShowingBringerConfirm: Binding<Bool>, maxItemPrice: CGFloat = 0, yourProfit: CGFloat) {
         self._isShowingBringerConfirm = isShowingBringerConfirm
