@@ -35,15 +35,15 @@ struct BringerInstructionsView: View {
         VStack {
             VStack {
                 HStack {
-                    CustomLabel(labelText: self.pickupBuy, width: 80, isBold: true)
+                    CustomLabel(labelText: self.pickupBuy, width: (CustomDimensions.width - 20) * 0.265, isBold: true)
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                     
-                    CustomLabel(labelText: self.orderTitle, width: 216)
+                    CustomLabel(labelText: self.orderTitle, width: (CustomDimensions.width - 20) * 0.715)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 0))
                 }
                 
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .frame(width: 302, height: 100)
+                .frame(width: CustomDimensions.width - 20, height: 100)
                 .fixedSize(horizontal: true, vertical: true)
                 
                 
@@ -52,7 +52,7 @@ struct BringerInstructionsView: View {
                     .foregroundColor(CustomColors.midGray)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
-                    .frame(width: 302, height: 220, alignment: .top)
+                    .frame(width: CustomDimensions.width - 20, height: 220, alignment: .top)
                     .background(Rectangle()
                                     .fill(Color.white.opacity(0.5))
                                     .cornerRadius(15))

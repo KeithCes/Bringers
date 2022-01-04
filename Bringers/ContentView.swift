@@ -27,6 +27,7 @@ struct ContentView: View {
             
             PlaceOrderView()
                 .tag(2)
+                .background(CustomColors.seafoamGreen)
             
             BringerOrdersView()
                 .tag(3)

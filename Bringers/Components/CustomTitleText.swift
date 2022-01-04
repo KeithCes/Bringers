@@ -20,5 +20,6 @@ struct CustomTitleText: View {
         Text(self.labelText)
             .font(.system(size: 48, weight: .bold, design: .rounded))
             .foregroundColor(Color.white)
+            .fixedSize(horizontal: false, vertical: true)
     }
 }

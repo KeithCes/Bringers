@@ -43,31 +43,31 @@ struct OrderListButton: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.center)
             }
-            .frame(width: 302, height: 50)
+            .frame(width: CustomDimensions.width - 20, height: 50)
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
                             .cornerRadius(15))
             
             Rectangle()
                 .foregroundColor(CustomColors.veryDarkGray.opacity(self.distanceAlpha))
-                .frame(width: 60, height: 50)
+                .frame(width: (CustomDimensions.width - 20) * 0.199, height: 50)
                 .overlay(
                     Text("\(self.distance)" + "mi")
                         .font(.system(size: 18, weight: .regular, design: .rounded))
                         .foregroundColor(CustomColors.seafoamGreen)
                 )
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 241))
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: (CustomDimensions.width - 20) * 0.798))
                 .cornerRadius(15)
             
             Rectangle()
                 .foregroundColor(CustomColors.veryDarkGray.opacity(self.shippingAlpha))
-                .frame(width: 60, height: 50)
+                .frame(width: (CustomDimensions.width - 20) * 0.199, height: 50)
                 .overlay(
                     Text("$" + String(format:"%.0f", self.shippingCost))
                         .font(.system(size: 18, weight: .regular, design: .rounded))
                         .foregroundColor(CustomColors.seafoamGreen)
                 )
-                .padding(EdgeInsets(top: 0, leading: 241, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: (CustomDimensions.width - 20) * 0.798, bottom: 0, trailing: 0))
                 .cornerRadius(15)
         }
 
