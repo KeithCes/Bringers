@@ -84,7 +84,12 @@ struct BringerOrdersView: View {
             presentationMode.wrappedValue.dismiss()
         }
         
-        .popover(isPresented: $isShowingOrder, content: {
+        .sheet(isPresented: $isShowingOrder, onDismiss: {
+            if !isShowingOrder && confirmPressed {
+                confirmPressed = false
+                isShowingBringerConfirm.toggle()
+            }
+        }) {
             // TODO: replace hardcoded data with backend values from activeOrder
             BringerSelectedOrderView(
                 isShowingOrder: $isShowingOrder,
@@ -95,19 +100,13 @@ struct BringerOrdersView: View {
                 description: "it sucks dont buy it",
                 distance: 44,
                 yourProfit: 2)
-        })
-        .onChange(of: isShowingOrder) { value in
-            if !value && confirmPressed {
-                confirmPressed = false
-                isShowingBringerConfirm.toggle()
-            }
         }
-        .onChange(of: isShowingBringerConfirm) { value in
-            if !value {
+        
+        .fullScreenCover(isPresented: $isShowingBringerConfirm, onDismiss: {
+            if !isShowingBringerConfirm {
                 isShowingBringerMap.toggle()
             }
-        }
-        .fullScreenCover(isPresented: $isShowingBringerConfirm) {
+        }) {
             // TODO: replace hardcoded data with backend values from activeOrder
             BringerConfirmOrderBuyView(
                 isShowingBringerConfirm: $isShowingBringerConfirm,
@@ -115,6 +114,7 @@ struct BringerOrdersView: View {
                 yourProfit: 2
             )
         }
+        
         .fullScreenCover(isPresented: $isShowingBringerMap) {
             BringerOrderMapView(isShowingBringerMap: $isShowingBringerMap)
         }

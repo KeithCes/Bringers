@@ -40,7 +40,7 @@ struct BringerOrderMapView: View {
                         .resizable()
                         .frame(width: 74, height: 74)
                 }
-                .popover(isPresented: $isShowingUserProfile, content: {
+                .sheet(isPresented: $isShowingUserProfile, content: {
                     UserProfileView()
                 })
                 
@@ -81,7 +81,7 @@ struct BringerOrderMapView: View {
                         .frame(width: 20, height: 20)
                         .foregroundColor(CustomColors.darkGray)
                 }
-                .popover(isPresented: $isShowingInstructions, content: {
+                .sheet(isPresented: $isShowingInstructions, content: {
                     // TODO: replace dummy values
                     BringerInstructionsView(
                         pickupBuy: "Buy",
@@ -105,7 +105,7 @@ struct BringerOrderMapView: View {
                             .resizable()
                             .frame(width: 74, height: 74)
                     }
-                    .popover(isPresented: $isShowingReceipt, content: {
+                    .sheet(isPresented: $isShowingReceipt, content: {
                         ReceiptView()
                     })
                 }

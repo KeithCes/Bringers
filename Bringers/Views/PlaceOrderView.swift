@@ -21,6 +21,7 @@ struct PlaceOrderView: View {
     
     @State private var isShowingConfirm = false
     @State private var confirmPressed: Bool = false
+    @State private var confirmDismissed: Bool = false
     @State private var isShowingWaitingForBringer = false
     @State private var isShowingOrderComing = false
     
@@ -95,7 +96,12 @@ struct PlaceOrderView: View {
             Button("PLACE ORDER") {
                 self.showConfirmScreen()
             }
-            .popover(isPresented: $isShowingConfirm) {
+            .sheet(isPresented: $isShowingConfirm, onDismiss: {
+                if !isShowingConfirm && confirmPressed {
+                    confirmPressed = false
+                    isShowingWaitingForBringer.toggle()
+                }
+            }) {
                 ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice, pickupBuy: pickupBuy)
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
@@ -118,20 +124,15 @@ struct PlaceOrderView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
-        .onChange(of: isShowingConfirm) { value in
-            if !value && confirmPressed {
-                confirmPressed = false
-                isShowingWaitingForBringer.toggle()
-            }
-        }
-        .onChange(of: isShowingWaitingForBringer) { value in
-            if !value {
+        
+        .fullScreenCover(isPresented: $isShowingWaitingForBringer, onDismiss: {
+            if !isShowingWaitingForBringer {
                 isShowingOrderComing.toggle()
             }
-        }
-        .fullScreenCover(isPresented: $isShowingWaitingForBringer) {
+        }) {
             WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer)
         }
+        
         .fullScreenCover(isPresented: $isShowingOrderComing) {
             OrderComingMapView(isShowingOrderComing: $isShowingOrderComing)
         }

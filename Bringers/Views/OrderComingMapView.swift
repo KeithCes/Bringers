@@ -39,7 +39,7 @@ struct OrderComingMapView: View {
                         .resizable()
                         .frame(width: 74, height: 74)
                 }
-                .popover(isPresented: $isShowingUserProfile, content: {
+                .sheet(isPresented: $isShowingUserProfile, content: {
                     UserProfileView()
                 })
                 
@@ -80,7 +80,7 @@ struct OrderComingMapView: View {
                             .resizable()
                             .frame(width: 74, height: 74)
                     }
-                    .popover(isPresented: $isShowingReceipt, content: {
+                    .sheet(isPresented: $isShowingReceipt, content: {
                         ReceiptView()
                     })
                 }

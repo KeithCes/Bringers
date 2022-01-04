@@ -65,7 +65,7 @@ struct YourProfileView: View {
                                         .cornerRadius(15))
                 }
                 .padding(EdgeInsets(top: 0, leading: 250, bottom: 160, trailing: 0))
-                .popover(isPresented: $isShowingChangePassword, content: {
+                .sheet(isPresented: $isShowingChangePassword, content: {
                     ChangePasswordView()
                 })
             }
