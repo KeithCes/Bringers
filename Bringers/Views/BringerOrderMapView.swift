@@ -112,7 +112,7 @@ struct BringerOrderMapView: View {
             }
             .background(CustomColors.blueGray.opacity(0.6))
             .cornerRadius(15)
-            .frame(width: 322, height: 108, alignment: .center)
+            .frame(width: CustomDimensions.width, height: 108, alignment: .center)
             
             Button {
                 // TODO: confirmation screen/backend call to cancel order

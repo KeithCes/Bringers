@@ -17,7 +17,7 @@ struct CustomSecureTextbox: View {
     var charLimit: Int
     var titleText: String
 
-    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = 322, charLimit: Int = 20, titleText: String) {
+    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20, titleText: String) {
         self._field = field
         self.placeholderText = placeholderText
         self.height = height

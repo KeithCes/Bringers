@@ -23,6 +23,11 @@ struct YourProfileView: View {
     private var rating: CGFloat = 3.8
     
     @ObservedObject private var keyboard = KeyboardResponder()
+    private var keyboardHeight: CGFloat = 0
+    
+    init() {
+        keyboardHeight = keyboard.currentHeight
+    }
     
     var body: some View {
         VStack {
@@ -46,9 +51,6 @@ struct YourProfileView: View {
                                         .cornerRadius(15))
                 }
                 .padding(EdgeInsets(top: 190, leading: 190, bottom: 0, trailing: 20))
-//                .popover(isPresented: $isShowingChangePassword, content: {
-//                    UserProfileView()
-//                })
                 
                 Button(action: {
                     isShowingChangePassword.toggle()
@@ -114,9 +116,9 @@ struct YourProfileView: View {
         }
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))
-                        .frame(width: 322, height: 600)
+                        .frame(width: CustomDimensions.width, height: CustomDimensions.height600)
                         .cornerRadius(15))
-        .padding(.bottom, keyboard.currentHeight)
+        .padding(.bottom, keyboardHeight)
         .edgesIgnoringSafeArea(.bottom)
         .foregroundColor(CustomColors.midGray)
         .fixedSize(horizontal: false, vertical: true)

@@ -58,7 +58,7 @@ struct PlaceOrderView: View {
             .multilineTextAlignment(.center)
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
-                            .frame(width: 322, height: 50)
+                            .frame(width: CustomDimensions.width, height: 50)
                             .cornerRadius(15))
             .padding(EdgeInsets(top: 30, leading: 20, bottom: 15, trailing: 20))
             
@@ -85,7 +85,7 @@ struct PlaceOrderView: View {
                 .foregroundColor(CustomColors.midGray)
                 .background(Rectangle()
                                 .fill(Color.white.opacity(0.5))
-                                .frame(width: 322, height: 153)
+                                .frame(width: CustomDimensions.width, height: 153)
                                 .cornerRadius(15))
                 .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
                 .onReceive(self.description.publisher.collect()) {
@@ -103,7 +103,7 @@ struct PlaceOrderView: View {
             .foregroundColor(Color.white)
             .background(Rectangle()
                             .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: 322, height: 70)
+                            .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
             
         }

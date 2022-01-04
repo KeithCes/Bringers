@@ -69,7 +69,7 @@ struct BringerInstructionsView: View {
             }
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
-                            .frame(width: 322, height: 500)
+                            .frame(width: CustomDimensions.width, height: CustomDimensions.height500)
                             .cornerRadius(15))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -17,7 +17,7 @@ struct CustomLabel: View {
     var fontSize: CGFloat
     var hasBackground: Bool
     
-    init(labelText: String, height: CGFloat = 50, width: CGFloat = 322, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true) {
+    init(labelText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true) {
         self.labelText = labelText
         self.height = height
         self.width = width

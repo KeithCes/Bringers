@@ -16,7 +16,7 @@ struct CustomTextbox: View {
     var width: CGFloat
     var charLimit: Int
 
-    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = 322, charLimit: Int = 20) {
+    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20) {
         self._field = field
         self.placeholderText = placeholderText
         self.height = height

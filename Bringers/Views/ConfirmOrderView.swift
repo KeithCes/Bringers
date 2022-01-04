@@ -63,7 +63,7 @@ struct ConfirmOrderView: View {
                 .font(.system(size: 14, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .fixedSize(horizontal: false, vertical: true)
-                .frame(minWidth: 0, maxWidth: 322, minHeight: 0, maxHeight: 10)
+                .frame(minWidth: 0, maxWidth: CustomDimensions.width, minHeight: 0, maxHeight: 10)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
@@ -75,7 +75,7 @@ struct ConfirmOrderView: View {
             .foregroundColor(Color.white)
             .background(Rectangle()
                             .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: 322, height: 70)
+                            .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

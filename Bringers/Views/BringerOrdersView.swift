@@ -64,14 +64,14 @@ struct BringerOrdersView: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: 500)
+            .frame(maxWidth: .infinity, maxHeight: CustomDimensions.height500)
         }
         .foregroundColor(CustomColors.midGray)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))
-                        .frame(width: 322, height: 550)
+                        .frame(width: CustomDimensions.width, height: CustomDimensions.height550)
                         .cornerRadius(15))
         .tabItem {
             Image(systemName: "bag")

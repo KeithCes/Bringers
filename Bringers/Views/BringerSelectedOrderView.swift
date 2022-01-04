@@ -72,8 +72,9 @@ struct BringerSelectedOrderView: View {
             }
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
-                            .frame(width: 322, height: 500)
-                            .cornerRadius(15))
+                            .frame(width: CustomDimensions.width, height: 500)
+                            .cornerRadius(15)
+                            .padding())
             
             Button("ACCEPT ORDER") {
                 isShowingOrder = false
@@ -84,8 +85,9 @@ struct BringerSelectedOrderView: View {
             .foregroundColor(Color.white)
             .background(Rectangle()
                             .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: 322, height: 70)
-                            .cornerRadius(15))
+                            .frame(width: CustomDimensions.width, height: 70)
+                            .cornerRadius(15)
+                            .padding())
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
