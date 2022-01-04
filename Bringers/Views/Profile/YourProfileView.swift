@@ -120,7 +120,6 @@ struct YourProfileView: View {
                         .cornerRadius(15))
         .padding(.bottom, keyboardHeight)
         .edgesIgnoringSafeArea(.bottom)
-        .foregroundColor(CustomColors.midGray)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .tabItem {

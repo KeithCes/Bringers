@@ -31,7 +31,6 @@ struct UserProfileView: View {
             RatingView(rating: rating, maxRating: 5)
                 .frame(width: 112, height: 16)
         }
-        .foregroundColor(CustomColors.midGray)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .background(Rectangle()

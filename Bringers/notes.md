@@ -1,7 +1,5 @@
-#  things to do before backend
-
--private all vars
-
+# shit to do if bored
+- modulate button (place order, login, accept order, etc)
 
 
 # stuff to potentially add later

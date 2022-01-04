@@ -31,7 +31,7 @@ struct ChangePasswordView: View {
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
             
-            CustomSecureTextbox(field: $currentPassword, placeholderText: oldPassword, titleText: "CURRENT PASSWORD")
+            CustomSecureTextboxTitleText(field: $currentPassword, placeholderText: oldPassword, titleText: "CURRENT PASSWORD")
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 21, trailing: 20))
                 .focused($isCurrentPasswordFocused)
                 .onAppear {
@@ -46,7 +46,7 @@ struct ChangePasswordView: View {
                 }
             
             
-            CustomSecureTextbox(field: $newPassword, placeholderText: "-", titleText: "NEW PASSWORD")
+            CustomSecureTextboxTitleText(field: $newPassword, placeholderText: "-", titleText: "NEW PASSWORD")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                 .focused($isNewPasswordFocused)
                 .submitLabel(.next)
@@ -54,7 +54,7 @@ struct ChangePasswordView: View {
                     isConfirmPasswordFocused.toggle()
                 }
             
-            CustomSecureTextbox(field: $confirmPassword, placeholderText: "-", titleText: "CONFIRM PASSWORD")
+            CustomSecureTextboxTitleText(field: $confirmPassword, placeholderText: "-", titleText: "CONFIRM PASSWORD")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                 .focused($isConfirmPasswordFocused)
                 .submitLabel(.done)

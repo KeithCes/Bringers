@@ -66,7 +66,6 @@ struct BringerOrdersView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: CustomDimensions.height500)
         }
-        .foregroundColor(CustomColors.midGray)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .background(Rectangle()

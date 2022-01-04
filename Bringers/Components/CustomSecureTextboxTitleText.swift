@@ -1,27 +1,29 @@
 //
-//  CustomSecureTextbox.swift
+//  CustomSecureTextboxTitleText.swift
 //  Bringers
 //
-//  Created by Keith C on 1/4/22.
+//  Created by Keith C on 12/19/21.
 //
 
 import Foundation
 import SwiftUI
 
-struct CustomSecureTextbox: View {
+struct CustomSecureTextboxTitleText: View {
 
     @Binding var field: String
     var placeholderText: String
     var height: CGFloat
     var width: CGFloat
     var charLimit: Int
+    var titleText: String
 
-    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20) {
+    init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20, titleText: String) {
         self._field = field
         self.placeholderText = placeholderText
         self.height = height
         self.width = width
         self.charLimit = charLimit
+        self.titleText = titleText
     }
 
     var body: some View {
@@ -36,9 +38,15 @@ struct CustomSecureTextbox: View {
             .background(Rectangle()
                             .fill(Color.white.opacity(0.5))
                             .frame(width: self.width, height: self.height)
-                            .cornerRadius(15))
+                            .cornerRadius(15)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)))
             .onReceive(self.field.publisher.collect()) {
                 self.field = String($0.prefix(self.charLimit))
             }
+            .overlay(
+                Text(self.titleText)
+                    .font(.system(size: 10, weight: .regular, design: .rounded))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 35, trailing: 20))
+            )
     }
 }
