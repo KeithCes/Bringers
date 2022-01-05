@@ -14,13 +14,21 @@ struct CreateAccountView: View {
     
     @State private var firstName: String = ""
     @State private var lastName: String = ""
-    @State private var dob: String = ""
+    @State private var dob: Date = Date()
     @State private var email: String = ""
     @State private var phoneNumber: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     
+    @State private var isDobChanged: Bool = false
+    
     @Binding private var isShowingCreate: Bool
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter
+    }
     
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 5)
     @State private var name = Array<String>.init(repeating: "", count: 5)
@@ -39,9 +47,38 @@ struct CreateAccountView: View {
             CustomTextbox(field: $lastName, placeholderText: "Last Name", onEditingChanged: { if $0 { self.kGuardian.showField = 1 } })
                 .background(GeometryGetter(rect: $kGuardian.rects[1]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomTextbox(field: $dob, placeholderText: "Date of Birth", onEditingChanged: { if $0 { self.kGuardian.showField = 2 } })
-                .background(GeometryGetter(rect: $kGuardian.rects[2]))
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+            
+            if !isDobChanged {
+                DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
+                    Text("Date of Birth")
+                }
+                .accentColor(CustomColors.seafoamGreen)
+                .font(.system(size: 18, weight: .regular, design: .rounded))
+                .colorInvert()
+                .colorScheme(.light)
+                .colorMultiply(CustomColors.midGray.opacity(0.5))
+                .background(Rectangle()
+                                .fill(Color.white.opacity(0.5))
+                                .frame(width: 322, height: 50)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
+            }
+            else {
+                DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
+                    Text("Date of Birth")
+                }
+                .accentColor(CustomColors.seafoamGreen)
+                .font(.system(size: 18, weight: .regular, design: .rounded))
+                .colorInvert()
+                .colorScheme(.light)
+                .colorMultiply(CustomColors.midGray)
+                .background(Rectangle()
+                                .fill(Color.white.opacity(0.5))
+                                .frame(width: 322, height: 50)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
+            }
+            
             CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
                 .background(GeometryGetter(rect: $kGuardian.rects[3]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
@@ -51,10 +88,8 @@ struct CreateAccountView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .keyboardType(.numberPad)
             CustomSecureTextbox(field: $password, placeholderText: "Password")
-                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
             CustomSecureTextbox(field: $confirmPassword, placeholderText: "Confirm Password")
-                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
@@ -72,6 +107,9 @@ struct CreateAccountView: View {
                             .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
         }
+        .onChange(of: dob, perform: { _ in
+            isDobChanged = dob != Date()
+        })
         .onAppear { self.kGuardian.addObserver() }
         .onDisappear { self.kGuardian.removeObserver() }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -83,7 +121,7 @@ struct CreateAccountView: View {
         
         // TODO: add toasts to show what error user is facing (password too short, email badly formatted, etc)
         
-        if firstName.count > 2 && lastName.count > 2 && dob.count > 0 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count > 6 && password.count > 6 && password == confirmPassword {
+        if firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count > 6 && password.count > 6 && password == confirmPassword {
             
             let ref = Database.database().reference()
             
