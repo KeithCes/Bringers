@@ -104,7 +104,7 @@ struct CreateAccountView: View {
         
         // TODO: add toasts to show what error user is facing (password too short, email badly formatted, etc)
         
-        if firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count > 6 && password.count > 6 && password == confirmPassword {
+        if firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword {
             
             let ref = Database.database().reference()
             
@@ -112,7 +112,23 @@ struct CreateAccountView: View {
                 if error == nil && username != nil {
                     
                     let userID = Auth.auth().currentUser!.uid
-                    let userDetails = ["email": email, "username": email]
+                    
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "MM/dd/YYYY"
+                    let dobString = dateFormatter.string(from: dob)
+                    let currentDateString = dateFormatter.string(from: Date())
+
+                    let userDetails = [
+                        "firstName": firstName,
+                        "lastName": lastName,
+                        "dateOfBirth": dobString,
+                        "email": email,
+                        "phoneNumber": phoneNumber,
+                        "dateOfCreation": currentDateString,
+                        "ordersPlaced": 0,
+                        "ordersCompleted": 0
+                    ] as [String : Any]
+                    
                     ref.child("users").child(userID).setValue(userDetails)
                     
                     ref.child("users").child(userID).child("preferences").observeSingleEvent(of: .value, with: { (snapshot) in
