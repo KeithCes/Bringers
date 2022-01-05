@@ -16,7 +16,8 @@ struct LoginView: View {
     
     @Binding private var isShowingLogin: Bool
     
-    @ObservedObject private var keyboard = KeyboardResponder()
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
+    @State private var name = Array<String>.init(repeating: "", count: 1)
     
     init(isShowingLogin: Binding<Bool>) {
         self._isShowingLogin = isShowingLogin
@@ -25,7 +26,8 @@ struct LoginView: View {
     var body: some View {
         VStack {
             CustomTitleText(labelText: "LOGIN")
-            CustomTextbox(field: $email, placeholderText: "Email")
+            CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .textInputAutocapitalization(.never)
             CustomSecureTextbox(field: $password, placeholderText: "Password")
@@ -45,7 +47,8 @@ struct LoginView: View {
                             .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
         }
-        .padding(.bottom, keyboard.currentHeight - 100)
+        .onAppear { self.kGuardian.addObserver() }
+        .onDisappear { self.kGuardian.removeObserver() }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()

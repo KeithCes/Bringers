@@ -22,7 +22,8 @@ struct CreateAccountView: View {
     
     @Binding private var isShowingCreate: Bool
     
-    @ObservedObject private var keyboard = KeyboardResponder()
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 5)
+    @State private var name = Array<String>.init(repeating: "", count: 5)
     
     init(isShowingCreate: Binding<Bool>) {
         self._isShowingCreate = isShowingCreate
@@ -30,29 +31,36 @@ struct CreateAccountView: View {
     
     var body: some View {
         VStack {
-            
-            
             CustomTitleText(labelText: "CREATE ACCOUNT")
-            CustomTextbox(field: $firstName, placeholderText: "First Name")
+            
+            CustomTextbox(field: $firstName, placeholderText: "First Name", onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomTextbox(field: $lastName, placeholderText: "Last Name")
+            CustomTextbox(field: $lastName, placeholderText: "Last Name", onEditingChanged: { if $0 { self.kGuardian.showField = 1 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[1]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomTextbox(field: $dob, placeholderText: "Date of Birth")
+            CustomTextbox(field: $dob, placeholderText: "Date of Birth", onEditingChanged: { if $0 { self.kGuardian.showField = 2 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[2]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomTextbox(field: $email, placeholderText: "Email")
+            CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[3]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .textInputAutocapitalization(.never)
-            CustomTextbox(field: $phoneNumber, placeholderText: "Phone Number")
+            CustomTextbox(field: $phoneNumber, placeholderText: "Phone Number", onEditingChanged: { if $0 { self.kGuardian.showField = 4 } })
+                .background(GeometryGetter(rect: $kGuardian.rects[4]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .keyboardType(.numberPad)
             CustomSecureTextbox(field: $password, placeholderText: "Password")
+                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
             CustomSecureTextbox(field: $confirmPassword, placeholderText: "Confirm Password")
+                .background(GeometryGetter(rect: $kGuardian.rects[0]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
                     createAccount()
                 }
+            
             Button("CREATE") {
                 createAccount()
             }
@@ -64,7 +72,8 @@ struct CreateAccountView: View {
                             .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
         }
-        .padding(.bottom, keyboard.currentHeight - 100)
+        .onAppear { self.kGuardian.addObserver() }
+        .onDisappear { self.kGuardian.removeObserver() }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
