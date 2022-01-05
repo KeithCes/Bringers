@@ -48,36 +48,19 @@ struct CreateAccountView: View {
                 .background(GeometryGetter(rect: $kGuardian.rects[1]))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
             
-            if !isDobChanged {
-                DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
-                    Text("Date of Birth")
-                }
-                .accentColor(CustomColors.seafoamGreen)
-                .font(.system(size: 18, weight: .regular, design: .rounded))
-                .colorInvert()
-                .colorScheme(.light)
-                .colorMultiply(CustomColors.midGray.opacity(0.5))
-                .background(Rectangle()
-                                .fill(Color.white.opacity(0.5))
-                                .frame(width: 322, height: 50)
-                                .cornerRadius(15))
-                .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
+            DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
+                Text("Date of Birth")
             }
-            else {
-                DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
-                    Text("Date of Birth")
-                }
-                .accentColor(CustomColors.seafoamGreen)
-                .font(.system(size: 18, weight: .regular, design: .rounded))
-                .colorInvert()
-                .colorScheme(.light)
-                .colorMultiply(CustomColors.midGray)
-                .background(Rectangle()
-                                .fill(Color.white.opacity(0.5))
-                                .frame(width: 322, height: 50)
-                                .cornerRadius(15))
-                .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
-            }
+            .accentColor(CustomColors.seafoamGreen)
+            .font(.system(size: 18, weight: .regular, design: .rounded))
+            .colorInvert()
+            .colorScheme(.light)
+            .colorMultiply(CustomColors.midGray.opacity(isDobChanged ? 1 : 0.5))
+            .background(Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(width: 322, height: 50)
+                            .cornerRadius(15))
+            .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
             
             CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
                 .background(GeometryGetter(rect: $kGuardian.rects[3]))
