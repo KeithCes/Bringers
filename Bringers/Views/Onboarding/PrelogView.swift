@@ -14,6 +14,7 @@ struct PrelogView: View {
     @State private var tabSelection = 2
     
     @State private var isShowingLogin: Bool = false
+    @State private var isShowingCreate: Bool = false
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(CustomColors.tabbarGray)
@@ -43,10 +44,43 @@ struct PrelogView: View {
             .accentColor(Color.black)
         }
         else {
-            LoginView(isShowingLogin: $isShowingLogin)
+            VStack {
+                Button("LOGIN") {
+                    isShowingLogin.toggle()
+                }
+                .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width, height: 70)
+                                .cornerRadius(15))
+                
+                .sheet(isPresented: $isShowingLogin) {
+                    LoginView(isShowingLogin: $isShowingLogin)
+                }
+                
+                Button("CREATE") {
+                    isShowingCreate.toggle()
+                }
+                .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width, height: 70)
+                                .cornerRadius(15))
+                
+                .sheet(isPresented: $isShowingCreate) {
+                    CreateAccountView(isShowingCreate: $isShowingCreate)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(CustomColors.seafoamGreen)
+            .ignoresSafeArea()
+            // i have no clue why this is needed; without it we don't transition from login/create -> tab view
+            .onChange(of: isShowingLogin) { _ in }
+            .onChange(of: isShowingCreate) { _ in }
         }
-        
-        // i have no clue why this is needed; without it we don't transition from login -> tab view
-        VStack{}.onChange(of: isShowingLogin) { _ in }
     }
 }

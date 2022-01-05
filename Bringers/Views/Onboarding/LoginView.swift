@@ -46,11 +46,9 @@ struct LoginView: View {
                             .cornerRadius(15))
         }
         .padding(.bottom, keyboard.currentHeight - 100)
-        .animation(.easeOut(duration: 0.16))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
-        .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
     }
     
     func login() {

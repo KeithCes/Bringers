@@ -53,6 +53,7 @@
 		53BDE53B2784FE1600347516 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE53A2784FE1600347516 /* LoginView.swift */; };
 		53BDE53D2785007D00347516 /* CustomSecureTextbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */; };
 		53BDE53F2785039300347516 /* PrelogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE53E2785039300347516 /* PrelogView.swift */; };
+		53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5402785199A00347516 /* CreateAccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
 		53BDE53E2785039300347516 /* PrelogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrelogView.swift; sourceTree = "<group>"; };
+		53BDE5402785199A00347516 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +325,7 @@
 			children = (
 				53BDE53A2784FE1600347516 /* LoginView.swift */,
 				53BDE53E2785039300347516 /* PrelogView.swift */,
+				53BDE5402785199A00347516 /* CreateAccountView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
+				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
 				532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
