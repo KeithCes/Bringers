@@ -19,6 +19,8 @@ struct PlaceOrderView: View {
     @State private var itemName: String = ""
     @State private var description: String = ""
     
+    @State private var order: OrderModel = OrderModel()
+    
     @State private var isShowingConfirm = false
     @State private var confirmPressed: Bool = false
     @State private var confirmDismissed: Bool = false
@@ -106,7 +108,7 @@ struct PlaceOrderView: View {
                     isShowingWaitingForBringer.toggle()
                 }
             }) {
-                ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, deliveryFee: deliveryFee, maxItemPrice: maxItemPrice, pickupBuy: pickupBuy)
+                ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, order: $order)
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -138,7 +140,7 @@ struct PlaceOrderView: View {
         }
         
         .fullScreenCover(isPresented: $isShowingOrderComing) {
-            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing)
+            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing, order: $order)
         }
         
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -146,13 +148,40 @@ struct PlaceOrderView: View {
     
     
     func showConfirmScreen() {
-        if (self.pickupBuy == "Buy" || self.pickupBuy == "Pick-up") 
-//            self.deliveryFee > 0 &&
-//            self.maxItemPrice > 0 &&
-//            self.itemName.count > 0 &&
-//            self.description.count > 0
+        
+        if self.deliveryFee > 0 &&
+            self.itemName.count > 0 &&
+            self.description.count > 0
         {
-            isShowingConfirm.toggle()
+            if self.pickupBuy == "Buy" && self.maxItemPrice > 0 {
+                self.order = OrderModel(
+                    title: self.itemName,
+                    description: self.description,
+                    pickupBuy: self.pickupBuy,
+                    maxPrice: self.maxItemPrice,
+                    deliveryFee: self.deliveryFee
+                )
+    
+                isShowingConfirm.toggle()
+            }
+            else if self.pickupBuy == "Pick-up" {
+                self.order = OrderModel(
+                    title: self.itemName,
+                    description: self.description,
+                    pickupBuy: self.pickupBuy,
+                    maxPrice: 0,
+                    deliveryFee: self.deliveryFee
+                )
+    
+                isShowingConfirm.toggle()
+            }
+            else {
+                print("error")
+            }
+                        
+        }
+        else {
+            print("error")
         }
     }
 }

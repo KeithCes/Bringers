@@ -56,6 +56,7 @@
 		53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5402785199A00347516 /* CreateAccountView.swift */; };
 		53BDE54327852ADA00347516 /* KeyboardGuardian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54227852ADA00347516 /* KeyboardGuardian.swift */; };
 		53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54427852B0000347516 /* GeometryGetter.swift */; };
+		53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5492787A15A00347516 /* OrderModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		53BDE5402785199A00347516 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		53BDE54227852ADA00347516 /* KeyboardGuardian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardian.swift; sourceTree = "<group>"; };
 		53BDE54427852B0000347516 /* GeometryGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryGetter.swift; sourceTree = "<group>"; };
+		53BDE5492787A15A00347516 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 		532BF3F627711C7D00D8ADA3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				53BDE5482787A10300347516 /* Models */,
 				53BDE5392784FE0400347516 /* Onboarding */,
 				53BDE5362784FDA100347516 /* Ordering */,
 				53BDE5372784FDAA00347516 /* Bringing */,
@@ -334,6 +337,14 @@
 				53BDE5402785199A00347516 /* CreateAccountView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		53BDE5482787A10300347516 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				53BDE5492787A15A00347516 /* OrderModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -514,6 +525,7 @@
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
 				532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */,
+				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

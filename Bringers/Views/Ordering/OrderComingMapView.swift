@@ -15,10 +15,18 @@ struct OrderComingMapView: View {
     
     @Binding var isShowingOrderComing: Bool
     
+    @Binding var order: OrderModel
+    
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
     var receiptImageName = "receipt"
+    
+    init(isShowingOrderComing: Binding<Bool>, order: Binding<OrderModel>) {
+        
+        self._isShowingOrderComing = isShowingOrderComing
+        self._order = order
+    }
     
     var body: some View {
         VStack {
@@ -110,5 +118,8 @@ struct OrderComingMapView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
+        .onAppear() {
+            viewModel.setOrderID(id: $order.wrappedValue.id.uuidString)
+        }
     }
 }

@@ -22,8 +22,6 @@ struct PrelogView: View {
         UITabBar.appearance().unselectedItemTintColor = UIColor(CustomColors.darkGray).withAlphaComponent(0.5)
         
         UITextView.appearance().backgroundColor = .clear
-        
-        try! Auth.auth().signOut()
     }
     
     var body: some View {

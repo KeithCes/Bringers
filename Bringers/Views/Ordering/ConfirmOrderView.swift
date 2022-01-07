@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import FirebaseDatabase
+import FirebaseAuth
 
 struct ConfirmOrderView: View {
     
@@ -14,44 +16,39 @@ struct ConfirmOrderView: View {
     
     @Binding private var isShowingConfirm: Bool
     @Binding private var confirmPressed: Bool
+    @Binding private var order: OrderModel
     
-    private var deliveryFee: CGFloat
-    private var maxItemPrice: CGFloat
-    private var pickupBuy: String
-    
-    init(isShowingConfirm: Binding<Bool>, confirmPressed: Binding<Bool>, deliveryFee: CGFloat, maxItemPrice: CGFloat, pickupBuy: String) {
+    init(isShowingConfirm: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>) {
         self._isShowingConfirm = isShowingConfirm
         self._confirmPressed = confirmPressed
-        self.deliveryFee = deliveryFee
-        self.maxItemPrice = maxItemPrice
-        self.pickupBuy = pickupBuy
+        self._order = order
     }
     
     var body: some View {
         VStack {
             CustomTitleText(labelText: "CONFIRM THE FOLLOWING:")
             
-            if pickupBuy == "Buy" {
+            if order.pickupBuy == "Buy" {
                 CustomLabel(labelText: "ESTIMATED MAXIMUM COST:", isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
                 
                 // TODO: calc tax based on location (change 0.0625 to be dynamic)
-                let estTax = round(CGFloat(maxItemPrice) * 0.0625 * 100) / 100.0
+                let estTax = round(CGFloat(order.maxPrice) * 0.0625 * 100) / 100.0
                
-                CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", maxItemPrice) + "\nDELIVERY FEE = $" + String(format:"%.02f", deliveryFee) + "\nESTIMATED SALES TAX = $" + "\(estTax)", height: 100)
+                CustomLabel(labelText: "MAX ITEM PRICE = $" + String(format:"%.02f", order.maxPrice) + "\nDELIVERY FEE = $" + String(format:"%.02f", order.deliveryFee) + "\nESTIMATED SALES TAX = $" + "\(estTax)", height: 100)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
                 
-                CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + String(format:"%.02f", (estTax + maxItemPrice + deliveryFee)), height: 75, isBold: true)
+                CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + String(format:"%.02f", (estTax + order.maxPrice + order.deliveryFee)), height: 75, isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
                 
                 CustomLabel(labelText: "Note: Final costs may be slightly different than estimates due to actual item prices", height: 75, fontSize: 14)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
             }
             else {
-                CustomLabel(labelText: "DELIVERY FEE = $" + String(format:"%.02f", deliveryFee))
+                CustomLabel(labelText: "DELIVERY FEE = $" + String(format:"%.02f", order.deliveryFee))
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
                 
-                CustomLabel(labelText: "TOTAL COST = $" + String(format:"%.02f", deliveryFee), isBold: true)
+                CustomLabel(labelText: "TOTAL COST = $" + String(format:"%.02f", order.deliveryFee), isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             }
             
@@ -63,8 +60,7 @@ struct ConfirmOrderView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                confirmPressed = true
-                isShowingConfirm = false
+                sendOrder()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -77,5 +73,24 @@ struct ConfirmOrderView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
+    }
+    
+    func sendOrder() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        let orderJson = [
+            "title": order.title,
+            "description": order.description,
+            "type": order.pickupBuy,
+            "dateSent": order.dateSent,
+            "maxPrice": order.maxPrice,
+            "deliveryFee": order.deliveryFee
+        ] as [String : Any]
+        
+        ref.child("users").child(userID).child("activeOrders").updateChildValues([order.id.uuidString : orderJson])
+        
+        confirmPressed = true
+        isShowingConfirm = false
     }
 }

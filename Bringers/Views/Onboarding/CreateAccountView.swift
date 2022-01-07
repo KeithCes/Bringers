@@ -131,6 +131,7 @@ struct CreateAccountView: View {
                     
                     ref.child("users").child(userID).setValue(userDetails)
                     
+                    // TODO: do we need this? i need to test im an idiot and copy pasted this without testing
                     ref.child("users").child(userID).child("preferences").observeSingleEvent(of: .value, with: { (snapshot) in
                         let value = snapshot.value as? NSDictionary
                         if value == nil {
