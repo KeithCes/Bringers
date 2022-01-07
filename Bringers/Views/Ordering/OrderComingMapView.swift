@@ -8,12 +8,15 @@
 import Foundation
 import SwiftUI
 import MapKit
+import FirebaseAuth
+import FirebaseDatabase
 
 struct OrderComingMapView: View {
     
     @StateObject private var viewModel = OrderComingMapViewModel()
     
     @Binding var isShowingOrderComing: Bool
+    @Binding var isOrderCancelledMap: Bool
     
     @Binding var order: OrderModel
     
@@ -22,10 +25,11 @@ struct OrderComingMapView: View {
     
     var receiptImageName = "receipt"
     
-    init(isShowingOrderComing: Binding<Bool>, order: Binding<OrderModel>) {
+    init(isShowingOrderComing: Binding<Bool>, isOrderCancelledMap: Binding<Bool>, order: Binding<OrderModel>) {
         
         self._isShowingOrderComing = isShowingOrderComing
         self._order = order
+        self._isOrderCancelledMap = isOrderCancelledMap
     }
     
     var body: some View {
@@ -98,8 +102,7 @@ struct OrderComingMapView: View {
             .frame(width: CustomDimensions.width, height: 108, alignment: .center)
             
             Button {
-                // TODO: confirmation screen/backend call to cancel order
-                isShowingOrderComing = false
+                deactivateOrder()
             } label: {
                 Image(systemName: "x.circle")
                     .resizable()
@@ -121,5 +124,35 @@ struct OrderComingMapView: View {
         .onAppear() {
             viewModel.setOrderID(id: $order.wrappedValue.id.uuidString)
         }
+    }
+    
+    func deactivateOrder() {
+        let userID = Auth.auth().currentUser!.uid
+        let ref = Database.database().reference()
+        
+        
+        // moves order from active to past, closes view
+        ref.child("users").child(userID).child("activeOrders").child($order.wrappedValue.id.uuidString).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            // adds to past
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            
+            // sets date completed
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/YYYY"
+            let currentDateString = dateFormatter.string(from: Date())
+            
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(["dateCompleted" : currentDateString])
+            
+            // sets order cancelled
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(["status" : "cancelled"])
+            
+            
+            // removes from active
+            ref.child("users").child(userID).child("activeOrders").child($order.wrappedValue.id.uuidString).removeValue()
+        })
+        
+        isShowingOrderComing = false
+        isOrderCancelledMap = true
     }
 }

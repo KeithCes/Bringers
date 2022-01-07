@@ -81,7 +81,7 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
         let elapsed = time.timeIntervalSince(startTime)
 
         // update interval
-        if elapsed > 1 {
+        if elapsed > 5 {
             
             let userID = Auth.auth().currentUser!.uid
             let ref = Database.database().reference()

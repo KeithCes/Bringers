@@ -27,6 +27,7 @@ struct PlaceOrderView: View {
     @State private var isShowingWaitingForBringer: Bool = false
     @State private var isOrderCancelledWaiting: Bool = false
     @State private var isShowingOrderComing: Bool = false
+    @State private var isOrderCancelledMap: Bool = false
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -141,7 +142,7 @@ struct PlaceOrderView: View {
         }
         
         .fullScreenCover(isPresented: $isShowingOrderComing) {
-            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing, order: $order)
+            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing, isOrderCancelledMap: $isOrderCancelledMap, order: $order)
         }
         
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))

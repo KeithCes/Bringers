@@ -73,7 +73,7 @@ struct WaitingForBringerView: View {
         }
         // TODO: remove later, replace with logic for bringer picking up order (backend)
         .onTapGesture {
-            
+            isShowingWaitingForBringer = false
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
