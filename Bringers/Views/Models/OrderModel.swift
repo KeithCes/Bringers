@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAuth
 
 struct OrderModel {
     var id: UUID = UUID()
@@ -18,6 +19,7 @@ struct OrderModel {
     var maxPrice: CGFloat = 0
     var deliveryFee: CGFloat = 0
     var status: String = "active"
+    var userID: String = ""
     // TODO: add location?
     
     init(){}
@@ -34,5 +36,8 @@ struct OrderModel {
         
         self.maxPrice = maxPrice
         self.deliveryFee = deliveryFee
+        
+        let userID = Auth.auth().currentUser!.uid
+        self.userID = userID
     }
 }

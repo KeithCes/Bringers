@@ -83,10 +83,9 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
         // update interval
         if elapsed > 5 {
             
-            let userID = Auth.auth().currentUser!.uid
             let ref = Database.database().reference()
             
-            ref.child("users").child(userID).child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
+            ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
 
             startTime = time
 

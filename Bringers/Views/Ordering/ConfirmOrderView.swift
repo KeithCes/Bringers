@@ -89,7 +89,8 @@ struct ConfirmOrderView: View {
             "status": order.status
         ] as [String : Any]
         
-        ref.child("users").child(userID).child("activeOrders").updateChildValues([order.id.uuidString : orderJson])
+        ref.child("activeOrders").updateChildValues([order.id.uuidString : orderJson])
+        ref.child("users").child(userID).child("activeOrders").updateChildValues(["activeOrder" : order.id.uuidString])
         
         confirmPressed = true
         isShowingConfirm = false

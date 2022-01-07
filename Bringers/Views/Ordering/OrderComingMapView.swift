@@ -132,7 +132,7 @@ struct OrderComingMapView: View {
         
         
         // moves order from active to past, closes view
-        ref.child("users").child(userID).child("activeOrders").child($order.wrappedValue.id.uuidString).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("activeOrders").child($order.wrappedValue.id.uuidString).observeSingleEvent(of: .value, with: { (snapshot) in
             
             // adds to past
             ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(snapshot.value as! [AnyHashable : Any])
@@ -149,7 +149,8 @@ struct OrderComingMapView: View {
             
             
             // removes from active
-            ref.child("users").child(userID).child("activeOrders").child($order.wrappedValue.id.uuidString).removeValue()
+            ref.child("activeOrders").child($order.wrappedValue.id.uuidString).removeValue()
+            ref.child("users").child(userID).child("activeOrders").removeValue()
         })
         
         isShowingOrderComing = false
