@@ -21,11 +21,12 @@ struct PlaceOrderView: View {
     
     @State private var order: OrderModel = OrderModel()
     
-    @State private var isShowingConfirm = false
+    @State private var isShowingConfirm: Bool = false
     @State private var confirmPressed: Bool = false
     @State private var confirmDismissed: Bool = false
-    @State private var isShowingWaitingForBringer = false
-    @State private var isShowingOrderComing = false
+    @State private var isShowingWaitingForBringer: Bool = false
+    @State private var isOrderCancelledWaiting: Bool = false
+    @State private var isShowingOrderComing: Bool = false
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -132,11 +133,11 @@ struct PlaceOrderView: View {
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
         
         .fullScreenCover(isPresented: $isShowingWaitingForBringer, onDismiss: {
-            if !isShowingWaitingForBringer {
+            if !isShowingWaitingForBringer && !isOrderCancelledWaiting {
                 isShowingOrderComing.toggle()
             }
         }) {
-            WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer)
+            WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer, isOrderCancelledWaiting: $isOrderCancelledWaiting, order: $order)
         }
         
         .fullScreenCover(isPresented: $isShowingOrderComing) {

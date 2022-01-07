@@ -17,6 +17,7 @@ struct OrderModel {
     var dateCompleted: String = ""
     var maxPrice: CGFloat = 0
     var deliveryFee: CGFloat = 0
+    var status: String = "active"
     // TODO: add location?
     
     init(){}

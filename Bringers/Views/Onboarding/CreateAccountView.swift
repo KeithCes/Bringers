@@ -129,15 +129,7 @@ struct CreateAccountView: View {
                         "ordersCompleted": 0
                     ] as [String : Any]
                     
-                    ref.child("users").child(userID).setValue(userDetails)
-                    
-                    // TODO: do we need this? i need to test im an idiot and copy pasted this without testing
-                    ref.child("users").child(userID).child("preferences").observeSingleEvent(of: .value, with: { (snapshot) in
-                        let value = snapshot.value as? NSDictionary
-                        if value == nil {
-                            ref.child("users").child(userID).child("preferences")
-                        }
-                    })
+                    ref.child("users").child(userID).child("userInfo").setValue(userDetails)
                     
                     print("user created")
                     isShowingCreate.toggle()

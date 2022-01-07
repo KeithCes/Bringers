@@ -57,6 +57,8 @@
 		53BDE54327852ADA00347516 /* KeyboardGuardian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54227852ADA00347516 /* KeyboardGuardian.swift */; };
 		53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54427852B0000347516 /* GeometryGetter.swift */; };
 		53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5492787A15A00347516 /* OrderModel.swift */; };
+		53BDE54E2788045300347516 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54D2788045300347516 /* Order.swift */; };
+		53BDE5512788060B00347516 /* Mapper in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5502788060B00347516 /* Mapper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,7 @@
 		53BDE54227852ADA00347516 /* KeyboardGuardian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardian.swift; sourceTree = "<group>"; };
 		53BDE54427852B0000347516 /* GeometryGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryGetter.swift; sourceTree = "<group>"; };
 		53BDE5492787A15A00347516 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
+		53BDE54D2788045300347516 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,7 @@
 				53BDE5332784F1CD00347516 /* FirebaseMessaging in Frameworks */,
 				53BDE52D2784F1CD00347516 /* FirebaseCrashlytics in Frameworks */,
 				53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */,
+				53BDE5512788060B00347516 /* Mapper in Frameworks */,
 				53BDE5312784F1CD00347516 /* FirebaseFunctions in Frameworks */,
 				53BDE5352784F1CD00347516 /* FirebaseStorage in Frameworks */,
 				53BDE52F2784F1CD00347516 /* FirebaseDatabase in Frameworks */,
@@ -343,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				53BDE5492787A15A00347516 /* OrderModel.swift */,
+				53BDE54D2788045300347516 /* Order.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				53BDE5302784F1CD00347516 /* FirebaseFunctions */,
 				53BDE5322784F1CD00347516 /* FirebaseMessaging */,
 				53BDE5342784F1CD00347516 /* FirebaseStorage */,
+				53BDE5502788060B00347516 /* Mapper */,
 			);
 			productName = Bringers;
 			productReference = 537718D3276EDB5E00F541B5 /* Bringers.app */;
@@ -446,6 +452,7 @@
 			mainGroup = 537718CA276EDB5E00F541B5;
 			packageReferences = (
 				53BDE5272784F1CC00347516 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				53BDE54F2788060A00347516 /* XCRemoteSwiftPackageReference "mapper" */,
 			);
 			productRefGroup = 537718D4276EDB5E00F541B5 /* Products */;
 			projectDirPath = "";
@@ -525,6 +532,7 @@
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
 				532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */,
+				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
 			);
@@ -871,6 +879,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		53BDE54F2788060A00347516 /* XCRemoteSwiftPackageReference "mapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lyft/mapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -908,6 +924,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 53BDE5272784F1CC00347516 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		53BDE5502788060B00347516 /* Mapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53BDE54F2788060A00347516 /* XCRemoteSwiftPackageReference "mapper" */;
+			productName = Mapper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

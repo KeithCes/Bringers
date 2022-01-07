@@ -85,7 +85,8 @@ struct ConfirmOrderView: View {
             "type": order.pickupBuy,
             "dateSent": order.dateSent,
             "maxPrice": order.maxPrice,
-            "deliveryFee": order.deliveryFee
+            "deliveryFee": order.deliveryFee,
+            "status": order.status
         ] as [String : Any]
         
         ref.child("users").child(userID).child("activeOrders").updateChildValues([order.id.uuidString : orderJson])

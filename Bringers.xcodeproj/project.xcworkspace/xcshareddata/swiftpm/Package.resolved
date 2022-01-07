@@ -83,6 +83,15 @@
         }
       },
       {
+        "package": "Mapper",
+        "repositoryURL": "https://github.com/lyft/mapper",
+        "state": {
+          "branch": null,
+          "revision": "0c96fa487bd29bc7c6bba36ab86b413160671782",
+          "version": "9.0.1"
+        }
+      },
+      {
         "package": "nanopb",
         "repositoryURL": "https://github.com/firebase/nanopb.git",
         "state": {
