@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import FirebaseDatabase
+import Mapper
 
 struct BringerOrdersView: View {
     
@@ -18,6 +20,8 @@ struct BringerOrdersView: View {
     @State private var isShowingBringerMap: Bool = false
     
     @State private var orderTitleState: String = ""
+    
+    @State private var orders: [OrderModel] = []
     
     private var rating: CGFloat = 3.8
     
@@ -117,5 +121,40 @@ struct BringerOrdersView: View {
         .fullScreenCover(isPresented: $isShowingBringerMap) {
             BringerOrderMapView(isShowingBringerMap: $isShowingBringerMap)
         }
+        .onAppear(perform: {
+            getActiveOrders()
+        })
+    }
+    
+    func getActiveOrders() {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
+            let activeOrders = (snapshot.value as! NSDictionary).allValues
+            for activeOrder in activeOrders {
+                let activeOrderMap = Order.from(activeOrder as! NSDictionary)
+                
+                guard let activeOrderMap = activeOrderMap else {
+                    return
+                }
+                
+                let order = OrderModel(
+                    id: activeOrderMap.id,
+                    title: activeOrderMap.title,
+                    description: activeOrderMap.description,
+                    pickupBuy: activeOrderMap.pickupBuy,
+                    maxPrice: activeOrderMap.maxPrice,
+                    deliveryFee: activeOrderMap.deliveryFee,
+                    dateSent: activeOrderMap.dateSent,
+                    dateCompleted: activeOrderMap.dateCompleted,
+                    status: activeOrderMap.status,
+                    userID: activeOrderMap.userID
+                )
+                
+                self.orders.append(order)
+            }
+            
+            print(orders)
+        })
     }
 }

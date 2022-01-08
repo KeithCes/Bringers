@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import FirebaseAuth
 
 struct PlaceOrderView: View {
     
@@ -155,32 +156,26 @@ struct PlaceOrderView: View {
             self.itemName.count > 0 &&
             self.description.count > 0
         {
-            if self.pickupBuy == "Buy" && self.maxItemPrice > 0 {
-                self.order = OrderModel(
-                    title: self.itemName,
-                    description: self.description,
-                    pickupBuy: self.pickupBuy,
-                    maxPrice: self.maxItemPrice,
-                    deliveryFee: self.deliveryFee
-                )
-    
-                isShowingConfirm.toggle()
-            }
-            else if self.pickupBuy == "Pick-up" {
-                self.order = OrderModel(
-                    title: self.itemName,
-                    description: self.description,
-                    pickupBuy: self.pickupBuy,
-                    maxPrice: 0,
-                    deliveryFee: self.deliveryFee
-                )
-    
-                isShowingConfirm.toggle()
-            }
-            else {
-                print("error")
-            }
-                        
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/YYYY"
+            let currentDateString = dateFormatter.string(from: Date())
+            
+            let userID = Auth.auth().currentUser!.uid
+            
+            self.order = OrderModel(
+                id: UUID().uuidString,
+                title: self.itemName,
+                description: self.description,
+                pickupBuy: self.pickupBuy,
+                maxPrice: self.pickupBuy == "Buy" && self.maxItemPrice > 0 ? self.maxItemPrice : 0,
+                deliveryFee: self.deliveryFee,
+                dateSent: currentDateString,
+                dateCompleted: "",
+                status: "active",
+                userID: userID
+            )
+            
+            isShowingConfirm.toggle()
         }
         else {
             print("error")

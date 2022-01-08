@@ -34,6 +34,7 @@ struct PrelogView: View {
                 YourProfileView()
                     .tag(1)
                 
+                // TODO: move to order map screen if order active
                 PlaceOrderView()
                     .tag(2)
                     .background(CustomColors.seafoamGreen)

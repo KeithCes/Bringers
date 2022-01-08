@@ -122,7 +122,7 @@ struct OrderComingMapView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .onAppear() {
-            viewModel.setOrderID(id: $order.wrappedValue.id.uuidString)
+            viewModel.setOrderID(id: $order.wrappedValue.id)
         }
     }
     
@@ -132,24 +132,24 @@ struct OrderComingMapView: View {
         
         
         // moves order from active to past, closes view
-        ref.child("activeOrders").child($order.wrappedValue.id.uuidString).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
             
             // adds to past
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
             
             // sets date completed
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd/YYYY"
             let currentDateString = dateFormatter.string(from: Date())
             
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(["dateCompleted" : currentDateString])
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(["dateCompleted" : currentDateString])
             
             // sets order cancelled
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id.uuidString).updateChildValues(["status" : "cancelled"])
+            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(["status" : "cancelled"])
             
             
             // removes from active
-            ref.child("activeOrders").child($order.wrappedValue.id.uuidString).removeValue()
+            ref.child("activeOrders").child($order.wrappedValue.id).removeValue()
             ref.child("users").child(userID).child("activeOrders").removeValue()
         })
         
