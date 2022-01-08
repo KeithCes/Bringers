@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseAuth
 
-struct OrderModel {
+struct OrderModel: Identifiable {
     var id: String = ""
     var title: String = ""
     var description: String = ""

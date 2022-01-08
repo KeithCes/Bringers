@@ -1,3 +1,9 @@
+# stuff to do soon
+- User can only have one order at a time
+    -works currently under user active orders
+    -need to open to that order on app open
+    -prevent user form making more orders when one active (need to cancel first)
+
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
 
