@@ -14,34 +14,28 @@ struct BringerSelectedOrderView: View {
     @Binding var isShowingOrder: Bool
     @Binding var confirmPressed: Bool
     
-    private var pickupBuy: String
-    private var maxItemPrice: CGFloat
-    private var orderTitle: String
-    private var description: String
+    @Binding var order: OrderModel
+    
+    // TODO: remove distance and add to order calculation?
     private var distance: CGFloat
-    private var yourProfit: CGFloat
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, pickupBuy: String, maxItemPrice: CGFloat, orderTitle: String, description: String, distance: CGFloat, yourProfit: CGFloat) {
+    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>, distance: CGFloat) {
         self._isShowingOrder = isShowingOrder
         self._confirmPressed = confirmPressed
-        self.pickupBuy = pickupBuy
-        self.maxItemPrice = maxItemPrice
-        self.orderTitle = orderTitle
-        self.description = description
+        self._order = order
         self.distance = distance
-        self.yourProfit = yourProfit
     }
     
     var body: some View {
         VStack {
             VStack {
                 HStack {
-                    CustomLabel(labelText: self.pickupBuy, width: (CustomDimensions.width - 20) * 0.265, isBold: true)
+                    CustomLabel(labelText: self.order.pickupBuy, width: (CustomDimensions.width - 20) * 0.265, isBold: true)
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
                     
-                    CustomLabel(labelText: self.orderTitle, width: (CustomDimensions.width - 20) * 0.715)
+                    CustomLabel(labelText: self.order.title, width: (CustomDimensions.width - 20) * 0.715)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 0))
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -49,7 +43,7 @@ struct BringerSelectedOrderView: View {
                 .fixedSize(horizontal: true, vertical: true)
                 
                 
-                Text(self.description)
+                Text(self.order.description)
                     .font(.system(size: 18, weight: .regular, design: .rounded))
                     .foregroundColor(CustomColors.midGray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -62,11 +56,11 @@ struct BringerSelectedOrderView: View {
                 
                 CustomLabelWithTab(labelText: "Current Distance Away", tabText: String(format:"%.01f", self.distance) + "mi")
                 
-                if pickupBuy == "Buy" {
-                    CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$" + String(format:"%.0f", self.maxItemPrice))
+                if self.order.pickupBuy == "Buy" {
+                    CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$" + String(format:"%.0f", self.order.maxPrice))
                 }
                 
-                CustomLabelWithTab(labelText: "Your Profit", tabText: "$" + String(format:"%.0f", self.yourProfit), isBold: true)
+                CustomLabelWithTab(labelText: "Your Profit", tabText: "$" + String(format:"%.0f", self.order.deliveryFee), isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
             }
             .background(Rectangle()

@@ -15,15 +15,20 @@ struct OrderListButton: View {
     // TODO: change to activeOrder as state once backend connected (pull properties out of here)
     @Binding private var orderTitleState: String
     
+    private var order: OrderModel
+    @Binding private var currentOrder: OrderModel
+    
     private var orderTitle: String
     private var distance: CGFloat
     private var shippingCost: CGFloat
     private var distanceAlpha: CGFloat
     private var shippingAlpha: CGFloat
     
-    init(orderTitleState: Binding<String>, isShowingOrder: Binding<Bool>, orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
+    init(orderTitleState: Binding<String>, isShowingOrder: Binding<Bool>, order: OrderModel, currentOrder: Binding<OrderModel>, orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
         self._isShowingOrder = isShowingOrder
         self._orderTitleState = orderTitleState
+        self.order = order
+        self._currentOrder = currentOrder
         self.orderTitle = orderTitle
         self.distance = distance
         self.shippingCost = shippingCost
@@ -37,6 +42,7 @@ struct OrderListButton: View {
                 Button(action: {
                     isShowingOrder.toggle()
                     orderTitleState = self.orderTitle
+                    currentOrder = self.order
                 }) {
                     Text(self.orderTitle)
                         .font(.system(size: 18, weight: .regular, design: .rounded))

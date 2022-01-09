@@ -22,6 +22,7 @@ struct BringerOrdersView: View {
     @State private var orderButtons: [OrderListButton] = []
     
     @State private var orders: [OrderModel] = []
+    @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "")
     
     
     private var rating: CGFloat = 3.8
@@ -65,6 +66,8 @@ struct BringerOrdersView: View {
             OrderListButton(
                 orderTitleState: $orderTitleState,
                 isShowingOrder: $isShowingOrder,
+                order: order,
+                currentOrder: $currentOrder,
                 orderTitle: order.title,
                 distance: 1,
                 shippingCost: order.deliveryFee,
@@ -90,22 +93,21 @@ struct BringerOrdersView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         
+        // i have no clue why this is needed; without it the values don't update from the backend until after the first press (SEE: PrelogView)
+        .onChange(of: orderTitleState) { _ in }
+        
         .sheet(isPresented: $isShowingOrder, onDismiss: {
             if !isShowingOrder && confirmPressed {
                 confirmPressed = false
                 isShowingBringerConfirm.toggle()
             }
         }) {
-            // TODO: replace hardcoded data with backend values from activeOrder
+            // TODO: add actual distance calculation
             BringerSelectedOrderView(
                 isShowingOrder: $isShowingOrder,
                 confirmPressed: $confirmPressed,
-                pickupBuy: "Buy",
-                maxItemPrice: 68,
-                orderTitle: orderTitleState,
-                description: "it sucks dont buy it",
-                distance: 44,
-                yourProfit: 2)
+                order: $currentOrder,
+                distance: 1)
         }
         
         .fullScreenCover(isPresented: $isShowingBringerConfirm, onDismiss: {
