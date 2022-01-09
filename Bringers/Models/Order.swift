@@ -8,6 +8,7 @@
 import Foundation
 import Mapper
 import SwiftUI
+import MapKit
 
 struct Order: Mappable {
     let id: String
@@ -20,6 +21,7 @@ struct Order: Mappable {
     let pickupBuy: String
     let status: String
     let userID: String
+    let location: CLLocationCoordinate2D
     
     init(map: Mapper) throws {
         try id = map.from("id")
@@ -32,5 +34,6 @@ struct Order: Mappable {
         try pickupBuy = map.from("pickupBuy")
         try status = map.from("status")
         try userID = map.from("userID")
+        try location = map.from("location")
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import FirebaseAuth
+import MapKit
 
 struct OrderModel: Identifiable {
     var id: String = ""
@@ -20,11 +21,11 @@ struct OrderModel: Identifiable {
     var deliveryFee: CGFloat = 0
     var status: String = ""
     var userID: String = ""
-    // TODO: add location?
+    var location: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
     
     init(){}
     
-    init(id: String, title: String, description: String, pickupBuy: String, maxPrice: CGFloat, deliveryFee: CGFloat, dateSent: String, dateCompleted: String, status: String, userID: String) {
+    init(id: String, title: String, description: String, pickupBuy: String, maxPrice: CGFloat, deliveryFee: CGFloat, dateSent: String, dateCompleted: String, status: String, userID: String, location: CLLocationCoordinate2D) {
         self.id = id
         self.title = title
         self.description = description
@@ -35,5 +36,6 @@ struct OrderModel: Identifiable {
         self.deliveryFee = deliveryFee
         self.status = status
         self.userID = userID
+        self.location = location
     }
 }

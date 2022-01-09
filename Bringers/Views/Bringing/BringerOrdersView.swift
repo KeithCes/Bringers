@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 import SwiftUI
 import FirebaseDatabase
 import Mapper
@@ -22,11 +23,17 @@ struct BringerOrdersView: View {
     @State private var orderButtons: [OrderListButton] = []
     
     @State private var orders: [OrderModel] = []
-    @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "")
+    @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "", location: CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015))
     
     @State private var isProgressViewHidden: Bool = false
     
-    private var rating: CGFloat = 3.8
+    @StateObject private var viewModel = BringerOrderLocationViewModel()
+    
+    static var currentCoords: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+    static var lowestDistance: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+    static var alphaIncrementValDistance: CGFloat = 0.1 //= 0.7/distanceGap
+    static var lowestShipping: CGFloat = 0
+    static var alphaIncrementValShipping: CGFloat = 0.1 //= 0.7/shippingGap
     
     private var testDistances: [CGFloat] = [1.2, 2, 3.5, 7.6, 8.4, 10.6, 12, 13.2, 16, 18, 20, 22.1]
     private var testOrderNames: [String] = ["ass", "butt", "poo", "cock", "balls", "piss", "shit", "cunt", "fuck", "ween", "dick", "puss"]
@@ -40,43 +47,20 @@ struct BringerOrdersView: View {
     
     
     var body: some View {
-        
-        // get all activeOrders from backend
-        // get users coords
-        // for each activeOrder, calc distance from user.coords and activeOrder.coords
-        // sort by lowest distance
-        // display in order
         ZStack {
-    
-        
-        // TODO: when backend is added: sort all orders in array by distance and use the properties like activeOrder.distance/activeOrder.shipping
-        
-        // requires sorted distances
-        let lowestDistance: CGFloat = testDistances.first ?? 0
-        let highestDistance: CGFloat = testDistances.last ?? 1
-        let distanceGap: CGFloat = highestDistance - lowestDistance
-        let alphaIncrementValDistance: CGFloat = 0.7/distanceGap
-        
-        // shipping can be unsorted
-        let lowestShipping: CGFloat = testShipping.min() ?? 0
-        let highestShipping: CGFloat = testShipping.max() ?? 1
-        let shippingGap: CGFloat = highestShipping - lowestShipping
-        let alphaIncrementValShipping: CGFloat = 0.7/shippingGap
-        
-        // TODO: calc distance and display
-        List(orders) { order in
-            OrderListButton(
-                orderTitleState: $orderTitleState,
-                isShowingOrder: $isShowingOrder,
-                order: order,
-                currentOrder: $currentOrder,
-                orderTitle: order.title,
-                distance: 1,
-                shippingCost: order.deliveryFee,
-                distanceAlpha: ((1 - lowestDistance) * alphaIncrementValDistance) + 0.4,
-                shippingAlpha: ((order.deliveryFee - lowestShipping) * alphaIncrementValShipping) + 0.4
-            )
-        }
+            List(orders) { order in
+                OrderListButton(
+                    orderTitleState: $orderTitleState,
+                    isShowingOrder: $isShowingOrder,
+                    order: order,
+                    currentOrder: $currentOrder,
+                    orderTitle: order.title,
+                    distance: BringerOrdersView.currentCoords.distance(from: order.location),
+                    shippingCost: order.deliveryFee,
+                    distanceAlpha: ((BringerOrdersView.currentCoords.distance(from: order.location) - BringerOrdersView.currentCoords.distance(from: BringerOrdersView.lowestDistance)) * BringerOrdersView.alphaIncrementValDistance) + 0.4,
+                    shippingAlpha: ((order.deliveryFee - BringerOrdersView.lowestShipping) * BringerOrdersView.alphaIncrementValShipping) + 0.4
+                )
+            }
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
                 .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
@@ -87,6 +71,7 @@ struct BringerOrdersView: View {
         }
         .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
         .onAppear {
+            viewModel.checkIfLocationServicesEnabled()
             getActiveOrders { (orders) in
                 self.orders = orders
             }
@@ -162,16 +147,87 @@ struct BringerOrdersView: View {
                     dateSent: activeOrderMap.dateSent,
                     dateCompleted: activeOrderMap.dateCompleted,
                     status: activeOrderMap.status,
-                    userID: activeOrderMap.userID
+                    userID: activeOrderMap.userID,
+                    location: activeOrderMap.location
                 )
                 
                 allActiveOrders.append(order)
             }
-
+            
             DispatchQueue.main.async {
+                
                 self.isProgressViewHidden = true
-                completion(allActiveOrders)
+                
+                // calc lowest/highest location
+                BringerOrdersView.lowestDistance = allActiveOrders.min(by: { a, b in BringerOrdersView.currentCoords.distance(from: a.location) < BringerOrdersView.currentCoords.distance(from: b.location) })?.location ?? CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+                let highestDistance = allActiveOrders.max(by: { a, b in BringerOrdersView.currentCoords.distance(from: a.location) < BringerOrdersView.currentCoords.distance(from: b.location) })?.location ?? CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+                // distance gap from lowest/highest
+                let distanceGap: CGFloat = BringerOrdersView.currentCoords.distance(from: highestDistance) - BringerOrdersView.currentCoords.distance(from: BringerOrdersView.lowestDistance)
+                // gets alpha
+                BringerOrdersView.alphaIncrementValDistance = 0.7/distanceGap
+                
+                // delivery calcs
+                BringerOrdersView.lowestShipping = allActiveOrders.min(by: { a, b in a.deliveryFee < b.deliveryFee })?.deliveryFee ?? 0
+                let highestShipping: CGFloat = allActiveOrders.max(by: { a, b in a.deliveryFee < b.deliveryFee })?.deliveryFee ?? 0
+                let shippingGap: CGFloat = highestShipping - BringerOrdersView.lowestShipping
+                BringerOrdersView.alphaIncrementValShipping = 0.7/shippingGap
+                
+                // sorts orders on distance
+                let sortedOrders: [OrderModel] = allActiveOrders.sorted(by: { a, b in BringerOrdersView.currentCoords.distance(from: a.location) < BringerOrdersView.currentCoords.distance(from: b.location) })
+                
+                
+                completion(sortedOrders)
             }
         })
+    }
+}
+
+final class BringerOrderLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    private var locationManager: CLLocationManager?
+    
+    @Published private(set) var orderID: String = ""
+    
+    @Published var region = MKCoordinateRegion(
+        center: MapDetails.defaultCoords,
+        span: MapDetails.defaultSpan)
+    
+    func checkIfLocationServicesEnabled() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager!.delegate = self
+            locationManager?.startUpdatingLocation()
+        }
+        else {
+            // TODO: (turn on location services) alert
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkLocationAuthorization()
+    }
+    
+    private func checkLocationAuthorization() {
+        guard let locationManager = locationManager else {
+            return
+        }
+        
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            // TODO: show alert restricted (likely parental controls)
+            print("ass res")
+        case .denied:
+            // TODO: show alert denied (go settings and change)
+            print("ass denied")
+        case .authorizedAlways, .authorizedWhenInUse:
+            guard let location = locationManager.location else {
+                break
+            }
+            BringerOrdersView.currentCoords = location.coordinate
+        @unknown default:
+            break
+        }
     }
 }

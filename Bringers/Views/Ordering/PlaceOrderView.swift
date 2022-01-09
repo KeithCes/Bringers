@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 import FirebaseAuth
+import MapKit
 
 struct PlaceOrderView: View {
     
@@ -172,7 +173,8 @@ struct PlaceOrderView: View {
                 dateSent: currentDateString,
                 dateCompleted: "",
                 status: "active",
-                userID: userID
+                userID: userID,
+                location: CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
             )
             
             isShowingConfirm.toggle()
