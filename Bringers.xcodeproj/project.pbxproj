@@ -60,6 +60,7 @@
 		53BDE54E2788045300347516 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54D2788045300347516 /* Order.swift */; };
 		53BDE5512788060B00347516 /* Mapper in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5502788060B00347516 /* Mapper */; };
 		53BDE5532789F15F00347516 /* CGFloat+Covertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5522789F15F00347516 /* CGFloat+Covertible.swift */; };
+		53BDE557278A85E000347516 /* View+isHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE556278A85E000347516 /* View+isHidden.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 		53BDE5492787A15A00347516 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		53BDE54D2788045300347516 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		53BDE5522789F15F00347516 /* CGFloat+Covertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Covertible.swift"; sourceTree = "<group>"; };
+		53BDE556278A85E000347516 /* View+isHidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+isHidden.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 				532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */,
 				532BF3EC276FAE7D00D8ADA3 /* View+Placeholder.swift */,
 				53BDE5522789F15F00347516 /* CGFloat+Covertible.swift */,
+				53BDE556278A85E000347516 /* View+isHidden.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				532BF3F827711C8F00D8ADA3 /* PlaceOrderView.swift in Sources */,
 				532BF421277954C000D8ADA3 /* CustomLabelWithTab.swift in Sources */,
 				537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */,
+				53BDE557278A85E000347516 /* View+isHidden.swift in Sources */,
 				532BF3E5276F96FB00D8ADA3 /* CustomColors.swift in Sources */,
 				537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */,
 				532BF40F27763C1000D8ADA3 /* RatingView.swift in Sources */,

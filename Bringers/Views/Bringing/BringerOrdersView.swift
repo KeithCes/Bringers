@@ -24,6 +24,7 @@ struct BringerOrdersView: View {
     @State private var orders: [OrderModel] = []
     @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "")
     
+    @State private var isProgressViewHidden: Bool = false
     
     private var rating: CGFloat = 3.8
     
@@ -45,7 +46,8 @@ struct BringerOrdersView: View {
         // for each activeOrder, calc distance from user.coords and activeOrder.coords
         // sort by lowest distance
         // display in order
-        
+        ZStack {
+    
         
         // TODO: when backend is added: sort all orders in array by distance and use the properties like activeOrder.distance/activeOrder.shipping
         
@@ -74,6 +76,14 @@ struct BringerOrdersView: View {
                 distanceAlpha: ((1 - lowestDistance) * alphaIncrementValDistance) + 0.4,
                 shippingAlpha: ((order.deliveryFee - lowestShipping) * alphaIncrementValShipping) + 0.4
             )
+        }
+            ProgressView()
+                .scaleEffect(x: 2, y: 2, anchor: .center)
+                .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
+                .background(RoundedRectangle(cornerRadius: 3)
+                                .fill(CustomColors.seafoamGreen))
+                .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
+                .isHidden(self.isProgressViewHidden)
         }
         .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
         .onAppear {
@@ -159,6 +169,7 @@ struct BringerOrdersView: View {
             }
 
             DispatchQueue.main.async {
+                self.isProgressViewHidden = true
                 completion(allActiveOrders)
             }
         })
