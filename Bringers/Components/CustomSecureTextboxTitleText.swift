@@ -45,6 +45,7 @@ struct CustomSecureTextboxTitleText: View {
             }
             .overlay(
                 Text(self.titleText)
+                    .foregroundColor(CustomColors.midGray.opacity(0.5))
                     .font(.system(size: 10, weight: .regular, design: .rounded))
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 35, trailing: 20))
             )
