@@ -13,7 +13,7 @@ import FirebaseDatabase
 
 struct OrderComingMapView: View {
     
-    @StateObject private var viewModel = OrderComingMapViewModel()
+    @StateObject private var viewModel = LocationViewModel()
     
     @Binding var isShowingOrderComing: Bool
     @Binding var isOrderCancelledMap: Bool

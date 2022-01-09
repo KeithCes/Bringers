@@ -15,7 +15,7 @@ enum MapDetails {
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
 }
 
-final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
     private var startTime: Date?
     
@@ -41,6 +41,10 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
         guard let locationManager = locationManager else {
             return
         }
+        
+        let ref = Database.database().reference()
+
+        ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
 
         switch locationManager.authorizationStatus {
         case .notDetermined:
@@ -77,7 +81,7 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
             self.startTime = time
             return
         }
-
+        
         let elapsed = time.timeIntervalSince(startTime)
 
         // update interval
@@ -85,6 +89,7 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
             
             let ref = Database.database().reference()
             
+            // TODO: change logic for waiting/order map to update different valeus from bringer map
             ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
 
             startTime = time

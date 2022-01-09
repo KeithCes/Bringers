@@ -15,6 +15,8 @@ struct WaitingForBringerView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     
+    @StateObject private var viewModel = LocationViewModel()
+    
     @Binding var isShowingWaitingForBringer: Bool
     @Binding var isOrderCancelledWaiting: Bool
     
@@ -78,6 +80,10 @@ struct WaitingForBringerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
+        .onAppear {
+            viewModel.checkIfLocationServicesEnabled()
+            viewModel.setOrderID(id: order.id)
+        }
     }
     
     func deactivateOrder() {

@@ -11,7 +11,7 @@ import MapKit
 
 struct BringerOrderMapView: View {
     
-    @StateObject var viewModel = OrderComingMapViewModel()
+    @StateObject var viewModel = LocationViewModel()
     
     @Binding var isShowingBringerMap: Bool
     

@@ -17,7 +17,7 @@
 		532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FB2771801700D8ADA3 /* CustomLabel.swift */; };
 		532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */; };
 		532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF403277562B100D8ADA3 /* OrderComingMapView.swift */; };
-		532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40727761F5B00D8ADA3 /* OrderComingMapViewModel.swift */; };
+		532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */; };
 		532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4092776359B00D8ADA3 /* ReceiptView.swift */; };
 		532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */; };
 		532BF40F27763C1000D8ADA3 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40E27763C1000D8ADA3 /* RatingView.swift */; };
@@ -91,7 +91,7 @@
 		532BF3FB2771801700D8ADA3 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxCurrency.swift; sourceTree = "<group>"; };
 		532BF403277562B100D8ADA3 /* OrderComingMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderComingMapView.swift; sourceTree = "<group>"; };
-		532BF40727761F5B00D8ADA3 /* OrderComingMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderComingMapViewModel.swift; sourceTree = "<group>"; };
+		532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		532BF4092776359B00D8ADA3 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		532BF40E27763C1000D8ADA3 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
@@ -206,7 +206,6 @@
 		532BF3F627711C7D00D8ADA3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				53BDE5482787A10300347516 /* Models */,
 				53BDE5392784FE0400347516 /* Onboarding */,
 				53BDE5362784FDA100347516 /* Ordering */,
 				53BDE5372784FDAA00347516 /* Bringing */,
@@ -219,7 +218,7 @@
 		532BF40B277635A300D8ADA3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				532BF40727761F5B00D8ADA3 /* OrderComingMapViewModel.swift */,
+				532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -266,6 +265,7 @@
 			children = (
 				532BF42B2783C99F00D8ADA3 /* Constants */,
 				532BF40B277635A300D8ADA3 /* ViewModels */,
+				53BDE5482787A10300347516 /* Models */,
 				532BF3F627711C7D00D8ADA3 /* Views */,
 				532BF3F1276FDD0200D8ADA3 /* Utils */,
 				532BF3EE276FB07400D8ADA3 /* Components */,
@@ -539,7 +539,7 @@
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
-				532BF40827761F5B00D8ADA3 /* OrderComingMapViewModel.swift in Sources */,
+				532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */,
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
