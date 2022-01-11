@@ -12,26 +12,18 @@ struct OrderListButton: View {
     
     @Binding private var isShowingOrder: Bool
     
-    // TODO: change to activeOrder as state once backend connected (pull properties out of here)
-    @Binding private var orderTitleState: String
-    
     private var order: OrderModel
     @Binding private var currentOrder: OrderModel
     
-    private var orderTitle: String
     private var distance: CGFloat
-    private var shippingCost: CGFloat
     private var distanceAlpha: CGFloat
     private var shippingAlpha: CGFloat
     
-    init(orderTitleState: Binding<String>, isShowingOrder: Binding<Bool>, order: OrderModel, currentOrder: Binding<OrderModel>, orderTitle: String, distance: CGFloat, shippingCost: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
+    init(isShowingOrder: Binding<Bool>, order: OrderModel, currentOrder: Binding<OrderModel>, distance: CGFloat, distanceAlpha: CGFloat, shippingAlpha: CGFloat) {
         self._isShowingOrder = isShowingOrder
-        self._orderTitleState = orderTitleState
         self.order = order
         self._currentOrder = currentOrder
-        self.orderTitle = orderTitle
         self.distance = distance
-        self.shippingCost = shippingCost
         self.distanceAlpha = distanceAlpha
         self.shippingAlpha = shippingAlpha
     }
@@ -41,10 +33,9 @@ struct OrderListButton: View {
             ZStack(alignment: .center) {
                 Button(action: {
                     isShowingOrder.toggle()
-                    orderTitleState = self.orderTitle
                     currentOrder = self.order
                 }) {
-                    Text(self.orderTitle)
+                    Text(self.order.title)
                         .font(.system(size: 18, weight: .regular, design: .rounded))
                         .foregroundColor(CustomColors.midGray)
                         .fixedSize(horizontal: false, vertical: true)
@@ -71,7 +62,7 @@ struct OrderListButton: View {
                     .foregroundColor(CustomColors.veryDarkGray.opacity(self.shippingAlpha))
                     .frame(width: (CustomDimensions.width - 20) * 0.199, height: 50)
                     .overlay(
-                        Text("$" + String(format:"%.0f", self.shippingCost))
+                        Text("$" + String(format:"%.0f", self.order.deliveryFee))
                             .font(.system(size: 18, weight: .regular, design: .rounded))
                             .foregroundColor(CustomColors.seafoamGreen)
                     )

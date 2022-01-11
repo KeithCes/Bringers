@@ -18,10 +18,6 @@ struct BringerOrdersView: View {
     @State private var confirmPressed: Bool = false
     @State private var isShowingBringerMap: Bool = false
     
-    @State private var orderTitleState: String = ""
-    
-    @State private var orderButtons: [OrderListButton] = []
-    
     @State private var orders: [OrderModel] = []
     @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "", location: CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015))
     
@@ -31,13 +27,9 @@ struct BringerOrdersView: View {
     
     static var currentCoords: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
     static var lowestDistance: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
-    static var alphaIncrementValDistance: CGFloat = 0.1 //= 0.7/distanceGap
+    static var alphaIncrementValDistance: CGFloat = 0.1
     static var lowestShipping: CGFloat = 0
-    static var alphaIncrementValShipping: CGFloat = 0.1 //= 0.7/shippingGap
-    
-    private var testDistances: [CGFloat] = [1.2, 2, 3.5, 7.6, 8.4, 10.6, 12, 13.2, 16, 18, 20, 22.1]
-    private var testOrderNames: [String] = ["ass", "butt", "poo", "cock", "balls", "piss", "shit", "cunt", "fuck", "ween", "dick", "puss"]
-    private var testShipping: [CGFloat] = [5, 10, 6, 14, 20, 9, 11, 14, 3, 6, 22, 1]
+    static var alphaIncrementValShipping: CGFloat = 0.1
     
     init() {
         UITableView.appearance().separatorStyle = .none
@@ -45,18 +37,14 @@ struct BringerOrdersView: View {
         UITableView.appearance().backgroundColor = .clear
     }
     
-    
     var body: some View {
         ZStack {
             List(orders) { order in
                 OrderListButton(
-                    orderTitleState: $orderTitleState,
                     isShowingOrder: $isShowingOrder,
                     order: order,
                     currentOrder: $currentOrder,
-                    orderTitle: order.title,
                     distance: BringerOrdersView.currentCoords.distance(from: order.location),
-                    shippingCost: order.deliveryFee,
                     distanceAlpha: ((BringerOrdersView.currentCoords.distance(from: order.location) - BringerOrdersView.currentCoords.distance(from: BringerOrdersView.lowestDistance)) * BringerOrdersView.alphaIncrementValDistance) + 0.4,
                     shippingAlpha: ((order.deliveryFee - BringerOrdersView.lowestShipping) * BringerOrdersView.alphaIncrementValShipping) + 0.4
                 )
@@ -89,7 +77,7 @@ struct BringerOrdersView: View {
         .ignoresSafeArea()
         
         // i have no clue why this is needed; without it the values don't update from the backend until after the first press (SEE: PrelogView)
-        .onChange(of: orderTitleState) { _ in }
+//        .onChange(of: orderTitleState) { _ in }
         
         .sheet(isPresented: $isShowingOrder, onDismiss: {
             if !isShowingOrder && confirmPressed {
