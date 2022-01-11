@@ -14,6 +14,8 @@ struct BringerOrderMapView: View {
     @StateObject var viewModel = LocationViewModel()
     
     @Binding var isShowingBringerMap: Bool
+    @Binding var currentOrder: OrderModel
+    @Binding var currentCoords: CLLocationCoordinate2D
     
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
@@ -84,12 +86,8 @@ struct BringerOrderMapView: View {
                 .sheet(isPresented: $isShowingInstructions, content: {
                     // TODO: replace dummy values
                     BringerInstructionsView(
-                        pickupBuy: "Buy",
-                        maxItemPrice: 66,
-                        orderTitle: "WOOOOOO",
-                        description: "Look here, look listen",
-                        distance: 5,
-                        yourProfit: 33
+                        currentOrder: $currentOrder,
+                        currentCoords: $currentCoords
                     )
                 })
                 .frame(width: 50, height: 50)

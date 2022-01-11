@@ -84,7 +84,6 @@ struct BringerOrdersView: View {
                 isShowingBringerConfirm.toggle()
             }
         }) {
-            // TODO: add actual distance calculation
             BringerSelectedOrderView(
                 isShowingOrder: $isShowingOrder,
                 acceptPressed: $acceptPressed,
@@ -93,13 +92,17 @@ struct BringerOrdersView: View {
             )
         }
         
+        // IN SOME ORDER:
+        // change order.status to in progress
+        // add bringer property with bringer user id to order
+        // add order id to activeBringers activeBringer under user
+        // add bringer location to order
         .sheet(isPresented: $isShowingBringerConfirm, onDismiss: {
             if !isShowingBringerConfirm && confirmPressed {
                 confirmPressed = false
                 isShowingBringerMap.toggle()
             }
         }) {
-            // TODO: replace hardcoded data with backend values from activeOrder
             BringerConfirmOrderBuyView(
                 isShowingBringerConfirm: $isShowingBringerConfirm,
                 confirmPressed: $confirmPressed,
@@ -108,7 +111,11 @@ struct BringerOrdersView: View {
         }
         
         .fullScreenCover(isPresented: $isShowingBringerMap) {
-            BringerOrderMapView(isShowingBringerMap: $isShowingBringerMap)
+            BringerOrderMapView(
+                isShowingBringerMap: $isShowingBringerMap,
+                currentOrder: $currentOrder,
+                currentCoords: self.$currentCoords
+            )
         }
     }
     
