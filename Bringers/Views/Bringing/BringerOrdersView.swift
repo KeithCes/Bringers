@@ -19,7 +19,7 @@ struct BringerOrdersView: View {
     @State private var isShowingBringerMap: Bool = false
     
     @State private var orders: [OrderModel] = []
-    @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "", location: DefaultCoords.coords)
+    @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "", location: CLLocationCoordinate2D(latitude: 0, longitude: -122.009015))
     
     @State private var isProgressViewHidden: Bool = false
     
@@ -88,7 +88,8 @@ struct BringerOrdersView: View {
                 isShowingOrder: $isShowingOrder,
                 confirmPressed: $confirmPressed,
                 order: $currentOrder,
-                distance: 1)
+                currentCoords: self.currentCoords
+            )
         }
         
         .fullScreenCover(isPresented: $isShowingBringerConfirm, onDismiss: {
@@ -169,6 +170,8 @@ struct BringerOrdersView: View {
     }
 }
 
+
+// TODO: probably should put this in its own file at some point
 final class BringerOrderLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
     

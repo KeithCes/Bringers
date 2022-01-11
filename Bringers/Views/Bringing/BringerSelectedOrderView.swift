@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import MapKit
 
 struct BringerSelectedOrderView: View {
     
@@ -16,16 +17,15 @@ struct BringerSelectedOrderView: View {
     
     @Binding var order: OrderModel
     
-    // TODO: remove distance and add to order calculation?
-    private var distance: CGFloat
+    private var currentCoords: CLLocationCoordinate2D
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>, distance: CGFloat) {
+    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>, currentCoords: CLLocationCoordinate2D) {
         self._isShowingOrder = isShowingOrder
         self._confirmPressed = confirmPressed
         self._order = order
-        self.distance = distance
+        self.currentCoords = currentCoords
     }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct BringerSelectedOrderView: View {
                                     .cornerRadius(15))
                     .multilineTextAlignment(.leading)
                 
-                CustomLabelWithTab(labelText: "Current Distance Away", tabText: String(format:"%.01f", self.distance) + "mi")
+                CustomLabelWithTab(labelText: "Current Distance Away", tabText: String(format:"%.01f", self.currentCoords.distance(from: self.order.location)) + "mi")
                 
                 if self.order.pickupBuy == "Buy" {
                     CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$" + String(format:"%.0f", self.order.maxPrice))
