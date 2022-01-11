@@ -63,6 +63,7 @@
 		53BDE557278A85E000347516 /* View+isHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE556278A85E000347516 /* View+isHidden.swift */; };
 		53BDE55B278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55A278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift */; };
 		53BDE55E278B679B00347516 /* CLLocationCoordinate2D+distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55D278B679B00347516 /* CLLocationCoordinate2D+distance.swift */; };
+		53BDE560278D0C8A00347516 /* DefaultCoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55F278D0C8A00347516 /* DefaultCoords.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		53BDE556278A85E000347516 /* View+isHidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+isHidden.swift"; sourceTree = "<group>"; };
 		53BDE55A278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Convertible.swift"; sourceTree = "<group>"; };
 		53BDE55D278B679B00347516 /* CLLocationCoordinate2D+distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+distance.swift"; sourceTree = "<group>"; };
+		53BDE55F278D0C8A00347516 /* DefaultCoords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCoords.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 			children = (
 				532BF4292783C98600D8ADA3 /* CustomDimensions.swift */,
 				532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */,
+				53BDE55F278D0C8A00347516 /* DefaultCoords.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */,
 				53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */,
 				532BF3F3276FDD1300D8ADA3 /* KeyboardObserver.swift in Sources */,
+				53BDE560278D0C8A00347516 /* DefaultCoords.swift in Sources */,
 				532BF3F827711C8F00D8ADA3 /* PlaceOrderView.swift in Sources */,
 				532BF421277954C000D8ADA3 /* CustomLabelWithTab.swift in Sources */,
 				537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */,

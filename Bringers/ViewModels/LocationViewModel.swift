@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 
 enum MapDetails {
-    static let defaultCoords = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+    static let defaultCoords = DefaultCoords.coords
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
 }
 

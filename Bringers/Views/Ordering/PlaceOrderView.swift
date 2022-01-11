@@ -174,7 +174,7 @@ struct PlaceOrderView: View {
                 dateCompleted: "",
                 status: "active",
                 userID: userID,
-                location: CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+                location: DefaultCoords.coords
             )
             
             isShowingConfirm.toggle()

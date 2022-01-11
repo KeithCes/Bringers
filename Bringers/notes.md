@@ -6,7 +6,6 @@
 
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
-- make constant for default coords
 
 
 # stuff to add later

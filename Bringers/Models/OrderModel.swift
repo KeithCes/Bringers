@@ -21,7 +21,7 @@ struct OrderModel: Identifiable {
     var deliveryFee: CGFloat = 0
     var status: String = ""
     var userID: String = ""
-    var location: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334388, longitude: -122.009015)
+    var location: CLLocationCoordinate2D = DefaultCoords.coords
     
     init(){}
     
