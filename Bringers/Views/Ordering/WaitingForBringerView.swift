@@ -81,6 +81,7 @@ struct WaitingForBringerView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .onAppear {
+            viewModel.setViewParentType(type: MapViewParent.order)
             viewModel.checkIfLocationServicesEnabled()
             viewModel.setOrderID(id: order.id)
         }

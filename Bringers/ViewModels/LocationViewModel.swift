@@ -15,9 +15,16 @@ enum MapDetails {
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
 }
 
+enum MapViewParent {
+    case order
+    case bringer
+    case none
+}
+
 final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
     private var startTime: Date?
+    private var viewParent: MapViewParent = .none
     
     @Published private(set) var orderID: String = ""
     
@@ -42,9 +49,12 @@ final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDele
             return
         }
         
-        let ref = Database.database().reference()
+        if viewParent == .order {
+            let ref = Database.database().reference()
 
-        ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
+            ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
+        }
+
 
         switch locationManager.authorizationStatus {
         case .notDetermined:
@@ -87,14 +97,19 @@ final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDele
         // update interval
         if elapsed > 5 {
             
-            let ref = Database.database().reference()
-            
-            // TODO: change logic for waiting/order map to update different valeus from bringer map
-            ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
+            if viewParent == .order {
+                let ref = Database.database().reference()
+                
+                ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
+            }
 
             startTime = time
 
         }
+    }
+    
+    func setViewParentType(type: MapViewParent) {
+        viewParent = type
     }
     
     func setOrderID(id: String) {

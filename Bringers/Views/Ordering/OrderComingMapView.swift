@@ -123,6 +123,7 @@ struct OrderComingMapView: View {
         .ignoresSafeArea()
         .onAppear() {
             viewModel.setOrderID(id: $order.wrappedValue.id)
+            viewModel.setViewParentType(type: MapViewParent.order)
         }
     }
     
