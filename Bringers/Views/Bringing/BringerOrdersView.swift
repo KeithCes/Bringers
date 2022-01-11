@@ -163,8 +163,11 @@ struct BringerOrdersView: View {
                 let shippingGap: CGFloat = highestShipping - self.lowestShipping
                 self.alphaIncrementValShipping = 0.7/shippingGap
                 
+                // filters only active orders (not in progress)
+                let filteredActiveOrders: [OrderModel] = allActiveOrders.filter({ a in a.status == "active" })
+                
                 // sorts orders on distance
-                let sortedOrders: [OrderModel] = allActiveOrders.sorted(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })
+                let sortedOrders: [OrderModel] = filteredActiveOrders.sorted(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })
                 
                 completion(sortedOrders)
             }
