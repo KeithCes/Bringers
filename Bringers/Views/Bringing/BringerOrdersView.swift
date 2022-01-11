@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 import FirebaseDatabase
+import FirebaseAuth
 import Mapper
 
 struct BringerOrdersView: View {
@@ -92,13 +93,9 @@ struct BringerOrdersView: View {
             )
         }
         
-        // IN SOME ORDER:
-        // change order.status to in progress
-        // add bringer property with bringer user id to order
-        // add order id to activeBringers activeBringer under user
-        // add bringer location to order
         .sheet(isPresented: $isShowingBringerConfirm, onDismiss: {
             if !isShowingBringerConfirm && confirmPressed {
+                self.setOrderInProgress()
                 confirmPressed = false
                 isShowingBringerMap.toggle()
             }
@@ -179,6 +176,17 @@ struct BringerOrdersView: View {
                 completion(sortedOrders)
             }
         })
+    }
+    
+    func setOrderInProgress() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["status" : "inprogress"])
+        ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["bringerID" : userID])
+        ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["bringerLocation" : [self.currentCoords.latitude, self.currentCoords.longitude]])
+        
+        ref.child("users").child(userID).child("activeBringers").updateChildValues(["activeBringer" : self.currentOrder.id])
     }
 }
 
