@@ -14,6 +14,7 @@ import Mapper
 struct BringerOrdersView: View {
     
     @State private var isShowingOrder: Bool = false
+    @State private var acceptPressed: Bool = false
     @State private var isShowingBringerConfirm: Bool = false
     @State private var confirmPressed: Bool = false
     @State private var isShowingBringerMap: Bool = false
@@ -78,30 +79,31 @@ struct BringerOrdersView: View {
         .ignoresSafeArea()
         
         .sheet(isPresented: $isShowingOrder, onDismiss: {
-            if !isShowingOrder && confirmPressed {
-                confirmPressed = false
+            if !isShowingOrder && acceptPressed {
+                acceptPressed = false
                 isShowingBringerConfirm.toggle()
             }
         }) {
             // TODO: add actual distance calculation
             BringerSelectedOrderView(
                 isShowingOrder: $isShowingOrder,
-                confirmPressed: $confirmPressed,
+                acceptPressed: $acceptPressed,
                 order: $currentOrder,
                 currentCoords: self.currentCoords
             )
         }
         
-        .fullScreenCover(isPresented: $isShowingBringerConfirm, onDismiss: {
-            if !isShowingBringerConfirm {
+        .sheet(isPresented: $isShowingBringerConfirm, onDismiss: {
+            if !isShowingBringerConfirm && confirmPressed {
+                confirmPressed = false
                 isShowingBringerMap.toggle()
             }
         }) {
             // TODO: replace hardcoded data with backend values from activeOrder
             BringerConfirmOrderBuyView(
                 isShowingBringerConfirm: $isShowingBringerConfirm,
-                maxItemPrice: 68,
-                yourProfit: 2
+                confirmPressed: $confirmPressed,
+                currentOrder: $currentOrder
             )
         }
         

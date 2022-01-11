@@ -13,7 +13,7 @@ import MapKit
 struct BringerSelectedOrderView: View {
     
     @Binding var isShowingOrder: Bool
-    @Binding var confirmPressed: Bool
+    @Binding var acceptPressed: Bool
     
     @Binding var order: OrderModel
     
@@ -21,9 +21,9 @@ struct BringerSelectedOrderView: View {
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>, currentCoords: CLLocationCoordinate2D) {
+    init(isShowingOrder: Binding<Bool>, acceptPressed: Binding<Bool>, order: Binding<OrderModel>, currentCoords: CLLocationCoordinate2D) {
         self._isShowingOrder = isShowingOrder
-        self._confirmPressed = confirmPressed
+        self._acceptPressed = acceptPressed
         self._order = order
         self.currentCoords = currentCoords
     }
@@ -71,7 +71,7 @@ struct BringerSelectedOrderView: View {
             
             Button("ACCEPT ORDER") {
                 isShowingOrder = false
-                confirmPressed = true
+                acceptPressed = true
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
