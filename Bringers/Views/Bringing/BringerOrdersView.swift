@@ -25,7 +25,7 @@ struct BringerOrdersView: View {
     
     @StateObject private var viewModel = BringerOrderLocationViewModel()
     
-    static var currentCoords: CLLocationCoordinate2D = DefaultCoords.coords
+    @State private var currentCoords: CLLocationCoordinate2D = DefaultCoords.coords
     @State private var lowestDistance: CLLocationCoordinate2D = DefaultCoords.coords
     @State private var alphaIncrementValDistance: CGFloat = 0.1
     @State private var lowestShipping: CGFloat = 0
@@ -44,11 +44,12 @@ struct BringerOrdersView: View {
                     isShowingOrder: $isShowingOrder,
                     order: order,
                     currentOrder: $currentOrder,
-                    distance: BringerOrdersView.currentCoords.distance(from: order.location),
-                    distanceAlpha: ((BringerOrdersView.currentCoords.distance(from: order.location) - BringerOrdersView.currentCoords.distance(from: self.lowestDistance)) * self.alphaIncrementValDistance) + 0.4,
+                    distance: self.currentCoords.distance(from: order.location),
+                    distanceAlpha: ((self.currentCoords.distance(from: order.location) - self.currentCoords.distance(from: self.lowestDistance)) * self.alphaIncrementValDistance) + 0.4,
                     shippingAlpha: ((order.deliveryFee - self.lowestShipping) * self.alphaIncrementValShipping) + 0.4
                 )
             }
+            .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
                 .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
@@ -75,9 +76,6 @@ struct BringerOrdersView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
-        
-        // i have no clue why this is needed; without it the values don't update from the backend until after the first press (SEE: PrelogView)
-//        .onChange(of: orderTitleState) { _ in }
         
         .sheet(isPresented: $isShowingOrder, onDismiss: {
             if !isShowingOrder && confirmPressed {
@@ -146,13 +144,13 @@ struct BringerOrdersView: View {
                 
                 self.isProgressViewHidden = true
                 
-                let currentCoords = BringerOrdersView.currentCoords
+                self.currentCoords = viewModel.getCurrentCoords()
                 
                 // calc lowest/highest location
-                self.lowestDistance = allActiveOrders.min(by: { a, b in currentCoords.distance(from: a.location) < currentCoords.distance(from: b.location) })?.location ?? DefaultCoords.coords
-                let highestDistance = allActiveOrders.max(by: { a, b in currentCoords.distance(from: a.location) < currentCoords.distance(from: b.location) })?.location ?? DefaultCoords.coords
+                self.lowestDistance = allActiveOrders.min(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })?.location ?? DefaultCoords.coords
+                let highestDistance = allActiveOrders.max(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })?.location ?? DefaultCoords.coords
                 // distance gap from lowest/highest
-                let distanceGap: CGFloat = currentCoords.distance(from: highestDistance) - currentCoords.distance(from: self.lowestDistance)
+                let distanceGap: CGFloat = self.currentCoords.distance(from: highestDistance) - self.currentCoords.distance(from: self.lowestDistance)
                 // gets alpha
                 self.alphaIncrementValDistance = 0.7/distanceGap
                 
@@ -163,8 +161,7 @@ struct BringerOrdersView: View {
                 self.alphaIncrementValShipping = 0.7/shippingGap
                 
                 // sorts orders on distance
-                let sortedOrders: [OrderModel] = allActiveOrders.sorted(by: { a, b in currentCoords.distance(from: a.location) < currentCoords.distance(from: b.location) })
-                
+                let sortedOrders: [OrderModel] = allActiveOrders.sorted(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })
                 
                 completion(sortedOrders)
             }
@@ -174,6 +171,8 @@ struct BringerOrdersView: View {
 
 final class BringerOrderLocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager?
+    
+    private var currentCoords: CLLocationCoordinate2D = DefaultCoords.coords
     
     @Published private(set) var orderID: String = ""
     
@@ -215,9 +214,13 @@ final class BringerOrderLocationViewModel: NSObject, ObservableObject, CLLocatio
             guard let location = locationManager.location else {
                 break
             }
-            BringerOrdersView.currentCoords = location.coordinate
+            self.currentCoords = location.coordinate
         @unknown default:
             break
         }
+    }
+    
+    func getCurrentCoords() -> CLLocationCoordinate2D {
+        return self.currentCoords
     }
 }
