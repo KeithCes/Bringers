@@ -24,6 +24,8 @@ struct WaitingForBringerView: View {
     
     @State private var animationAmount: CGFloat = 1
     
+    @State private var timer: Timer?
+    
     var body: some View {
         VStack {
             CustomTitleText(labelText: "WAITING FOR A BRINGER TO ACCEPT YOUR ORDER...")
@@ -73,10 +75,6 @@ struct WaitingForBringerView: View {
             .background(CustomColors.lightRed)
             .cornerRadius(15)
         }
-        // TODO: remove later, replace with logic for bringer picking up order (backend)
-        .onTapGesture {
-            isShowingWaitingForBringer = false
-        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
@@ -84,13 +82,17 @@ struct WaitingForBringerView: View {
             viewModel.setViewParentType(type: MapViewParent.order)
             viewModel.checkIfLocationServicesEnabled()
             viewModel.setOrderID(id: order.id)
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                sendUserLocation()
+                checkIfOrderInProgress()
+            }
         }
     }
     
     func deactivateOrder() {
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
-        
         
         // moves order from active to past, closes view
         ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -114,7 +116,26 @@ struct WaitingForBringerView: View {
             ref.child("users").child(userID).child("activeOrders").removeValue()
         })
         
+        self.timer?.invalidate()
         isShowingWaitingForBringer = false
         isOrderCancelledWaiting = true
+    }
+    
+    func sendUserLocation() {
+        let ref = Database.database().reference()
+        guard let locationManager = viewModel.getLocation() else {
+            return
+        }
+        ref.child("activeOrders").child(self.order.id).updateChildValues(["location":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
+    }
+    
+    func checkIfOrderInProgress() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            let currentStatus = (snapshot.value as! NSDictionary)["status"]
+            if currentStatus as! String == "inprogress" {
+                isShowingWaitingForBringer = false
+            }
+        })
     }
 }

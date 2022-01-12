@@ -118,6 +118,7 @@ struct BringerOrdersView: View {
     
     func getActiveOrders(completion: @escaping ([OrderModel]) -> ()) {
         let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
         
         var allActiveOrders: [OrderModel] = []
         
@@ -167,8 +168,8 @@ struct BringerOrdersView: View {
                 let shippingGap: CGFloat = highestShipping - self.lowestShipping
                 self.alphaIncrementValShipping = 0.7/shippingGap
                 
-                // filters only active orders (not in progress)
-                let filteredActiveOrders: [OrderModel] = allActiveOrders.filter({ a in a.status == "active" })
+                // filters only active orders (not in progress) and not your own
+                let filteredActiveOrders: [OrderModel] = allActiveOrders.filter({ a in a.status == "active" && a.userID != userID })
                 
                 // sorts orders on distance
                 let sortedOrders: [OrderModel] = filteredActiveOrders.sorted(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })

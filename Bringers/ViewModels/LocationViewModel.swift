@@ -80,40 +80,16 @@ final class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDele
         checkLocationAuthorization()
     }
     
-    // sends updated user location coords to database
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        guard let loc = locations.last else { return }
-
-        let time = loc.timestamp
-
-        guard var startTime = startTime else {
-            self.startTime = time
-            return
-        }
-        
-        let elapsed = time.timeIntervalSince(startTime)
-
-        // update interval
-        if elapsed > 5 {
-            
-            if viewParent == .order {
-                let ref = Database.database().reference()
-                
-                ref.child("activeOrders").child(orderID).updateChildValues(["location":[locationManager?.location?.coordinate.latitude, locationManager?.location?.coordinate.longitude]])
-            }
-
-            startTime = time
-
-        }
-    }
-    
     func setViewParentType(type: MapViewParent) {
         viewParent = type
     }
     
     func setOrderID(id: String) {
         orderID = id
+    }
+    
+    func getLocation() -> CLLocationManager? {
+        return self.locationManager
     }
 
 }
