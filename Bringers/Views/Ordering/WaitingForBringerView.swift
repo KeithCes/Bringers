@@ -114,11 +114,11 @@ struct WaitingForBringerView: View {
             // removes from active
             ref.child("activeOrders").child($order.wrappedValue.id).removeValue()
             ref.child("users").child(userID).child("activeOrders").removeValue()
+            
+            self.timer?.invalidate()
+            isShowingWaitingForBringer = false
+            isOrderCancelledWaiting = true
         })
-        
-        self.timer?.invalidate()
-        isShowingWaitingForBringer = false
-        isOrderCancelledWaiting = true
     }
     
     func sendUserLocation() {
@@ -133,7 +133,15 @@ struct WaitingForBringerView: View {
         let ref = Database.database().reference()
         ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
             let currentStatus = (snapshot.value as! NSDictionary)["status"]
+            
+            guard let currentStatus = currentStatus else {
+                self.timer?.invalidate()
+                isShowingWaitingForBringer = false
+                return
+            }
+            
             if currentStatus as! String == "inprogress" {
+                self.timer?.invalidate()
                 isShowingWaitingForBringer = false
             }
         })

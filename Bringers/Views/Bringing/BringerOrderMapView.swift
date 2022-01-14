@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import MapKit
 import FirebaseDatabase
+import FirebaseAuth
 
 struct BringerOrderMapView: View {
     
@@ -98,7 +99,6 @@ struct BringerOrderMapView: View {
                         .foregroundColor(CustomColors.darkGray)
                 }
                 .sheet(isPresented: $isShowingInstructions, content: {
-                    // TODO: replace dummy values
                     BringerInstructionsView(
                         currentOrder: $currentOrder,
                         currentCoords: $currentCoords
@@ -151,10 +151,45 @@ struct BringerOrderMapView: View {
             viewModel.checkIfLocationServicesEnabled()
             
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                checkOrderCancelled()
                 sendBringerLocation()
                 getOrderLocation()
             }
         }
+    }
+    
+    func checkOrderCancelled() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let snapshotDict = (snapshot.value as? NSDictionary) else {
+                deactivateOrder()
+                return
+            }
+            
+            guard let _ = snapshotDict["id"] else {
+                deactivateOrder()
+                return
+            }
+            
+            if snapshot.value == nil {
+                deactivateOrder()
+            }
+        })
+    }
+    
+    func deactivateOrder() {
+        let userID = Auth.auth().currentUser!.uid
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            // removes from active
+            ref.child("activeOrders").child(currentOrder.id).removeValue()
+            
+            
+            self.timer?.invalidate()
+            isShowingBringerMap = false
+        })
     }
     
     func sendBringerLocation() {
@@ -168,7 +203,10 @@ struct BringerOrderMapView: View {
     func getOrderLocation() {
         let ref = Database.database().reference()
         ref.child("activeOrders").child(self.currentOrder.id).child("location").observeSingleEvent(of: .value, with: { (snapshot) in
-            let snapshotCoords = snapshot.value as! NSArray
+            guard let snapshotCoords = snapshot.value as? NSArray else {
+                deactivateOrder()
+                return
+            }
             let bringerLat = snapshotCoords[0] as! CGFloat
             let bringerLong = snapshotCoords[1] as! CGFloat
             

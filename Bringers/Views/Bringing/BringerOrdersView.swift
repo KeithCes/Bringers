@@ -127,8 +127,9 @@ struct BringerOrdersView: View {
             for activeOrder in activeOrders {
                 let activeOrderMap = Order.from(activeOrder as! NSDictionary)
                 
+                // TODO: were not getting all orders, perhaps due to bringerlocation not parsing?
                 guard let activeOrderMap = activeOrderMap else {
-                    return
+                    continue
                 }
                 
                 let order = OrderModel(
