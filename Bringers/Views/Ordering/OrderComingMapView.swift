@@ -141,10 +141,43 @@ struct OrderComingMapView: View {
             viewModel.setViewParentType(type: MapViewParent.order)
             
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                checkOrderCancelled()
                 sendUserLocation()
                 getBringerLocation()
             }
         }
+    }
+    
+    func checkOrderCancelled() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let snapshotDict = (snapshot.value as? NSDictionary) else {
+                orderCancelled()
+                return
+            }
+            
+            guard let _ = snapshotDict["id"] else {
+                orderCancelled()
+                return
+            }
+            
+            if snapshot.value == nil {
+                orderCancelled()
+            }
+        })
+    }
+    
+    func orderCancelled() {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            // removes from active
+            ref.child("activeOrders").child(order.id).removeValue()
+            
+            self.timer?.invalidate()
+            isShowingOrderComing = false
+        })
     }
     
     func deactivateOrder() {
@@ -197,7 +230,10 @@ struct OrderComingMapView: View {
     func getBringerLocation() {
         let ref = Database.database().reference()
         ref.child("activeOrders").child(self.order.id).child("bringerLocation").observeSingleEvent(of: .value, with: { (snapshot) in
-            let snapshotCoords = snapshot.value as! NSArray
+            guard let snapshotCoords = snapshot.value as? NSArray else {
+                orderCancelled()
+                return
+            }
             let bringerLat = snapshotCoords[0] as! CGFloat
             let bringerLong = snapshotCoords[1] as! CGFloat
             

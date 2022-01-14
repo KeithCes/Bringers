@@ -127,8 +127,8 @@ struct BringerOrderMapView: View {
             .frame(width: CustomDimensions.width, height: 108, alignment: .center)
             
             Button {
-                // TODO: confirmation screen/backend call to cancel order
-                isShowingBringerMap = false
+                // TODO: confirmation screen
+                deactivateOrder()
             } label: {
                 Image(systemName: "x.circle")
                     .resizable()
@@ -162,23 +162,22 @@ struct BringerOrderMapView: View {
         let ref = Database.database().reference()
         ref.child("activeOrders").child(self.currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotDict = (snapshot.value as? NSDictionary) else {
-                deactivateOrder()
+                orderCancelled()
                 return
             }
             
             guard let _ = snapshotDict["id"] else {
-                deactivateOrder()
+                orderCancelled()
                 return
             }
             
             if snapshot.value == nil {
-                deactivateOrder()
+                orderCancelled()
             }
         })
     }
     
-    func deactivateOrder() {
-        let userID = Auth.auth().currentUser!.uid
+    func orderCancelled() {
         let ref = Database.database().reference()
         
         ref.child("activeOrders").child(currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -186,6 +185,44 @@ struct BringerOrderMapView: View {
             // removes from active
             ref.child("activeOrders").child(currentOrder.id).removeValue()
             
+            
+            self.timer?.invalidate()
+            isShowingBringerMap = false
+        })
+    }
+    
+    func deactivateOrder() {
+        let userID = Auth.auth().currentUser!.uid
+        let ref = Database.database().reference()
+        
+        
+        // moves order from active to past, closes view
+        ref.child("activeOrders").child(currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            // adds to past FOR ORDER
+            let orderID = (snapshot.value as! [AnyHashable : Any])["userID"] as! String
+            ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            
+            // adds to past
+            ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            
+            // sets date completed
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/YYYY"
+            let currentDateString = dateFormatter.string(from: Date())
+            
+            ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(["dateCompleted" : currentDateString])
+            ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(["dateCompleted" : currentDateString])
+            
+            // sets order cancelled
+            ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(["status" : "cancelled"])
+            ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(["status" : "cancelled"])
+            
+            
+            // removes from active
+            ref.child("activeOrders").child(currentOrder.id).removeValue()
+            ref.child("users").child(userID).child("activeBringers").removeValue()
+            ref.child("users").child(orderID).child("activeOrders").removeValue()
             
             self.timer?.invalidate()
             isShowingBringerMap = false
@@ -204,7 +241,7 @@ struct BringerOrderMapView: View {
         let ref = Database.database().reference()
         ref.child("activeOrders").child(self.currentOrder.id).child("location").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotCoords = snapshot.value as? NSArray else {
-                deactivateOrder()
+                orderCancelled()
                 return
             }
             let bringerLat = snapshotCoords[0] as! CGFloat
