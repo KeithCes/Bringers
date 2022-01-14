@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import FirebaseDatabase
 
 struct BringerOrderMapView: View {
     
@@ -21,18 +22,31 @@ struct BringerOrderMapView: View {
     @State private var isShowingUserProfile = false
     @State private var isShowingInstructions = false
     
+    @State private var timer: Timer?
+    
+    @State private var orderLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
+    @State private var orderAnotations: [AnnotatedItem] = [AnnotatedItem(name: "orderLocation", coordinate: MapDetails.defaultCoords)]
+    
     var receiptImageName = "receipt"
     
     var body: some View {
         VStack {
             CustomTitleText(labelText: "DELIVER ITEM!")
             
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                .frame(width: 400, height: 300)
-                .accentColor(CustomColors.seafoamGreen)
-                .onAppear {
-                    viewModel.checkIfLocationServicesEnabled()
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: orderAnotations) { item in
+                MapAnnotation(coordinate: item.coordinate) {
+                    Rectangle()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(CustomColors.lightRed.opacity(1))
+                        .clipShape(Circle())
                 }
+            }
+            .frame(width: 400, height: 300)
+            .accentColor(CustomColors.seafoamGreen)
+            .allowsHitTesting(false)
+            .onAppear {
+                viewModel.checkIfLocationServicesEnabled()
+            }
             HStack {
                 
                 Button(action: {
@@ -133,5 +147,57 @@ struct BringerOrderMapView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
+        .onAppear {
+            viewModel.checkIfLocationServicesEnabled()
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                sendBringerLocation()
+                getOrderLocation()
+            }
+        }
+    }
+    
+    func sendBringerLocation() {
+        let ref = Database.database().reference()
+        guard let locationManager = viewModel.getLocation() else {
+            return
+        }
+        ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["bringerLocation":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
+    }
+    
+    func getOrderLocation() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.currentOrder.id).child("location").observeSingleEvent(of: .value, with: { (snapshot) in
+            let snapshotCoords = snapshot.value as! NSArray
+            let bringerLat = snapshotCoords[0] as! CGFloat
+            let bringerLong = snapshotCoords[1] as! CGFloat
+            
+            self.orderLocation = CLLocationCoordinate2D(latitude: bringerLat, longitude: bringerLong)
+            let newAnnotation = AnnotatedItem(name: "orderLocation", coordinate: self.orderLocation)
+            self.orderAnotations = [newAnnotation]
+            
+            let positions = [self.orderLocation, self.viewModel.getLocation()?.location?.coordinate ?? MapDetails.defaultCoords]
+            
+            var minLat = 91.0
+            var maxLat = -91.0
+            var minLon = 181.0
+            var maxLon = -181.0
+            
+            for i in positions {
+                maxLat = max(maxLat, i.latitude)
+                minLat = min(minLat, i.latitude)
+                maxLon = max(maxLon, i.longitude)
+                minLon = min(minLon, i.longitude)
+            }
+            
+            let center = CLLocationCoordinate2D(latitude: (maxLat + minLat) / 2,
+                                                longitude: (maxLon + minLon) / 2)
+            
+            let span = MKCoordinateSpan(latitudeDelta: abs(maxLat - minLat) * 1.3,
+                                        longitudeDelta: abs(maxLon - minLon) * 1.3)
+            
+            self.viewModel.region.span = span
+            self.viewModel.region.center = center
+        })
     }
 }

@@ -23,6 +23,11 @@ struct OrderComingMapView: View {
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
+    @State private var timer: Timer?
+    
+    @State private var bringerLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
+    @State private var bringerAnotations: [AnnotatedItem] = [AnnotatedItem(name: "bringerLocation", coordinate: MapDetails.defaultCoords)]
+    
     var receiptImageName = "receipt"
     
     init(isShowingOrderComing: Binding<Bool>, isOrderCancelledMap: Binding<Bool>, order: Binding<OrderModel>) {
@@ -35,13 +40,21 @@ struct OrderComingMapView: View {
     var body: some View {
         VStack {
             CustomTitleText(labelText: "[SCARRA] IS COMING WITH YOUR ORDER!")
-
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                .frame(width: 400, height: 300)
-                .accentColor(CustomColors.seafoamGreen)
-                .onAppear {
-                    viewModel.checkIfLocationServicesEnabled()
+            
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: bringerAnotations) { item in
+                MapAnnotation(coordinate: item.coordinate) {
+                    Rectangle()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(CustomColors.lightRed.opacity(1))
+                        .clipShape(Circle())
                 }
+            }
+            .allowsHitTesting(false)
+            .frame(width: 400, height: 300)
+            .accentColor(CustomColors.seafoamGreen)
+            .onAppear {
+                viewModel.checkIfLocationServicesEnabled()
+            }
             HStack {
                 
                 Button(action: {
@@ -122,8 +135,14 @@ struct OrderComingMapView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .onAppear() {
-            viewModel.setOrderID(id: $order.wrappedValue.id)
+            viewModel.setOrderID(id: order.id)
+            viewModel.checkIfLocationServicesEnabled()
             viewModel.setViewParentType(type: MapViewParent.order)
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                sendUserLocation()
+                getBringerLocation()
+            }
         }
     }
     
@@ -157,4 +176,56 @@ struct OrderComingMapView: View {
         isShowingOrderComing = false
         isOrderCancelledMap = true
     }
+    
+    func sendUserLocation() {
+        let ref = Database.database().reference()
+        guard let locationManager = viewModel.getLocation() else {
+            return
+        }
+        ref.child("activeOrders").child(self.order.id).updateChildValues(["location":[locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude]])
+    }
+    
+    func getBringerLocation() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.order.id).child("bringerLocation").observeSingleEvent(of: .value, with: { (snapshot) in
+            let snapshotCoords = snapshot.value as! NSArray
+            let bringerLat = snapshotCoords[0] as! CGFloat
+            let bringerLong = snapshotCoords[1] as! CGFloat
+            
+            self.bringerLocation = CLLocationCoordinate2D(latitude: bringerLat, longitude: bringerLong)
+            let newAnnotation = AnnotatedItem(name: "bringerLocation", coordinate: self.bringerLocation)
+            self.bringerAnotations = [newAnnotation]
+            
+            let positions = [self.bringerLocation, self.viewModel.getLocation()?.location?.coordinate ?? MapDetails.defaultCoords]
+            
+            var minLat = 91.0
+            var maxLat = -91.0
+            var minLon = 181.0
+            var maxLon = -181.0
+            
+            for i in positions {
+                maxLat = max(maxLat, i.latitude)
+                minLat = min(minLat, i.latitude)
+                maxLon = max(maxLon, i.longitude)
+                minLon = min(minLon, i.longitude)
+            }
+            
+            let center = CLLocationCoordinate2D(latitude: (maxLat + minLat) / 2,
+                                                longitude: (maxLon + minLon) / 2)
+            
+            let span = MKCoordinateSpan(latitudeDelta: abs(maxLat - minLat) * 1.3,
+                                        longitudeDelta: abs(maxLon - minLon) * 1.3)
+            
+            self.viewModel.region.span = span
+            self.viewModel.region.center = center
+        })
+    }
+}
+
+
+// TODO: probably should move to own class or at least more relevant class
+struct AnnotatedItem: Identifiable {
+    let id = UUID()
+    var name: String
+    var coordinate: CLLocationCoordinate2D
 }
