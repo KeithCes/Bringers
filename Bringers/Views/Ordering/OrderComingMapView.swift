@@ -27,6 +27,8 @@ struct OrderComingMapView: View {
     @State private var receiptInputImage: UIImage?
     @State private var receiptImage: Image = Image("placeholderReceipt")
     
+    @State private var bringerFirstname: String = "A Bringer"
+    
     @State private var timer: Timer?
     
     @State private var bringerLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
@@ -41,7 +43,8 @@ struct OrderComingMapView: View {
     
     var body: some View {
         VStack {
-            CustomTitleText(labelText: "[SCARRA] IS COMING WITH YOUR ORDER!")
+            CustomTitleText(labelText: bringerFirstname.uppercased() + " IS COMING WITH YOUR ORDER!")
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: bringerAnotations) { item in
                 MapAnnotation(coordinate: item.coordinate) {
@@ -141,6 +144,8 @@ struct OrderComingMapView: View {
             viewModel.setOrderID(id: order.id)
             viewModel.checkIfLocationServicesEnabled()
             viewModel.setViewParentType(type: MapViewParent.order)
+            
+            getBringerUsername()
             
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
                 checkOrderCancelled()
@@ -285,6 +290,23 @@ struct OrderComingMapView: View {
                 self.receiptImage = Image(uiImage: inputImage)
             }
         }
+    }
+    
+    func getBringerUsername() {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let snapshotDict = (snapshot.value as? NSDictionary),
+                  let bringerID = snapshotDict["bringerID"] as? String else {
+                      return
+                  }
+            ref.child("users").child(bringerID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshotUserDetails) in
+                guard let snapshotUserDetailsDict = (snapshotUserDetails.value as? NSDictionary),
+                      let bringerFirstname = snapshotUserDetailsDict["firstName"] as? String else {
+                          return
+                      }
+                self.bringerFirstname = bringerFirstname
+            })
+        })
     }
 }
 

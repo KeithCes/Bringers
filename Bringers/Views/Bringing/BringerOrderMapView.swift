@@ -20,7 +20,6 @@ struct BringerOrderMapView: View {
     @Binding var currentOrder: OrderModel
     @Binding var currentCoords: CLLocationCoordinate2D
     
-    @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     @State private var isShowingInstructions = false
     @State private var isShowingImagePicker = false
