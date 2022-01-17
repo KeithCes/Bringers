@@ -12,9 +12,11 @@ struct ReceiptView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     
+    @Binding var receiptImage: Image
+    
     var body: some View {
         VStack {
-            Image("receipt")
+            self.receiptImage
                 .resizable()
                 .frame(width: 375, height: 812)
                 .onTapGesture {

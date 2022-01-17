@@ -10,6 +10,7 @@ import SwiftUI
 import MapKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 struct OrderComingMapView: View {
     
@@ -23,12 +24,13 @@ struct OrderComingMapView: View {
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
+    @State private var receiptInputImage: UIImage?
+    @State private var receiptImage: Image = Image("placeholderReceipt")
+    
     @State private var timer: Timer?
     
     @State private var bringerLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
     @State private var bringerAnotations: [AnnotatedItem] = [AnnotatedItem(name: "bringerLocation", coordinate: MapDetails.defaultCoords)]
-    
-    var receiptImageName = "receipt"
     
     init(isShowingOrderComing: Binding<Bool>, isOrderCancelledMap: Binding<Bool>, order: Binding<OrderModel>) {
         
@@ -97,16 +99,16 @@ struct OrderComingMapView: View {
                     .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
                 }
                 
-                if receiptImageName != "" {
+                if self.order.pickupBuy == "Buy" {
                     Button(action: {
                         isShowingReceipt.toggle()
                     }) {
-                        Image(receiptImageName)
+                        self.receiptImage
                             .resizable()
                             .frame(width: 74, height: 74)
                     }
                     .sheet(isPresented: $isShowingReceipt, content: {
-                        ReceiptView()
+                        ReceiptView(receiptImage: $receiptImage)
                     })
                 }
             }
@@ -144,6 +146,7 @@ struct OrderComingMapView: View {
                 checkOrderCancelled()
                 sendUserLocation()
                 getBringerLocation()
+                getReceipt()
             }
         }
     }
@@ -264,6 +267,24 @@ struct OrderComingMapView: View {
             self.viewModel.region.span = span
             self.viewModel.region.center = center
         })
+    }
+    
+    func getReceipt() {
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let receiptRef = storageRef.child(order.id + "/" + "receipt.png")
+        
+        receiptRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let _ = error {
+                // error occurred
+            } else {
+                self.receiptInputImage = UIImage(data: data!)
+                
+                guard let inputImage = receiptInputImage else { return }
+                self.receiptImage = Image(uiImage: inputImage)
+            }
+        }
     }
 }
 

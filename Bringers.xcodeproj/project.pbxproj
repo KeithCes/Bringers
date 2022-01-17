@@ -43,6 +43,7 @@
 		537718E8276EDB6100F541B5 /* BringersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718E7276EDB6100F541B5 /* BringersTests.swift */; };
 		537718F2276EDB6100F541B5 /* BringersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F1276EDB6100F541B5 /* BringersUITests.swift */; };
 		537718F4276EDB6100F541B5 /* BringersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */; };
+		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
 		53BDE52D2784F1CD00347516 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52C2784F1CD00347516 /* FirebaseCrashlytics */; };
@@ -124,6 +125,7 @@
 		537718ED276EDB6100F541B5 /* BringersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BringersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		537718F1276EDB6100F541B5 /* BringersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersUITests.swift; sourceTree = "<group>"; };
 		537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
 		53BDE53E2785039300347516 /* PrelogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrelogView.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				532BF3F2276FDD1300D8ADA3 /* KeyboardObserver.swift */,
 				53BDE54227852ADA00347516 /* KeyboardGuardian.swift */,
 				53BDE54427852B0000347516 /* GeometryGetter.swift */,
+				53A5E1E52796002000482059 /* ImagePicker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				53BDE55B278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift in Sources */,
 				532BF423277BD77C00D8ADA3 /* BringerConfirmOrderBuyView.swift in Sources */,
 				532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */,
+				53A5E1E62796002000482059 /* ImagePicker.swift in Sources */,
 				53BDE53B2784FE1600347516 /* LoginView.swift in Sources */,
 				532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */,
 				532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */,
