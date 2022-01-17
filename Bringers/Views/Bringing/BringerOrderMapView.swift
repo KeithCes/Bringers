@@ -25,6 +25,7 @@ struct BringerOrderMapView: View {
     @State private var isShowingImagePicker = false
     @State private var receiptInputImage: UIImage?
     @State private var receiptImage: Image = Image("placeholderReceipt")
+    @State private var receiptImageUploaded: Bool = false
     
     @State private var timer: Timer?
     
@@ -124,18 +125,35 @@ struct BringerOrderMapView: View {
             .cornerRadius(15)
             .frame(width: CustomDimensions.width, height: 108, alignment: .center)
             
-            Button {
-                // TODO: confirmation screen
-                deactivateOrder()
-            } label: {
-                Image(systemName: "x.circle")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(CustomColors.darkGray)
+            VStack {
+                if ((self.currentOrder.pickupBuy == "Buy" && self.receiptImageUploaded) || self.currentOrder.pickupBuy == "Pick-up") && self.currentOrder.location.distance(from: viewModel.getLocation()?.location?.coordinate ?? self.currentOrder.location) < 0.25
+                {
+                    Button("COMPLETE ORDER") {
+                        // TODO: confirmation screen
+                        deactivateOrder(isCompleted: true)
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+                    .background(Rectangle()
+                                    .fill(CustomColors.blueGray.opacity(0.6))
+                                    .frame(width: CustomDimensions.width, height: 35)
+                                    .cornerRadius(15))
+                }
+                
+                Button("CANCEL ORDER") {
+                    // TODO: confirmation screen
+                    deactivateOrder()
+                }
+                .font(.system(size: 15, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.lightRed)
+                                .frame(width: CustomDimensions.width, height: 35)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
             }
-            .frame(width: 49, height: 28)
-            .background(CustomColors.lightRed)
-            .cornerRadius(15)
+            .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
         }
         .edgesIgnoringSafeArea(.bottom)
         .tabItem {
@@ -196,7 +214,7 @@ struct BringerOrderMapView: View {
         })
     }
     
-    func deactivateOrder() {
+    func deactivateOrder(isCompleted: Bool = false) {
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
@@ -219,9 +237,10 @@ struct BringerOrderMapView: View {
             ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(["dateCompleted" : currentDateString])
             ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(["dateCompleted" : currentDateString])
             
-            // sets order cancelled
-            ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(["status" : "cancelled"])
-            ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(["status" : "cancelled"])
+            // sets order completed/cancelled
+            let status = isCompleted ? "completed" : "cancelled"
+            ref.child("users").child(orderID).child("pastOrders").child(currentOrder.id).updateChildValues(["status" : status])
+            ref.child("users").child(userID).child("pastBringers").child(currentOrder.id).updateChildValues(["status" : status])
             
             
             // removes from active
@@ -299,6 +318,7 @@ struct BringerOrderMapView: View {
                 // error occurred
                 return
             }
+            self.receiptImageUploaded = true
         }
     }
     

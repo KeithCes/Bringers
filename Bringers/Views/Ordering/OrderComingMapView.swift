@@ -119,18 +119,17 @@ struct OrderComingMapView: View {
             .cornerRadius(15)
             .frame(width: CustomDimensions.width, height: 108, alignment: .center)
             
-            Button {
+            Button("CANCEL ORDER") {
                 // TODO: confirmation screen
                 deactivateOrder()
-            } label: {
-                Image(systemName: "x.circle")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(CustomColors.darkGray)
             }
-            .frame(width: 49, height: 28)
-            .background(CustomColors.lightRed)
-            .cornerRadius(15)
+            .font(.system(size: 15, weight: .bold, design: .rounded))
+            .foregroundColor(Color.white)
+            .background(Rectangle()
+                            .fill(CustomColors.lightRed)
+                            .frame(width: CustomDimensions.width, height: 35)
+                            .cornerRadius(15))
+            .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
         }
         .edgesIgnoringSafeArea(.bottom)
         .tabItem {

@@ -132,9 +132,7 @@ struct WaitingForBringerView: View {
     func checkIfOrderInProgress() {
         let ref = Database.database().reference()
         ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
-            let currentStatus = (snapshot.value as! NSDictionary)["status"]
-            
-            guard let currentStatus = currentStatus else {
+            guard let currentStatus = (snapshot.value as! NSDictionary)["status"] else {
                 self.timer?.invalidate()
                 isShowingWaitingForBringer = false
                 return

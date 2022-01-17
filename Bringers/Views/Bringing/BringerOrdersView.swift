@@ -123,7 +123,9 @@ struct BringerOrdersView: View {
         var allActiveOrders: [OrderModel] = []
         
         ref.child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
-            let activeOrders = (snapshot.value as! NSDictionary).allValues
+            guard let activeOrders = (snapshot.value as? NSDictionary)?.allValues else {
+                return
+            }
             for activeOrder in activeOrders {
                 let activeOrderMap = Order.from(activeOrder as! NSDictionary)
                 
