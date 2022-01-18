@@ -116,8 +116,8 @@ struct YourProfileView: View {
         }
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))
-                        .frame(width: CustomDimensions.width, height: CustomDimensions.height600)
-                        .cornerRadius(15))
+                        .cornerRadius(15)
+                        .padding(EdgeInsets(top: 0, leading: 20, bottom: -5, trailing: 20)))
         .padding(.bottom, keyboardHeight)
         .edgesIgnoringSafeArea(.bottom)
         .fixedSize(horizontal: false, vertical: true)
@@ -127,6 +127,7 @@ struct YourProfileView: View {
             Text("Profile")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.bottom, 20)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})

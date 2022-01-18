@@ -17,4 +17,5 @@ struct CustomDimensions {
     static let height500 = UIScreen.main.bounds.size.height * (500 / 812)
     static let height550 = UIScreen.main.bounds.size.height * (550 / 812)
     static let height600 = UIScreen.main.bounds.size.height * (600 / 812)
+    static let height650 = UIScreen.main.bounds.size.height * (650 / 812)
 }

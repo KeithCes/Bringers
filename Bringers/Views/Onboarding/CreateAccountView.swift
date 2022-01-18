@@ -38,66 +38,70 @@ struct CreateAccountView: View {
     }
     
     var body: some View {
-        VStack {
-            CustomTitleText(labelText: "CREATE ACCOUNT")
-            
-            CustomTextbox(field: $firstName, placeholderText: "First Name", onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
-                .background(GeometryGetter(rect: $kGuardian.rects[0]))
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomTextbox(field: $lastName, placeholderText: "Last Name", onEditingChanged: { if $0 { self.kGuardian.showField = 1 } })
-                .background(GeometryGetter(rect: $kGuardian.rects[1]))
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            
-            DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
-                Text("Date of Birth")
-            }
-            .accentColor(CustomColors.seafoamGreen)
-            .font(.system(size: 18, weight: .regular, design: .rounded))
-            .colorInvert()
-            .colorScheme(.light)
-            .colorMultiply(CustomColors.midGray.opacity(isDobChanged ? 1 : 0.5))
-            .background(Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(width: 322, height: 50)
-                            .cornerRadius(15))
-            .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
-            
-            CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
-                .background(GeometryGetter(rect: $kGuardian.rects[3]))
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                .textInputAutocapitalization(.never)
-            CustomTextbox(field: $phoneNumber, placeholderText: "Phone Number", onEditingChanged: { if $0 { self.kGuardian.showField = 4 } })
-                .background(GeometryGetter(rect: $kGuardian.rects[4]))
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                .keyboardType(.numberPad)
-            CustomSecureTextbox(field: $password, placeholderText: "Password")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-            CustomSecureTextbox(field: $confirmPassword, placeholderText: "Confirm Password")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                .submitLabel(.done)
-                .onSubmit {
+        ScrollView {
+            VStack {
+                CustomTitleText(labelText: "CREATE ACCOUNT")
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+                
+                CustomTextbox(field: $firstName, placeholderText: "First Name", onEditingChanged: { if $0 { self.kGuardian.showField = 0 } })
+                    .background(GeometryGetter(rect: $kGuardian.rects[0]))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                CustomTextbox(field: $lastName, placeholderText: "Last Name", onEditingChanged: { if $0 { self.kGuardian.showField = 1 } })
+                    .background(GeometryGetter(rect: $kGuardian.rects[1]))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                DatePicker(selection: $dob, in: ...Date(), displayedComponents: .date) {
+                    Text("Date of Birth")
+                }
+                .accentColor(CustomColors.seafoamGreen)
+                .font(.system(size: 18, weight: .regular, design: .rounded))
+                .colorInvert()
+                .colorScheme(.light)
+                .colorMultiply(CustomColors.midGray.opacity(isDobChanged ? 1 : 0.5))
+                .background(Rectangle()
+                                .fill(Color.white.opacity(0.5))
+                                .frame(width: 322, height: 50)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 0, leading: 50, bottom: 30, trailing: 50))
+                
+                CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
+                    .background(GeometryGetter(rect: $kGuardian.rects[3]))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .textInputAutocapitalization(.never)
+                CustomTextbox(field: $phoneNumber, placeholderText: "Phone Number", onEditingChanged: { if $0 { self.kGuardian.showField = 4 } })
+                    .background(GeometryGetter(rect: $kGuardian.rects[4]))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .keyboardType(.numberPad)
+                CustomSecureTextbox(field: $password, placeholderText: "Password")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                CustomSecureTextbox(field: $confirmPassword, placeholderText: "Confirm Password")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .submitLabel(.done)
+                    .onSubmit {
+                        createAccount()
+                    }
+                
+                Button("CREATE") {
                     createAccount()
                 }
-            
-            Button("CREATE") {
-                createAccount()
+                .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width, height: 70)
+                                .cornerRadius(15))
             }
-            .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
-            .font(.system(size: 30, weight: .bold, design: .rounded))
-            .foregroundColor(Color.white)
-            .background(Rectangle()
-                            .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: CustomDimensions.width, height: 70)
-                            .cornerRadius(15))
+            .onChange(of: dob, perform: { _ in
+                isDobChanged = dob != Date()
+            })
+            .onAppear { self.kGuardian.addObserver() }
+            .onDisappear { self.kGuardian.removeObserver() }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(CustomColors.seafoamGreen)
+            .ignoresSafeArea()
         }
-        .onChange(of: dob, perform: { _ in
-            isDobChanged = dob != Date()
-        })
-        .onAppear { self.kGuardian.addObserver() }
-        .onDisappear { self.kGuardian.removeObserver() }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
-        .ignoresSafeArea()
     }
     
     func createAccount() {
@@ -117,7 +121,7 @@ struct CreateAccountView: View {
                     dateFormatter.dateFormat = "MM/dd/YYYY"
                     let dobString = dateFormatter.string(from: dob)
                     let currentDateString = dateFormatter.string(from: Date())
-
+                    
                     let userDetails = [
                         "firstName": firstName,
                         "lastName": lastName,

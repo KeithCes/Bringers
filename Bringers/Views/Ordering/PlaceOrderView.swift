@@ -33,6 +33,10 @@ struct PlaceOrderView: View {
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
+    init() {
+        UITextView.appearance().textContainerInset = UIEdgeInsets(top: 24, left: 17, bottom: 0, right: 0)
+    }
+    
     var body: some View {
         VStack {
             CustomTitleText(labelText: "LOOKING FOR SOMETHING?")
@@ -66,7 +70,7 @@ struct PlaceOrderView: View {
                             .fill(Color.white.opacity(0.5))
                             .frame(width: CustomDimensions.width, height: 50)
                             .cornerRadius(15))
-            .padding(EdgeInsets(top: 30, leading: 20, bottom: 0, trailing: 20))
+            .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
             
             HStack {
                 CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
@@ -82,10 +86,9 @@ struct PlaceOrderView: View {
             .fixedSize(horizontal: false, vertical: true)
             
             CustomTextbox(field: $itemName, placeholderText: "Name of Item")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             TextEditor(text: $description)
-                .padding()
                 .placeholderTopLeft(when: self.description.isEmpty) {
                     Text("Description").foregroundColor(CustomColors.midGray.opacity(0.5))
                     // makes placeholder even with text in box, not sure why we need this padding
@@ -102,6 +105,7 @@ struct PlaceOrderView: View {
                 .onReceive(self.description.publisher.collect()) {
                     self.description = String($0.prefix(200))
                 }
+                .padding(EdgeInsets(top: 24, leading: 20, bottom: 30, trailing: 20))
             
             Button("PLACE ORDER") {
                 self.showConfirmScreen()
@@ -114,13 +118,13 @@ struct PlaceOrderView: View {
             }) {
                 ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, order: $order)
             }
-            .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
             .foregroundColor(Color.white)
             .background(Rectangle()
                             .fill(CustomColors.blueGray.opacity(0.6))
                             .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
             
         }
         .padding(.bottom, keyboard.currentHeight)
