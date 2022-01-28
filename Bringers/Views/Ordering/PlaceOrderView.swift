@@ -30,11 +30,14 @@ struct PlaceOrderView: View {
     @State private var isOrderCancelledWaiting: Bool = false
     @State private var isShowingOrderComing: Bool = false
     @State private var isOrderCancelledMap: Bool = false
+    @Binding var givenOrder: OrderModel
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init() {
+    init(givenOrder: Binding<OrderModel>) {
         UITextView.appearance().textContainerInset = UIEdgeInsets(top: 24, left: 17, bottom: 0, right: 0)
+        
+        self._givenOrder = givenOrder
     }
     
     var body: some View {
@@ -140,15 +143,32 @@ struct PlaceOrderView: View {
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
         
         .fullScreenCover(isPresented: $isShowingWaitingForBringer, onDismiss: {
-            if !isShowingWaitingForBringer && !isOrderCancelledWaiting {
+            if (!isShowingWaitingForBringer && !isOrderCancelledWaiting) {
                 isShowingOrderComing.toggle()
+                givenOrder = OrderModel()
             }
         }) {
-            WaitingForBringerView(isShowingWaitingForBringer: $isShowingWaitingForBringer, isOrderCancelledWaiting: $isOrderCancelledWaiting, order: $order)
+            WaitingForBringerView(
+                isShowingWaitingForBringer: $isShowingWaitingForBringer,
+                isOrderCancelledWaiting: $isOrderCancelledWaiting,
+                order: self.givenOrder.status == "waiting" ? $givenOrder : $order
+            )
         }
         
         .fullScreenCover(isPresented: $isShowingOrderComing) {
-            OrderComingMapView(isShowingOrderComing: $isShowingOrderComing, isOrderCancelledMap: $isOrderCancelledMap, order: $order)
+            OrderComingMapView(
+                isShowingOrderComing: $isShowingOrderComing,
+                isOrderCancelledMap: $isOrderCancelledMap,
+                order: self.givenOrder.status == "inprogress" ? $givenOrder : $order
+            )
+        }
+        .onAppear {
+            if self.givenOrder.status == "waiting" {
+                isShowingWaitingForBringer = true
+            }
+            if self.givenOrder.status == "inprogress" {
+                isShowingOrderComing = true
+            }
         }
         
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -176,7 +196,7 @@ struct PlaceOrderView: View {
                 deliveryFee: self.deliveryFee,
                 dateSent: currentDateString,
                 dateCompleted: "",
-                status: "active",
+                status: "waiting",
                 userID: userID,
                 location: DefaultCoords.coords
             )
