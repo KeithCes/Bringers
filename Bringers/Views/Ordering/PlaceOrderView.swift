@@ -30,6 +30,7 @@ struct PlaceOrderView: View {
     @State private var isOrderCancelledWaiting: Bool = false
     @State private var isShowingOrderComing: Bool = false
     @State private var isOrderCancelledMap: Bool = false
+    
     @Binding var givenOrder: OrderModel
     
     @ObservedObject private var keyboard = KeyboardResponder()

@@ -33,10 +33,14 @@ struct BringerOrdersView: View {
     @State private var lowestShipping: CGFloat = 0
     @State private var alphaIncrementValShipping: CGFloat = 0.1
     
-    init() {
+    @Binding var givenOrder: OrderModel
+    
+    init(givenOrder: Binding<OrderModel>) {
         UITableView.appearance().separatorStyle = .none
         UITableViewCell.appearance().backgroundColor = .red
         UITableView.appearance().backgroundColor = .clear
+        
+        self._givenOrder = givenOrder
     }
     
     var body: some View {
@@ -110,9 +114,14 @@ struct BringerOrdersView: View {
         .fullScreenCover(isPresented: $isShowingBringerMap) {
             BringerOrderMapView(
                 isShowingBringerMap: $isShowingBringerMap,
-                currentOrder: $currentOrder,
+                currentOrder: self.givenOrder.status == "inprogress" ? $givenOrder : $currentOrder,
                 currentCoords: self.$currentCoords
             )
+        }
+        .onAppear {
+            if self.givenOrder.status == "inprogress" {
+                isShowingBringerMap = true
+            }
         }
     }
     

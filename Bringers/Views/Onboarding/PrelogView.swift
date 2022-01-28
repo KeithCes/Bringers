@@ -20,6 +20,9 @@ struct PrelogView: View {
     @State private var isOrderFetched: Bool = false
     @State private var isOrderNotFetched: Bool = false
     
+    @State private var isBringerFetched: Bool = false
+    @State private var isBringerNotFetched: Bool = false
+    
     @State private var activeOrder: OrderModel = OrderModel()
     
     init() {
@@ -89,13 +92,18 @@ struct PrelogView: View {
                     .tag(2)
                     .background(CustomColors.seafoamGreen)
                 
-                BringerOrdersView()
+                BringerOrdersView(givenOrder: $activeOrder)
                     .tag(3)
             }
             .accentColor(Color.black)
         }
-        // case no active order or order not fetched
-        .fullScreenCover(isPresented: $isOrderNotFetched) {
+        .onChange(of: isOrderNotFetched) { _ in
+            checkIfActiveBringer { (isBringerFetched) in
+                self.isBringerFetched = isBringerFetched
+            }
+        }
+        // case active bringer
+        .fullScreenCover(isPresented: $isBringerFetched) {
             TabView(selection: $tabSelection) {
                 
                 YourProfileView()
@@ -105,7 +113,23 @@ struct PrelogView: View {
                     .tag(2)
                     .background(CustomColors.seafoamGreen)
                 
-                BringerOrdersView()
+                BringerOrdersView(givenOrder: $activeOrder)
+                    .tag(3)
+            }
+            .accentColor(Color.black)
+        }
+        // case no active order no active bringer or order not fetched
+        .fullScreenCover(isPresented: $isBringerNotFetched) {
+            TabView(selection: $tabSelection) {
+                
+                YourProfileView()
+                    .tag(1)
+                
+                PlaceOrderView(givenOrder: $activeOrder)
+                    .tag(2)
+                    .background(CustomColors.seafoamGreen)
+                
+                BringerOrdersView(givenOrder: $activeOrder)
                     .tag(3)
             }
             .accentColor(Color.black)
@@ -127,6 +151,7 @@ struct PrelogView: View {
             isOrderNotFetched = true
             return
         }
+        
         let ref = Database.database().reference()
         
         ref.child("users").child(userID).child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -170,6 +195,66 @@ struct PrelogView: View {
                     isOrderFetched = true
                     self.activeOrder = order
                     completion(isOrderFetched)
+                }
+            })
+        })
+    }
+    
+    func checkIfActiveBringer(completion: @escaping (Bool) -> ()) {
+        
+        if Auth.auth().currentUser == nil {
+            return
+        }
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            isBringerNotFetched = true
+            return
+        }
+        
+        let ref = Database.database().reference()
+        
+        ref.child("users").child(userID).child("activeBringers").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
+                isBringerNotFetched = true
+                return
+            }
+            
+            guard let activeBringerID = (activeUser["activeBringer"] as? String) else {
+                isBringerNotFetched = true
+                return
+            }
+            
+            ref.child("activeOrders").child(activeBringerID).observeSingleEvent(of: .value, with: { (snapshotOrders) in
+                guard let activeOrder = snapshotOrders.value as? NSDictionary else {
+                    isBringerNotFetched = true
+                    return
+                }
+                
+                guard let activeOrderMap = Order.from(activeOrder) else {
+                    isBringerNotFetched = true
+                    return
+                }
+                
+                let order = OrderModel(
+                    id: activeOrderMap.id,
+                    title: activeOrderMap.title,
+                    description: activeOrderMap.description,
+                    pickupBuy: activeOrderMap.pickupBuy,
+                    maxPrice: activeOrderMap.maxPrice,
+                    deliveryFee: activeOrderMap.deliveryFee,
+                    dateSent: activeOrderMap.dateSent,
+                    dateCompleted: activeOrderMap.dateCompleted,
+                    status: activeOrderMap.status,
+                    userID: activeOrderMap.userID,
+                    location: activeOrderMap.location
+                )
+                
+                DispatchQueue.main.async {
+                    isBringerFetched = true
+                    self.activeOrder = order
+                    self.tabSelection = 3
+                    completion(isBringerFetched)
                 }
             })
         })
