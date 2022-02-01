@@ -1,12 +1,11 @@
 # stuff to do soon
-- User can only have one order at a time
-    -works currently under user active orders
-    -need to open to that order on app open
-    -prevent user form making more orders when one active (need to cancel first)
+- databse rules
+
 
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
-
+- supposed to use getToken() instead of uid for authing; less secure? later problem...
+- editing yourprofile and then going to placeorder acts like keyboard is still up for a second
 
 # stuff to add later
 
