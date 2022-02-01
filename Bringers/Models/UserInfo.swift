@@ -18,6 +18,7 @@ struct UserInfo: Mappable {
     let ordersCompleted: CGFloat
     let ordersPlaced: CGFloat
     let phoneNumber: String
+    let profilePictureURL: String
     
     init(map: Mapper) throws {
         try dateOfBirth = map.from("dateOfBirth")
@@ -28,5 +29,6 @@ struct UserInfo: Mappable {
         try ordersCompleted = map.from("ordersCompleted")
         try ordersPlaced = map.from("ordersPlaced")
         try phoneNumber = map.from("phoneNumber")
+        try profilePictureURL = map.from("profilePictureURL")
     }
 }

@@ -1,5 +1,5 @@
 # stuff to do soon
-- databse rules
+- databse rules (allow read everything, allow write only your userID)
 
 
 # shit to do if bored

@@ -25,7 +25,7 @@ struct OrderComingMapView: View {
     @State private var isShowingUserProfile = false
     
     @State private var receiptInputImage: UIImage?
-    @State private var receiptImage: Image = Image("placeholderReceipt")
+    @State private var receiptImage: Image = Image("placeholder")
     
     @State private var bringerFirstname: String = "A Bringer"
     
@@ -277,7 +277,7 @@ struct OrderComingMapView: View {
         
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let receiptRef = storageRef.child(order.id + "/" + "receipt.png")
+        let receiptRef = storageRef.child("orderReceipts/" + order.id + "/" + "receipt.png")
         
         receiptRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let _ = error {

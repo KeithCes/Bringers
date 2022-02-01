@@ -24,7 +24,7 @@ struct BringerOrderMapView: View {
     @State private var isShowingInstructions = false
     @State private var isShowingImagePicker = false
     @State private var receiptInputImage: UIImage?
-    @State private var receiptImage: Image = Image("placeholderReceipt")
+    @State private var receiptImage: Image = Image("placeholder")
     @State private var receiptImageUploaded: Bool = false
     
     @State private var timer: Timer?
@@ -304,12 +304,12 @@ struct BringerOrderMapView: View {
         
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let receiptRef = storageRef.child(currentOrder.id + "/" + "receipt.png")
+        let receiptRef = storageRef.child("orderReceipts/" + currentOrder.id + "/" + "receipt.png")
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
         
-        guard let data: Data = self.receiptInputImage?.jpegData(compressionQuality: 0.25) else {
+        guard let data: Data = self.receiptInputImage?.jpegData(compressionQuality: 0.20) else {
             return
         }
         

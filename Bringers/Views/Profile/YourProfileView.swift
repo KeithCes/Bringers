@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 import Combine
 
 struct YourProfileView: View {
@@ -22,6 +23,13 @@ struct YourProfileView: View {
     @State private var savedCreditCard: String = ""
     
     @State private var isShowingChangePassword: Bool = false
+    @State private var isShowingImagePicker = false
+    
+    @State private var isProgressViewHidden: Bool = false
+    
+    @State private var profileInputImage: UIImage?
+    @State private var profileImage: Image = Image("placeholder")
+    @State private var profileImageUploaded: Bool = false
     
     @State private var userInfo: UserInfoModel = UserInfoModel()
     
@@ -37,14 +45,14 @@ struct YourProfileView: View {
     var body: some View {
         VStack {
             ZStack {
-                Image("scarra")
+                self.profileImage
                     .resizable()
                     .frame(width: 186, height: 186)
                     .cornerRadius(15)
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
                 
                 Button(action: {
-                    // TODO: add iOS native image upload and push image to backend (backend)
+                    isShowingImagePicker.toggle()
                 }) {
                     Image(systemName: "pencil")
                         .resizable()
@@ -139,6 +147,15 @@ struct YourProfileView: View {
                         .cornerRadius(15)
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: -5, trailing: 20)))
         .padding(.bottom, keyboardHeight)
+        .overlay(
+            ProgressView()
+                .scaleEffect(x: 2, y: 2, anchor: .center)
+                .frame(width: UIScreen.main.bounds.width, height: CustomDimensions.height600, alignment: .center)
+                .background(RoundedRectangle(cornerRadius: 3)
+                                .fill(CustomColors.seafoamGreen))
+                .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
+                .isHidden(self.isProgressViewHidden)
+        )
         .edgesIgnoringSafeArea(.bottom)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
@@ -154,6 +171,14 @@ struct YourProfileView: View {
         .onAppear {
             clearText()
             getYourProfile()
+            getProfilePicture()
+        }
+        .sheet(isPresented: $isShowingImagePicker) {
+            ImagePicker(image: $profileInputImage)
+        }
+        .onChange(of: profileInputImage) { _ in
+            loadImage()
+            uploadProfilePicture()
         }
     }
     
@@ -183,7 +208,8 @@ struct YourProfileView: View {
                 lastName: activeUserInfoMap.lastName,
                 ordersCompleted: activeUserInfoMap.ordersCompleted,
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
-                phoneNumber: activeUserInfoMap.phoneNumber
+                phoneNumber: activeUserInfoMap.phoneNumber,
+                profilePictureURL: activeUserInfoMap.profilePictureURL
             )
             
             self.userInfo = userInfo
@@ -209,5 +235,55 @@ struct YourProfileView: View {
         self.lastname = ""
         self.email = ""
         self.phoneNumber = ""
+    }
+    
+    func uploadProfilePicture() {
+        
+        let userID = Auth.auth().currentUser!.uid
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let profilePictureRef = storageRef.child("profilePictures/" + userID + "/" + "profilePicture.png")
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/png"
+        
+        guard let data: Data = self.profileInputImage?.jpegData(compressionQuality: 0.20) else {
+            return
+        }
+        
+        profilePictureRef.putData(data, metadata: nil) { (metadata, error) in
+            guard let _ = metadata else {
+                // error occurred
+                return
+            }
+            self.profileImageUploaded = true
+        }
+    }
+    
+    func loadImage() {
+        guard let inputImage = profileInputImage else { return }
+        self.profileImage = Image(uiImage: inputImage)
+    }
+    
+    func getProfilePicture() {
+        
+        let userID = Auth.auth().currentUser!.uid
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let profilePictureRef = storageRef.child("profilePictures/" + userID + "/" + "profilePicture.png")
+        
+        profilePictureRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let _ = error {
+                // error occurred
+            } else {
+                self.profileInputImage = UIImage(data: data!)
+                
+                guard let inputImage = profileInputImage else { return }
+                self.profileImage = Image(uiImage: inputImage)
+            }
+            self.isProgressViewHidden = true
+        }
     }
 }

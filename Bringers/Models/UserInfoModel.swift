@@ -17,10 +17,11 @@ struct UserInfoModel {
     var ordersCompleted: CGFloat = 0
     var ordersPlaced: CGFloat = 0
     var phoneNumber: String = ""
+    var profilePictureURL: String = ""
     
     init(){}
     
-    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, phoneNumber: String) {
+    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, phoneNumber: String, profilePictureURL: String) {
         self.dateOfBirth = dateOfBirth
         self.dateOfCreation = dateOfCreation
         self.email = email
@@ -29,5 +30,6 @@ struct UserInfoModel {
         self.ordersCompleted = ordersCompleted
         self.ordersPlaced = ordersPlaced
         self.phoneNumber = phoneNumber
+        self.profilePictureURL = profilePictureURL
     }
 }

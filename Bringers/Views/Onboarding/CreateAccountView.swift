@@ -130,7 +130,8 @@ struct CreateAccountView: View {
                         "phoneNumber": phoneNumber,
                         "dateOfCreation": currentDateString,
                         "ordersPlaced": 0,
-                        "ordersCompleted": 0
+                        "ordersCompleted": 0,
+                        "profilePictureURL": ""
                     ] as [String : Any]
                     
                     ref.child("users").child(userID).child("userInfo").setValue(userDetails)
