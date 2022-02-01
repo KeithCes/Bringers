@@ -7,6 +7,9 @@
 
 import Foundation
 import SwiftUI
+import FirebaseDatabase
+import FirebaseAuth
+import Combine
 
 struct YourProfileView: View {
     
@@ -19,6 +22,8 @@ struct YourProfileView: View {
     @State private var savedCreditCard: String = ""
     
     @State private var isShowingChangePassword: Bool = false
+    
+    @State private var userInfo: UserInfoModel = UserInfoModel()
     
     private var rating: CGFloat = 3.8
     
@@ -71,40 +76,55 @@ struct YourProfileView: View {
             }
             
             
-            CustomTextboxTitleText(field: $firstname, placeholderText: "FIRSTNAME", titleText: "FIRST NAME")
+            CustomTextboxTitleText(field: $firstname, placeholderText: self.userInfo.firstName, titleText: "FIRST NAME")
                 .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    // TODO: check valid/update value on backend
+                    updateUserValue(property: "firstName", value: self.firstname)
                 }
-
-            CustomTextboxTitleText(field: $lastname, placeholderText: "LASTNAME", titleText: "LAST NAME")
+            
+            CustomTextboxTitleText(field: $lastname, placeholderText: self.userInfo.lastName, titleText: "LAST NAME")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    // TODO: check valid/update value on backend
+                    updateUserValue(property: "lastName", value: self.lastname)
                 }
             
-            CustomTextboxTitleText(field: $email, placeholderText: "scarra@dignitas.com", titleText: "EMAIL")
+            CustomTextboxTitleText(field: $email, placeholderText: self.userInfo.email, titleText: "EMAIL")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    // TODO: check valid/update value on backend
+                    if checkValidEmail(email: email) {
+                        updateUserValue(property: "email", value: self.email)
+                    }
+                    else {
+                        // TODO: show email invalid toast/notification
+                    }
                 }
             
-            CustomTextboxTitleText(field: $phoneNumber, placeholderText: "860-555-5555", titleText: "PHONE NUMBER")
+            CustomTextboxTitleText(field: $phoneNumber, placeholderText: self.userInfo.phoneNumber, titleText: "PHONE NUMBER")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
+                .onReceive(Just(phoneNumber)) { newValue in
+                    let filtered = newValue.filter { "0123456789".contains($0) }
+                    if filtered != newValue {
+                        self.phoneNumber = filtered
+                    }
+                }
                 .onSubmit {
-                    // TODO: check valid/update value on backend
+                    if phoneNumber.count == 10 || phoneNumber.count == 11 {
+                        updateUserValue(property: "phoneNumber", value: self.phoneNumber)
+                    }
+                    else {
+                        // TODO: show phone number invalid toast/notification
+                    }
                 }
             
+            // TODO: send credit card data securly (probably thorugh payment provider; stripe?)
             CustomTextboxTitleText(field: $savedCreditCard, placeholderText: "****-****-****-9420", titleText: "SAVED CREDIT CARD")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 .submitLabel(.done)
-                .onSubmit {
-                    // TODO: check valid/update value on backend
-                }
+                .onSubmit { }
             
             
             Text("RATING: " + "\(rating)" + "/5")
@@ -131,5 +151,63 @@ struct YourProfileView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
+        .onAppear {
+            clearText()
+            getYourProfile()
+        }
+    }
+    
+    func getYourProfile() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let ref = Database.database().reference()
+        
+        ref.child("users").child(userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let activeUserInfo = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                return
+            }
+            
+            let userInfo = UserInfoModel(
+                dateOfBirth: activeUserInfoMap.dateOfBirth,
+                dateOfCreation: activeUserInfoMap.dateOfCreation,
+                email: activeUserInfoMap.email,
+                firstName: activeUserInfoMap.firstName,
+                lastName: activeUserInfoMap.lastName,
+                ordersCompleted: activeUserInfoMap.ordersCompleted,
+                ordersPlaced: activeUserInfoMap.ordersPlaced,
+                phoneNumber: activeUserInfoMap.phoneNumber
+            )
+            
+            self.userInfo = userInfo
+        })
+    }
+    
+    func updateUserValue(property: String, value: Any) {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues([property : value])
+    }
+    
+    func checkValidEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    func clearText() {
+        self.firstname = ""
+        self.lastname = ""
+        self.email = ""
+        self.phoneNumber = ""
     }
 }

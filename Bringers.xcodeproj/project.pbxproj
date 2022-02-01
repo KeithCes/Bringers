@@ -43,6 +43,8 @@
 		537718E8276EDB6100F541B5 /* BringersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718E7276EDB6100F541B5 /* BringersTests.swift */; };
 		537718F2276EDB6100F541B5 /* BringersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F1276EDB6100F541B5 /* BringersUITests.swift */; };
 		537718F4276EDB6100F541B5 /* BringersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */; };
+		5378495D27A467EF006FF843 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495C27A467EF006FF843 /* UserInfo.swift */; };
+		5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495E27A4689F006FF843 /* UserInfoModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -125,6 +127,8 @@
 		537718ED276EDB6100F541B5 /* BringersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BringersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		537718F1276EDB6100F541B5 /* BringersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersUITests.swift; sourceTree = "<group>"; };
 		537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5378495C27A467EF006FF843 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		5378495E27A4689F006FF843 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -366,6 +370,8 @@
 			children = (
 				53BDE5492787A15A00347516 /* OrderModel.swift */,
 				53BDE54D2788045300347516 /* Order.swift */,
+				5378495E27A4689F006FF843 /* UserInfoModel.swift */,
+				5378495C27A467EF006FF843 /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -523,6 +529,7 @@
 				532BF3FA27711E6600D8ADA3 /* ConfirmOrderView.swift in Sources */,
 				53BDE53D2785007D00347516 /* CustomSecureTextbox.swift in Sources */,
 				532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */,
+				5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */,
 				532BF41F27794A4100D8ADA3 /* BringerSelectedOrderView.swift in Sources */,
 				532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */,
 				532BF4172778314900D8ADA3 /* CustomSecureTextboxTitleText.swift in Sources */,
@@ -558,6 +565,7 @@
 				532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */,
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
+				5378495D27A467EF006FF843 /* UserInfo.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
