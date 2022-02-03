@@ -171,13 +171,13 @@ struct BringerOrdersView: View {
                 // distance gap from lowest/highest
                 let distanceGap: CGFloat = self.currentCoords.distance(from: highestDistance) - self.currentCoords.distance(from: self.lowestDistance)
                 // gets alpha
-                self.alphaIncrementValDistance = 0.7/distanceGap
+                self.alphaIncrementValDistance = distanceGap != 0 ? 0.7/distanceGap : 0.4
                 
                 // delivery calcs
                 self.lowestShipping = allActiveOrders.min(by: { a, b in a.deliveryFee < b.deliveryFee })?.deliveryFee ?? 0
                 let highestShipping: CGFloat = allActiveOrders.max(by: { a, b in a.deliveryFee < b.deliveryFee })?.deliveryFee ?? 0
                 let shippingGap: CGFloat = highestShipping - self.lowestShipping
-                self.alphaIncrementValShipping = 0.7/shippingGap
+                self.alphaIncrementValShipping = shippingGap != 0 ? 0.7/shippingGap : 0.4
                 
                 // filters only waiting orders (not in progress) and not your own
                 let filteredActiveOrders: [OrderModel] = allActiveOrders.filter({ a in a.status == "waiting" && a.userID != userID })
