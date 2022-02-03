@@ -27,6 +27,8 @@ struct YourProfileView: View {
     
     @State private var isProgressViewHidden: Bool = false
     
+    @State private var isUserLoggedOut: Bool = false
+    
     @State private var profileInputImage: UIImage?
     @State private var profileImage: Image = Image("placeholder")
     @State private var profileImageUploaded: Bool = false
@@ -66,6 +68,21 @@ struct YourProfileView: View {
                 .padding(EdgeInsets(top: 190, leading: 190, bottom: 0, trailing: 20))
                 
                 Button(action: {
+                    try! Auth.auth().signOut()
+                    self.isUserLoggedOut.toggle()
+                }) {
+                    Image(systemName: "return.left")
+                        .resizable()
+                        .frame(width: 18, height: 18)
+                        .foregroundColor(CustomColors.darkGray)
+                        .background(Rectangle()
+                                        .fill(Color.white.opacity(0.5))
+                                        .frame(width: 31, height: 31)
+                                        .cornerRadius(15))
+                }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 160, trailing: 250))
+                
+                Button(action: {
                     isShowingChangePassword.toggle()
                 }) {
                     Image(systemName: "key.fill")
@@ -81,6 +98,9 @@ struct YourProfileView: View {
                 .sheet(isPresented: $isShowingChangePassword, content: {
                     ChangePasswordView()
                 })
+                .fullScreenCover(isPresented: $isUserLoggedOut) {
+                    PrelogView()
+                }
             }
             
             
