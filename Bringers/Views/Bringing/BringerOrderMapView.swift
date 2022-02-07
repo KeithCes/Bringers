@@ -27,6 +27,12 @@ struct BringerOrderMapView: View {
     @State private var receiptImage: Image = Image("placeholder")
     @State private var receiptImageUploaded: Bool = false
     
+    @State private var profileInputImage: UIImage?
+    @State private var profileImage: Image = Image("placeholder")
+    @State private var profileImageUploaded: Bool = false
+    
+    @State private var ordererInfo: UserInfoModel = UserInfoModel()
+    
     @State private var timer: Timer?
     
     @State private var orderLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
@@ -55,12 +61,17 @@ struct BringerOrderMapView: View {
                 Button(action: {
                     isShowingUserProfile.toggle()
                 }) {
-                    Image("scarra")
+                    self.profileImage
                         .resizable()
                         .frame(width: 74, height: 74)
                 }
                 .sheet(isPresented: $isShowingUserProfile, content: {
-                    UserProfileView()
+                    UserProfileView(
+                        image: self.$profileImage,
+                        firstName: self.ordererInfo.firstName,
+                        lastName: self.ordererInfo.lastName,
+                        rating: self.ordererInfo.rating
+                    )
                 })
                 
                 VStack {
@@ -165,6 +176,8 @@ struct BringerOrderMapView: View {
         .ignoresSafeArea()
         .onAppear {
             viewModel.checkIfLocationServicesEnabled()
+            
+            getOrdererDetails()
             
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
                 checkOrderCancelled()
@@ -325,5 +338,56 @@ struct BringerOrderMapView: View {
     func loadImage() {
         guard let inputImage = receiptInputImage else { return }
         self.receiptImage = Image(uiImage: inputImage)
+    }
+    
+    func getProfilePicture() {
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let profilePictureRef = storageRef.child("profilePictures/" + self.currentOrder.userID + "/" + "profilePicture.png")
+        
+        profilePictureRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let _ = error {
+                // error occurred
+            } else {
+                self.profileInputImage = UIImage(data: data!)
+                
+                guard let inputImage = profileInputImage else { return }
+                self.profileImage = Image(uiImage: inputImage)
+            }
+        }
+    }
+    
+    func getOrdererDetails() {
+        
+        let ref = Database.database().reference()
+        
+        ref.child("users").child(self.currentOrder.userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let activeUserInfo = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                return
+            }
+            
+            let userInfo = UserInfoModel(
+                dateOfBirth: activeUserInfoMap.dateOfBirth,
+                dateOfCreation: activeUserInfoMap.dateOfCreation,
+                email: activeUserInfoMap.email,
+                firstName: activeUserInfoMap.firstName,
+                lastName: activeUserInfoMap.lastName,
+                ordersCompleted: activeUserInfoMap.ordersCompleted,
+                ordersPlaced: activeUserInfoMap.ordersPlaced,
+                phoneNumber: activeUserInfoMap.phoneNumber,
+                profilePictureURL: activeUserInfoMap.profilePictureURL,
+                rating: activeUserInfoMap.rating
+            )
+            
+            self.ordererInfo = userInfo
+        })
+        
+        getProfilePicture()
     }
 }

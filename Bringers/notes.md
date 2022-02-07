@@ -1,6 +1,7 @@
 # stuff to do soon
 - create account dob constraints are off
 - get profile picture on order/bringer screens; its still scarra i think
+- texting/calling support
 
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
@@ -15,3 +16,5 @@
 - seperate all logic from view into viewmodel
 - views get funky on very small screen sizes (ipod touch, iphone 8, iphone se)
 - databse rules: make user unable to read email, phone number from other users
+- custom cropping profile picture
+- add push notifications for bringer coming/order complete/etc

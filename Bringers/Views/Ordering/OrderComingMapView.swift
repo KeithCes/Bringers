@@ -27,7 +27,11 @@ struct OrderComingMapView: View {
     @State private var receiptInputImage: UIImage?
     @State private var receiptImage: Image = Image("placeholder")
     
-    @State private var bringerFirstname: String = "A Bringer"
+    @State private var profileInputImage: UIImage?
+    @State private var profileImage: Image = Image("placeholder")
+    @State private var profileImageUploaded: Bool = false
+    
+    @State private var bringerInfo: UserInfoModel = UserInfoModel()
     
     @State private var timer: Timer?
     
@@ -43,7 +47,7 @@ struct OrderComingMapView: View {
     
     var body: some View {
         VStack {
-            CustomTitleText(labelText: bringerFirstname.uppercased() + " IS COMING WITH YOUR ORDER!")
+            CustomTitleText(labelText: (self.bringerInfo.firstName == "" ? "A BRINGER" : self.bringerInfo.firstName) + " IS COMING WITH YOUR ORDER!")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: bringerAnotations) { item in
@@ -65,12 +69,17 @@ struct OrderComingMapView: View {
                 Button(action: {
                     isShowingUserProfile.toggle()
                 }) {
-                    Image("scarra")
+                    self.profileImage
                         .resizable()
                         .frame(width: 74, height: 74)
                 }
                 .sheet(isPresented: $isShowingUserProfile, content: {
-                    UserProfileView()
+                    UserProfileView(
+                        image: self.$profileImage,
+                        firstName: self.bringerInfo.firstName,
+                        lastName: self.bringerInfo.lastName,
+                        rating: self.bringerInfo.rating
+                    )
                 })
                 
                 VStack {
@@ -144,7 +153,7 @@ struct OrderComingMapView: View {
             viewModel.checkIfLocationServicesEnabled()
             viewModel.setViewParentType(type: MapViewParent.order)
             
-            getBringerUsername()
+            getBringerInfo()
             
             self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
                 checkOrderCancelled()
@@ -291,19 +300,57 @@ struct OrderComingMapView: View {
         }
     }
     
-    func getBringerUsername() {
+    func getProfilePicture(bringerID: String) {
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let profilePictureRef = storageRef.child("profilePictures/" + bringerID + "/" + "profilePicture.png")
+        
+        profilePictureRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let _ = error {
+                // error occurred
+            } else {
+                self.profileInputImage = UIImage(data: data!)
+                
+                guard let inputImage = profileInputImage else { return }
+                self.profileImage = Image(uiImage: inputImage)
+            }
+        }
+    }
+    
+    func getBringerInfo() {
         let ref = Database.database().reference()
+        
         ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotDict = (snapshot.value as? NSDictionary),
                   let bringerID = snapshotDict["bringerID"] as? String else {
                       return
                   }
             ref.child("users").child(bringerID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshotUserDetails) in
-                guard let snapshotUserDetailsDict = (snapshotUserDetails.value as? NSDictionary),
-                      let bringerFirstname = snapshotUserDetailsDict["firstName"] as? String else {
-                          return
-                      }
-                self.bringerFirstname = bringerFirstname
+                guard let activeUserInfo = snapshotUserDetails.value as? NSDictionary else {
+                    return
+                }
+                
+                guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                    return
+                }
+                
+                let userInfo = UserInfoModel(
+                    dateOfBirth: activeUserInfoMap.dateOfBirth,
+                    dateOfCreation: activeUserInfoMap.dateOfCreation,
+                    email: activeUserInfoMap.email,
+                    firstName: activeUserInfoMap.firstName,
+                    lastName: activeUserInfoMap.lastName,
+                    ordersCompleted: activeUserInfoMap.ordersCompleted,
+                    ordersPlaced: activeUserInfoMap.ordersPlaced,
+                    phoneNumber: activeUserInfoMap.phoneNumber,
+                    profilePictureURL: activeUserInfoMap.profilePictureURL,
+                    rating: activeUserInfoMap.rating
+                )
+                
+                self.bringerInfo = userInfo
+                
+                getProfilePicture(bringerID: bringerID)
             })
         })
     }

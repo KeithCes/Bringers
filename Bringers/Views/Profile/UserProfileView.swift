@@ -12,19 +12,29 @@ struct UserProfileView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     
-    private var rating: CGFloat = 3.8
+    @Binding var image: Image
+    private var firstName: String = ""
+    private var lastName: String = ""
+    private var rating: CGFloat = 0
+    
+    init(image: Binding<Image>, firstName: String, lastName: String, rating: CGFloat) {
+        self._image = image
+        self.firstName = firstName
+        self.lastName = lastName
+        self.rating = rating
+    }
     
     var body: some View {
         VStack {
-            Image("scarra")
+            self.image
                 .resizable()
                 .frame(width: 186, height: 186)
                 .cornerRadius(15)
-            Text("FIRSTNAME" + " " + "LASTNAME")
+            Text(self.firstName + " " + self.lastName)
                 .font(.system(size: 24, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
-            Text("RATING: " + "\(rating)" + "/5")
+            Text("RATING: " + "\(self.rating)" + "/5")
                 .font(.system(size: 24, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0))

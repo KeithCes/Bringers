@@ -229,7 +229,8 @@ struct YourProfileView: View {
                 ordersCompleted: activeUserInfoMap.ordersCompleted,
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
                 phoneNumber: activeUserInfoMap.phoneNumber,
-                profilePictureURL: activeUserInfoMap.profilePictureURL
+                profilePictureURL: activeUserInfoMap.profilePictureURL,
+                rating: activeUserInfoMap.rating
             )
             
             self.userInfo = userInfo
