@@ -1,6 +1,6 @@
 # stuff to do soon
 - texting/calling support
-- increment order
+- add orders/bringers placed/completed/cancelled
 
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
