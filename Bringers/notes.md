@@ -1,12 +1,12 @@
 # stuff to do soon
-- create account dob constraints are off
-- get profile picture on order/bringer screens; its still scarra i think
 - texting/calling support
+- increment order
 
 # shit to do if bored
 - modulate button (place order, login, accept order, etc)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
+- placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
 
 # stuff to add later
 
