@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
+import Stripe
 
 struct ConfirmOrderView: View {
     
@@ -17,6 +18,12 @@ struct ConfirmOrderView: View {
     @Binding private var isShowingConfirm: Bool
     @Binding private var confirmPressed: Bool
     @Binding private var order: OrderModel
+    
+    @State private var paymentMethodParams: STPPaymentMethodParams?
+    
+    @State private var isActive: Bool = false
+    
+    let paymentGatewayController = PaymentGatewayController()
     
     init(isShowingConfirm: Binding<Bool>, confirmPressed: Binding<Bool>, order: Binding<OrderModel>) {
         self._isShowingConfirm = isShowingConfirm
@@ -60,7 +67,17 @@ struct ConfirmOrderView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
             
             Button("PLACE ORDER") {
-                sendOrder()
+                startCheckout { clientSecret in
+                
+                    PaymentConfig.shared.paymentIntentClientSecret = clientSecret
+                    
+                    DispatchQueue.main.async {
+                        isActive = true
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $isActive) {
+                CheckoutView()
             }
             .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
             .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -97,5 +114,49 @@ struct ConfirmOrderView: View {
         
         confirmPressed = true
         isShowingConfirm = false
+        
+        pay()
+    }
+    
+    private func startCheckout(completion: @escaping (String?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/create-payment-intent")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode(["poo" : "ass"])
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil,
+                    (response as? HTTPURLResponse)?.statusCode == 200 else {
+                completion(nil)
+                return
+            }
+            let checkoutIntentResponse = try? JSONDecoder().decode(CheckoutIntentResponse.self, from: data)
+            completion(checkoutIntentResponse?.clientSecret)
+        }.resume()
+    }
+    
+    private func pay() {
+        guard let clientSecret = PaymentConfig.shared.paymentIntentClientSecret else {
+            return
+        }
+        
+        let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
+        paymentIntentParams.paymentMethodParams = paymentMethodParams
+        
+        paymentGatewayController.submitPayment(intent: paymentIntentParams) { status, intent, error in
+            switch status {
+            case .failed:
+                print("failed")
+                break
+            case .canceled:
+                print("cancelled")
+                break
+            case .succeeded:
+                print("succeeded")
+                break
+            }
+        }
     }
 }

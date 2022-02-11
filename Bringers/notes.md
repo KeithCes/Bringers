@@ -18,3 +18,5 @@
 - databse rules: make user unable to read email, phone number from other users
 - custom cropping profile picture
 - add push notifications for bringer coming/order complete/etc
+- map could be bigger on large devices (ipad especially)
+- if no orders on bringerorderview stop infintie loading and display message
