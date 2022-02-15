@@ -346,7 +346,7 @@ struct OrderComingMapView: View {
                     phoneNumber: activeUserInfoMap.phoneNumber,
                     profilePictureURL: activeUserInfoMap.profilePictureURL,
                     rating: activeUserInfoMap.rating,
-                    stripeUserID: activeUserInfoMap.stripeUserID
+                    stripeAccountID: activeUserInfoMap.stripeAccountID
                 )
                 
                 self.bringerInfo = userInfo

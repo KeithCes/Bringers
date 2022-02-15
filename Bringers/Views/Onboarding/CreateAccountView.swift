@@ -160,7 +160,7 @@ struct CreateAccountView: View {
                         "ordersCompleted": 0,
                         "profilePictureURL": "",
                         "rating": 0,
-                        "stripeUserID": stripeAccountID
+                        "stripeAccountID": stripeAccountID
                     ] as [String : Any]
                     
                     ref.child("users").child(userID).child("userInfo").setValue(userDetails)

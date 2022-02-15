@@ -383,7 +383,7 @@ struct BringerOrderMapView: View {
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
-                stripeUserID: activeUserInfoMap.stripeUserID
+                stripeAccountID: activeUserInfoMap.stripeAccountID
             )
             
             self.ordererInfo = userInfo

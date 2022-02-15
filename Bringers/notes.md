@@ -1,9 +1,11 @@
 # stuff to do soon
+- TESTING!!!!
 - texting/calling support
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
 
 # shit to do if bored
+- TESTING!!!!
 - modulate button (place order, login, accept order, etc)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
