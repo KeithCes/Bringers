@@ -382,7 +382,8 @@ struct BringerOrderMapView: View {
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
-                rating: activeUserInfoMap.rating
+                rating: activeUserInfoMap.rating,
+                stripeUserID: activeUserInfoMap.stripeUserID
             )
             
             self.ordererInfo = userInfo

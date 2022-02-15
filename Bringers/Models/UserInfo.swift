@@ -20,6 +20,7 @@ struct UserInfo: Mappable {
     let phoneNumber: String
     let profilePictureURL: String
     let rating: CGFloat
+    let stripeUserID: String
     
     init(map: Mapper) throws {
         try dateOfBirth = map.from("dateOfBirth")
@@ -32,5 +33,6 @@ struct UserInfo: Mappable {
         try phoneNumber = map.from("phoneNumber")
         try profilePictureURL = map.from("profilePictureURL")
         try rating = map.from("rating")
+        try stripeUserID = map.from("stripeUserID")
     }
 }

@@ -22,7 +22,12 @@ struct CreateAccountView: View {
     
     @State private var isDobChanged: Bool = false
     
-    @Binding private var isShowingCreate: Bool
+    @Binding var isShowingCreate: Bool
+    @Binding var isCreateSuccessful: Bool
+    
+    @State private var isShowingStripe: Bool = false
+    @State private var isStripeCompletedSuccessfully: Bool = false
+    @State private var stripeAccountID: String = ""
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -32,10 +37,6 @@ struct CreateAccountView: View {
     
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 5)
     @State private var name = Array<String>.init(repeating: "", count: 5)
-    
-    init(isShowingCreate: Binding<Bool>) {
-        self._isShowingCreate = isShowingCreate
-    }
     
     var body: some View {
         ScrollView {
@@ -90,7 +91,9 @@ struct CreateAccountView: View {
                     }
                 
                 Button("CREATE") {
-                    createAccount()
+                    if checkIfCreateInfoValid() {
+                        isShowingStripe = true
+                    }
                 }
                 .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
                 .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -108,15 +111,31 @@ struct CreateAccountView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(CustomColors.seafoamGreen)
             .ignoresSafeArea()
+            
+            .sheet(isPresented: $isShowingStripe) {
+                CreateStripeView(isShowingStripe: $isShowingStripe,
+                                 isStripeCompletedSuccessfully: $isStripeCompletedSuccessfully,
+                                 stripeAccountID: $stripeAccountID)
+            }
+            
+            .onChange(of: isShowingStripe) { _ in
+                if !isShowingStripe && isStripeCompletedSuccessfully {
+                    createAccount()
+                }
+            }
         }
         .background(CustomColors.seafoamGreen)
+    }
+    
+    func checkIfCreateInfoValid() -> Bool {
+        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword
     }
     
     func createAccount() {
         
         // TODO: add toasts to show what error user is facing (password too short, email badly formatted, etc)
         
-        if firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword {
+        if checkIfCreateInfoValid() {
             
             let ref = Database.database().reference()
             
@@ -140,13 +159,15 @@ struct CreateAccountView: View {
                         "ordersPlaced": 0,
                         "ordersCompleted": 0,
                         "profilePictureURL": "",
-                        "rating": 0
+                        "rating": 0,
+                        "stripeUserID": stripeAccountID
                     ] as [String : Any]
                     
                     ref.child("users").child(userID).child("userInfo").setValue(userDetails)
                     
                     print("user created")
                     isShowingCreate.toggle()
+                    isCreateSuccessful = true
                 }
                 else {
                     print("error:  \(error!.localizedDescription)")
