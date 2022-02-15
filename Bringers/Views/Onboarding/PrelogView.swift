@@ -64,7 +64,7 @@ struct PrelogView: View {
                                 .cornerRadius(15))
                 
                 .sheet(isPresented: $isShowingCreate) {
-                    CreateAccountView(isShowingCreate: $isShowingCreate, isCreateSuccessful: $isCreateSuccessful)
+                    CreateAccountView(isShowingCreate: $isShowingCreate)
                 }
             }
         }

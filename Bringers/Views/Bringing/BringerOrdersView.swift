@@ -283,10 +283,12 @@ struct BringerOrdersView: View {
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
                 stripeAccountID: activeUserInfoMap.stripeAccountID,
+                stripeCustomerID: activeUserInfoMap.stripeCustomerID,
                 address: activeUserInfoMap.address,
                 state: activeUserInfoMap.state,
                 city: activeUserInfoMap.city,
-                country: activeUserInfoMap.country
+                country: activeUserInfoMap.country,
+                zipcode: activeUserInfoMap.zipcode
             )
             
             self.isProgressViewHidden = true
