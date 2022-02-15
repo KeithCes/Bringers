@@ -12,7 +12,7 @@ import FirebaseDatabase
 import Stripe
 import SafariServices
 
-struct CreateStripeView: View {
+struct CreateStripeCustomerView: View {
     
     @Binding var isShowingStripe: Bool
     @Binding var isStripeCompletedSuccessfully: Bool

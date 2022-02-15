@@ -21,6 +21,10 @@ struct UserInfo: Mappable {
     let profilePictureURL: String
     let rating: CGFloat
     let stripeAccountID: String
+    let address: String
+    let state: String
+    let city: String
+    let country: String
     
     init(map: Mapper) throws {
         try dateOfBirth = map.from("dateOfBirth")
@@ -34,5 +38,9 @@ struct UserInfo: Mappable {
         try profilePictureURL = map.from("profilePictureURL")
         try rating = map.from("rating")
         try stripeAccountID = map.from("stripeAccountID")
+        try address = map.from("address")
+        try state = map.from("state")
+        try city = map.from("city")
+        try country = map.from("country")
     }
 }

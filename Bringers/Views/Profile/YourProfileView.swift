@@ -230,7 +230,11 @@ struct YourProfileView: View {
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
-                stripeAccountID: activeUserInfoMap.stripeAccountID
+                stripeAccountID: activeUserInfoMap.stripeAccountID,
+                address: activeUserInfoMap.address,
+                state: activeUserInfoMap.state,
+                city: activeUserInfoMap.city,
+                country: activeUserInfoMap.country
             )
             
             self.userInfo = userInfo

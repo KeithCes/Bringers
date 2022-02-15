@@ -20,10 +20,14 @@ struct UserInfoModel {
     var profilePictureURL: String = ""
     var rating: CGFloat = 0
     var stripeAccountID: String = ""
+    var address: String = ""
+    var state: String = ""
+    var city: String = ""
+    var country: String = ""
     
     init(){}
     
-    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, phoneNumber: String, profilePictureURL: String, rating: CGFloat, stripeAccountID: String) {
+    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, phoneNumber: String, profilePictureURL: String, rating: CGFloat, stripeAccountID: String, address: String, state: String, city: String, country: String) {
         self.dateOfBirth = dateOfBirth
         self.dateOfCreation = dateOfCreation
         self.email = email
@@ -35,5 +39,9 @@ struct UserInfoModel {
         self.profilePictureURL = profilePictureURL
         self.rating = rating
         self.stripeAccountID = stripeAccountID
+        self.address = address
+        self.state = state
+        self.city = city
+        self.country = country
     }
 }

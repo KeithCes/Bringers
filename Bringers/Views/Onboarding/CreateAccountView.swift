@@ -113,7 +113,7 @@ struct CreateAccountView: View {
             .ignoresSafeArea()
             
             .sheet(isPresented: $isShowingStripe) {
-                CreateStripeView(isShowingStripe: $isShowingStripe,
+                CreateStripeCustomerView(isShowingStripe: $isShowingStripe,
                                  isStripeCompletedSuccessfully: $isStripeCompletedSuccessfully,
                                  stripeAccountID: $stripeAccountID)
             }
@@ -160,7 +160,11 @@ struct CreateAccountView: View {
                         "ordersCompleted": 0,
                         "profilePictureURL": "",
                         "rating": 0,
-                        "stripeAccountID": stripeAccountID
+                        "stripeAccountID": stripeAccountID,
+                        "address": "",
+                        "state": "",
+                        "city": "",
+                        "country": ""
                     ] as [String : Any]
                     
                     ref.child("users").child(userID).child("userInfo").setValue(userDetails)
