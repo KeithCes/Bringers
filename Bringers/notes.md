@@ -1,5 +1,6 @@
 # stuff to do soon
 - TESTING!!!!
+- add address to your profile for editting
 - texting/calling support
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
@@ -13,6 +14,7 @@
 
 # stuff to add later
 
+- probably need auth headers for all HTTP calls so someone can't remotely do stuff (SECURITY)
 - when email is changed the email is only changed in db not auth (login uses creation email)
 - slight flickering of keyboard when password fields selected (create)
 - item name/description on confirmation screen

@@ -55,39 +55,57 @@ struct BringerOrdersView: View {
         
         ZStack {
             if self.userInfo.stripeAccountID == "" {
-                Link(destination: URL(string: self.stripeURLString)!, label: {
-                    Button("SETUP STRIPE") {
-                        didSelectConnectWithStripe { url in
+                
+                VStack {
+                    CustomTitleText(labelText: "TO BECOME A BRINGER AND PICK UP ORDERS, WE NEED TO CONFIRM A FEW DETAILS:")
+                    
+                    Link(destination: URL(string: self.stripeURLString)!, label: {
+                        Button("CONFIRM ACCOUNT") {
                             
-                            self.stripeURLString = url ?? ""
+                            self.isProgressViewHidden = false
                             
-                            DispatchQueue.main.async {
-                                self.isShowingSafari = true
+                            ProgressView()
+                                .isHidden(self.isProgressViewHidden)
+                                .scaleEffect(x: 2, y: 2, anchor: .center)
+                                .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
+                                .background(RoundedRectangle(cornerRadius: 3)
+                                                .fill(CustomColors.seafoamGreen))
+                                .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
+
+                            
+                            didSelectConnectWithStripe { url in
+                                
+                                self.stripeURLString = url ?? ""
+                                
+                                DispatchQueue.main.async {
+                                    self.isProgressViewHidden = true
+                                    self.isShowingSafari = true
+                                }
                             }
                         }
-                    }
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
-                    .foregroundColor(Color.white)
-                    .background(Rectangle()
-                                    .fill(CustomColors.blueGray.opacity(0.6))
-                                    .frame(width: CustomDimensions.width, height: 70)
-                                    .cornerRadius(15))
-                    .padding(EdgeInsets(top: 30, leading: 20, bottom: 10, trailing: 20))
-                })
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                        .foregroundColor(Color.white)
+                        .background(Rectangle()
+                                        .fill(CustomColors.blueGray.opacity(0.6))
+                                        .frame(width: CustomDimensions.width, height: 70)
+                                        .cornerRadius(15))
+                        .padding(EdgeInsets(top: 30, leading: 20, bottom: 10, trailing: 20))
+                    })
+                }
             }
             else {
-            List(orders) { order in
-                OrderListButton(
-                    isShowingOrder: $isShowingOrder,
-                    order: order,
-                    currentOrder: $currentOrder,
-                    distance: self.currentCoords.distance(from: order.location),
-                    distanceAlpha: ((self.currentCoords.distance(from: order.location) - self.currentCoords.distance(from: self.lowestDistance)) * self.alphaIncrementValDistance) + 0.4,
-                    shippingAlpha: ((order.deliveryFee - self.lowestShipping) * self.alphaIncrementValShipping) + 0.4
-                )
-            }
+                List(orders) { order in
+                    OrderListButton(
+                        isShowingOrder: $isShowingOrder,
+                        order: order,
+                        currentOrder: $currentOrder,
+                        distance: self.currentCoords.distance(from: order.location),
+                        distanceAlpha: ((self.currentCoords.distance(from: order.location) - self.currentCoords.distance(from: self.lowestDistance)) * self.alphaIncrementValDistance) + 0.4,
+                        shippingAlpha: ((order.deliveryFee - self.lowestShipping) * self.alphaIncrementValShipping) + 0.4
+                    )
+                }
                 
-            .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
+                .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
             }
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
@@ -107,7 +125,8 @@ struct BringerOrdersView: View {
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))
                         .frame(width: CustomDimensions.width, height: CustomDimensions.height550)
-                        .cornerRadius(15))
+                        .cornerRadius(15)
+                        .isHidden(self.userInfo.stripeAccountID == ""))
         .tabItem {
             Image(systemName: "bag")
             Text("Bring")
