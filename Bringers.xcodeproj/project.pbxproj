@@ -45,6 +45,7 @@
 		537718F4276EDB6100F541B5 /* BringersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */; };
 		5378495D27A467EF006FF843 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495C27A467EF006FF843 /* UserInfo.swift */; };
 		5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495E27A4689F006FF843 /* UserInfoModel.swift */; };
+		5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -136,6 +137,7 @@
 		5378495C27A467EF006FF843 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		5378495E27A4689F006FF843 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		5398CB4927BC25660006A2AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmation.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				532BF422277BD77B00D8ADA3 /* BringerConfirmOrderBuyView.swift */,
 				532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */,
 				532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */,
+				5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */,
 			);
 			path = Bringing;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */,
 				53E388CC27B43E0600933350 /* PaymentGatewayController.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
+				5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */,
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
