@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import FirebaseAuth
 import MapKit
+import FirebaseDatabase
 
 struct PlaceOrderView: View {
     
@@ -31,6 +32,18 @@ struct PlaceOrderView: View {
     @State private var isShowingOrderComing: Bool = false
     @State private var isOrderCancelledMap: Bool = false
     
+    @State private var userInfo: UserInfoModel = UserInfoModel()
+    
+    @State private var hasSavedCreditCard: Bool = true
+    
+    @State private var creditCardNumber: String = ""
+    @State private var cardholderName: String = ""
+    @State private var expMonth: String = ""
+    @State private var expYear: String = ""
+    @State private var cvcNumber: String = ""
+    
+    @State private var isProgressViewHidden: Bool = false
+    
     @Binding var givenOrder: OrderModel
     
     @ObservedObject private var keyboard = KeyboardResponder()
@@ -43,92 +56,125 @@ struct PlaceOrderView: View {
     
     var body: some View {
         VStack {
-            CustomTitleText(labelText: "LOOKING FOR SOMETHING?")
-            
-            Menu {
-                Button {
-                    pickupBuy = "Buy"
-                    pickupBuyColor = CustomColors.midGray
-                    pickupBuyImageName = "tag"
-                } label: {
-                    Text("Buy")
-                    Image(systemName: "tag")
-                }
-                Button {
-                    pickupBuy = "Pick-up"
-                    pickupBuyColor = CustomColors.midGray
-                    pickupBuyImageName = "bag"
-                } label: {
-                    Text("Pick-up")
-                    Image(systemName: "bag")
-                }
-            } label: {
-                Text(pickupBuy)
-                Image(systemName: pickupBuyImageName)
-            }
-            .font(.system(size: 18, weight: .regular, design: .rounded))
-            .foregroundColor(pickupBuyColor)
-            .fixedSize(horizontal: false, vertical: true)
-            .multilineTextAlignment(.center)
-            .background(Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(width: CustomDimensions.width, height: 50)
-                            .cornerRadius(15))
-            .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
-            
-            HStack {
-                CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            if !self.hasSavedCreditCard {
+                CustomTitleText(labelText: "ADD A CREDIT CARD TO GET STARTED!")
                 
-                if pickupBuy != "Pick-up" {
-                    CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
-                        .padding(EdgeInsets(top: 0, leading: 26, bottom: 0, trailing: 0))
+                // TODO: make exp/creditcardnum number only
+                CustomTextbox(field: $creditCardNumber, placeholderText: "Credit Card Number")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                CustomTextbox(field: $cardholderName, placeholderText: "Cardholder Name")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                CustomTextbox(field: $expMonth, placeholderText: "Exp Month")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                CustomTextbox(field: $expYear, placeholderText: "Exp Year")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                CustomTextbox(field: $cvcNumber, placeholderText: "CVC")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                
+                Button("ADD CARD") {
+                    self.addCreditCard()
                 }
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width, height: 70)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
             }
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .frame(width: CustomDimensions.width, height: 100)
-            .fixedSize(horizontal: false, vertical: true)
-            
-            CustomTextbox(field: $itemName, placeholderText: "Name of Item")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
-            
-            TextEditor(text: $description)
-                .placeholderTopLeft(when: self.description.isEmpty) {
-                    Text("Description").foregroundColor(CustomColors.midGray.opacity(0.5))
-                    // makes placeholder even with text in box, not sure why we need this padding
-                        .padding(.top, 24)
-                        .padding(.leading, 20)
+            else {
+                CustomTitleText(labelText: "LOOKING FOR SOMETHING?")
+                
+                Menu {
+                    Button {
+                        pickupBuy = "Buy"
+                        pickupBuyColor = CustomColors.midGray
+                        pickupBuyImageName = "tag"
+                    } label: {
+                        Text("Buy")
+                        Image(systemName: "tag")
+                    }
+                    Button {
+                        pickupBuy = "Pick-up"
+                        pickupBuyColor = CustomColors.midGray
+                        pickupBuyImageName = "bag"
+                    } label: {
+                        Text("Pick-up")
+                        Image(systemName: "bag")
+                    }
+                } label: {
+                    Text(pickupBuy)
+                    Image(systemName: pickupBuyImageName)
                 }
                 .font(.system(size: 18, weight: .regular, design: .rounded))
-                .foregroundColor(CustomColors.midGray)
+                .foregroundColor(pickupBuyColor)
+                .fixedSize(horizontal: false, vertical: true)
+                .multilineTextAlignment(.center)
                 .background(Rectangle()
                                 .fill(Color.white.opacity(0.5))
-                                .frame(width: CustomDimensions.width, height: 153)
+                                .frame(width: CustomDimensions.width, height: 50)
                                 .cornerRadius(15))
-                .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
-                .onReceive(self.description.publisher.collect()) {
-                    self.description = String($0.prefix(200))
+                .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
+                
+                HStack {
+                    CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    
+                    if pickupBuy != "Pick-up" {
+                        CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
+                            .padding(EdgeInsets(top: 0, leading: 26, bottom: 0, trailing: 0))
+                    }
                 }
-                .padding(EdgeInsets(top: 24, leading: 20, bottom: 30, trailing: 20))
-            
-            Button("PLACE ORDER") {
-                self.showConfirmScreen()
-            }
-            .sheet(isPresented: $isShowingConfirm, onDismiss: {
-                if !isShowingConfirm && confirmPressed {
-                    confirmPressed = false
-                    isShowingWaitingForBringer.toggle()
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                .frame(width: CustomDimensions.width, height: 100)
+                .fixedSize(horizontal: false, vertical: true)
+                
+                CustomTextbox(field: $itemName, placeholderText: "Name of Item")
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
+                
+                TextEditor(text: $description)
+                    .placeholderTopLeft(when: self.description.isEmpty) {
+                        Text("Description").foregroundColor(CustomColors.midGray.opacity(0.5))
+                        // makes placeholder even with text in box, not sure why we need this padding
+                            .padding(.top, 24)
+                            .padding(.leading, 20)
+                    }
+                    .font(.system(size: 18, weight: .regular, design: .rounded))
+                    .foregroundColor(CustomColors.midGray)
+                    .background(Rectangle()
+                                    .fill(Color.white.opacity(0.5))
+                                    .frame(width: CustomDimensions.width, height: 153)
+                                    .cornerRadius(15))
+                    .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
+                    .onReceive(self.description.publisher.collect()) {
+                        self.description = String($0.prefix(200))
+                    }
+                    .padding(EdgeInsets(top: 24, leading: 20, bottom: 30, trailing: 20))
+                
+                Button("PLACE ORDER") {
+                    self.showConfirmScreen()
                 }
-            }) {
-                ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, order: $order)
+                
+                .sheet(isPresented: $isShowingConfirm, onDismiss: {
+                    if !isShowingConfirm && confirmPressed {
+                        confirmPressed = false
+                        isShowingWaitingForBringer.toggle()
+                    }
+                }) {
+                    ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, order: $order)
+                }
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width, height: 70)
+                                .cornerRadius(15))
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
             }
-            .font(.system(size: 30, weight: .bold, design: .rounded))
-            .foregroundColor(Color.white)
-            .background(Rectangle()
-                            .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: CustomDimensions.width, height: 70)
-                            .cornerRadius(15))
-            .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
             
         }
         .padding(.bottom, keyboard.currentHeight)
@@ -142,6 +188,15 @@ struct PlaceOrderView: View {
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
         .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
+        .overlay(
+            ProgressView()
+                .scaleEffect(x: 2, y: 2, anchor: .center)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+                .background(RoundedRectangle(cornerRadius: 3)
+                                .fill(CustomColors.seafoamGreen))
+                .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
+                .isHidden(self.isProgressViewHidden)
+        )
         
         .fullScreenCover(isPresented: $isShowingWaitingForBringer, onDismiss: {
             if (!isShowingWaitingForBringer && !isOrderCancelledWaiting) {
@@ -164,6 +219,10 @@ struct PlaceOrderView: View {
             )
         }
         .onAppear {
+            DispatchQueue.main.async {
+                getYourProfile()
+            }
+            
             if self.givenOrder.status == "waiting" {
                 isShowingWaitingForBringer = true
             }
@@ -207,5 +266,100 @@ struct PlaceOrderView: View {
         else {
             print("error")
         }
+    }
+    
+    func getYourProfile() {
+        
+        guard let userID = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let ref = Database.database().reference()
+        
+        ref.child("users").child(userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let activeUserInfo = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                return
+            }
+            
+            let userInfo = UserInfoModel(
+                dateOfBirth: activeUserInfoMap.dateOfBirth,
+                dateOfCreation: activeUserInfoMap.dateOfCreation,
+                email: activeUserInfoMap.email,
+                firstName: activeUserInfoMap.firstName,
+                lastName: activeUserInfoMap.lastName,
+                ordersCompleted: activeUserInfoMap.ordersCompleted,
+                ordersPlaced: activeUserInfoMap.ordersPlaced,
+                phoneNumber: activeUserInfoMap.phoneNumber,
+                profilePictureURL: activeUserInfoMap.profilePictureURL,
+                rating: activeUserInfoMap.rating,
+                stripeAccountID: activeUserInfoMap.stripeAccountID,
+                stripeCustomerID: activeUserInfoMap.stripeCustomerID,
+                address: activeUserInfoMap.address,
+                state: activeUserInfoMap.state,
+                city: activeUserInfoMap.city,
+                country: activeUserInfoMap.country,
+                zipcode: activeUserInfoMap.zipcode
+            )
+            
+            self.userInfo = userInfo
+            
+            fetchCustomerDetails()
+        })
+    }
+    
+    func fetchCustomerDetails() {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/get-customer-details")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode(["customerID" : self.userInfo.stripeCustomerID])
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data,
+                  error == nil,
+                  (response as? HTTPURLResponse)?.statusCode == 200,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                  let _ = json["defaultSource"] as? String else {
+                      self.hasSavedCreditCard = false
+                      self.isProgressViewHidden = true
+                      return
+                  }
+            self.hasSavedCreditCard = true
+            self.isProgressViewHidden = true
+        }.resume()
+    }
+    
+    // TODO: show error toasts if credit card not valid/not added
+    func addCreditCard() {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/add-credit-card")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode([
+            "customerID" : self.userInfo.stripeCustomerID,
+            "ccNumber" : self.creditCardNumber,
+            "expMonth" : self.expMonth,
+            "expYear" : self.expYear,
+            "cvc" : self.cvcNumber
+        ])
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data,
+                  error == nil,
+                  (response as? HTTPURLResponse)?.statusCode == 200,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                  let _ = json["defaultSource"] as? String else {
+                      self.hasSavedCreditCard = false
+                      return
+                  }
+            self.hasSavedCreditCard = true
+        }.resume()
     }
 }
