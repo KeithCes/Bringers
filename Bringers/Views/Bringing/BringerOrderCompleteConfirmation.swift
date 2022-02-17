@@ -23,11 +23,15 @@ struct BringerOrderCompleteConfirmation: View {
     
     @State private var actualItemPrice: String = ""
     
+    // amount we payout to user
+    var userProfitPercent = 0.75
+    
     var body: some View {
         VStack {
             CustomTitleText(labelText: "IS THE ORDER COMPLETED?")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
             
+            // if buy
             if currentOrder.pickupBuy == "Buy" {
                 CustomLabel(labelText: "How much did the item ACTUALLY cost?", height: 75, fontSize: 14)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
@@ -43,8 +47,15 @@ struct BringerOrderCompleteConfirmation: View {
                 
                 if CGFloat(Int(actualItemPrice) ?? 0) < currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
-                        self.isShowingBringerCompleteConfirmation.toggle()
-                        self.isOrderSuccessfullyCompleted = true
+                        payoutBringer { success in
+                            guard let success = success else {
+                                return
+                            }
+                            if success {
+                                self.isShowingBringerCompleteConfirmation.toggle()
+                                self.isOrderSuccessfullyCompleted = true
+                            }
+                        }
                     }
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundColor(Color.white)
@@ -55,10 +66,18 @@ struct BringerOrderCompleteConfirmation: View {
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
                 }
             }
+            // if pickup
             else {
                 Button("COMPLETE ORDER") {
-                    self.isShowingBringerCompleteConfirmation.toggle()
-                    self.isOrderSuccessfullyCompleted = true
+                    payoutBringer { success in
+                        guard let success = success else {
+                            return
+                        }
+                        if success {
+                            self.isShowingBringerCompleteConfirmation.toggle()
+                            self.isOrderSuccessfullyCompleted = true
+                        }
+                    }
                 }
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundColor(Color.white)
@@ -158,5 +177,29 @@ struct BringerOrderCompleteConfirmation: View {
             
             getOrdererDetails()
         })
+    }
+    
+    private func payoutBringer(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/payout-account")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode([
+            "amount" : "\(Int(self.currentOrder.deliveryFee * 100 * self.userProfitPercent))",
+            "accountID" : self.bringerInfo.stripeAccountID,
+        ])
+        
+        print("\(Int(self.currentOrder.deliveryFee * 100 * self.userProfitPercent))")
+        print(self.bringerInfo.stripeAccountID)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil,
+                  (response as? HTTPURLResponse)?.statusCode == 200 else {
+                      completion(nil)
+                      return
+                  }
+            completion(true)
+        }.resume()
     }
 }
