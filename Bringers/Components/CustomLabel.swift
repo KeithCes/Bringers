@@ -16,14 +16,16 @@ struct CustomLabel: View {
     var isBold: Bool
     var fontSize: CGFloat
     var hasBackground: Bool
+    var backgroundColor: Color
     
-    init(labelText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true) {
+    init(labelText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true, backgroundColor: Color = Color.white) {
         self.labelText = labelText
         self.height = height
         self.width = width
         self.isBold = isBold
         self.fontSize = fontSize
         self.hasBackground = hasBackground
+        self.backgroundColor = backgroundColor
     }
     
     var body: some View {
@@ -31,7 +33,7 @@ struct CustomLabel: View {
             .font(.system(size: self.fontSize, weight: self.isBold ? .bold : .regular, design: .rounded))
             .foregroundColor(CustomColors.midGray)
             .background(Rectangle()
-                            .fill(Color.white.opacity(0.5))
+                            .fill(self.backgroundColor.opacity(0.5))
                             .frame(width: self.width, height: self.height)
                             .cornerRadius(15))
             .fixedSize(horizontal: false, vertical: true)

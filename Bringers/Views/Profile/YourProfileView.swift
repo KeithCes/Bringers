@@ -170,7 +170,7 @@ struct YourProfileView: View {
         .overlay(
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
-                .frame(width: UIScreen.main.bounds.width, height: CustomDimensions.height600, alignment: .center)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
                 .background(RoundedRectangle(cornerRadius: 3)
                                 .fill(CustomColors.seafoamGreen))
                 .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
@@ -191,7 +191,6 @@ struct YourProfileView: View {
         .onAppear {
             clearText()
             getYourProfile()
-            getProfilePicture()
         }
         .sheet(isPresented: $isShowingImagePicker) {
             ImagePicker(image: $profileInputImage)
@@ -230,10 +229,19 @@ struct YourProfileView: View {
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
-                rating: activeUserInfoMap.rating
+                rating: activeUserInfoMap.rating,
+                stripeAccountID: activeUserInfoMap.stripeAccountID,
+                stripeCustomerID: activeUserInfoMap.stripeCustomerID,
+                address: activeUserInfoMap.address,
+                state: activeUserInfoMap.state,
+                city: activeUserInfoMap.city,
+                country: activeUserInfoMap.country,
+                zipcode: activeUserInfoMap.zipcode
             )
             
             self.userInfo = userInfo
+            
+            getProfilePicture()
         })
     }
     

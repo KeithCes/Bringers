@@ -45,6 +45,7 @@
 		537718F4276EDB6100F541B5 /* BringersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */; };
 		5378495D27A467EF006FF843 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495C27A467EF006FF843 /* UserInfo.swift */; };
 		5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495E27A4689F006FF843 /* UserInfoModel.swift */; };
+		5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -67,6 +68,7 @@
 		53BDE55B278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55A278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift */; };
 		53BDE55E278B679B00347516 /* CLLocationCoordinate2D+distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55D278B679B00347516 /* CLLocationCoordinate2D+distance.swift */; };
 		53BDE560278D0C8A00347516 /* DefaultCoords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE55F278D0C8A00347516 /* DefaultCoords.swift */; };
+		53E388C627B2E5B100933350 /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 53E388C527B2E5B100933350 /* Stripe */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +131,8 @@
 		537718F3276EDB6100F541B5 /* BringersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringersUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5378495C27A467EF006FF843 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		5378495E27A4689F006FF843 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
+		5398CB4927BC25660006A2AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmation.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				53BDE5352784F1CD00347516 /* FirebaseStorage in Frameworks */,
 				53BDE52F2784F1CD00347516 /* FirebaseDatabase in Frameworks */,
 				53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */,
+				53E388C627B2E5B100933350 /* Stripe in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +284,7 @@
 		537718D5276EDB5E00F541B5 /* Bringers */ = {
 			isa = PBXGroup;
 			children = (
+				5398CB4927BC25660006A2AB /* Info.plist */,
 				532BF42B2783C99F00D8ADA3 /* Constants */,
 				532BF40B277635A300D8ADA3 /* ViewModels */,
 				53BDE5482787A10300347516 /* Models */,
@@ -340,6 +346,7 @@
 				532BF422277BD77B00D8ADA3 /* BringerConfirmOrderBuyView.swift */,
 				532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */,
 				532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */,
+				5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */,
 			);
 			path = Bringing;
 			sourceTree = "<group>";
@@ -401,6 +408,7 @@
 				53BDE5322784F1CD00347516 /* FirebaseMessaging */,
 				53BDE5342784F1CD00347516 /* FirebaseStorage */,
 				53BDE5502788060B00347516 /* Mapper */,
+				53E388C527B2E5B100933350 /* Stripe */,
 			);
 			productName = Bringers;
 			productReference = 537718D3276EDB5E00F541B5 /* Bringers.app */;
@@ -477,6 +485,7 @@
 			packageReferences = (
 				53BDE5272784F1CC00347516 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				53BDE54F2788060A00347516 /* XCRemoteSwiftPackageReference "mapper" */,
+				53E388C427B2E5B000933350 /* XCRemoteSwiftPackageReference "stripe-ios" */,
 			);
 			productRefGroup = 537718D4276EDB5E00F541B5 /* Products */;
 			projectDirPath = "";
@@ -559,6 +568,7 @@
 				532BF4262782580C00D8ADA3 /* BringerOrderMapView.swift in Sources */,
 				532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
+				5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */,
 				532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */,
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
@@ -730,6 +740,7 @@
 				DEVELOPMENT_TEAM = X9NZ672UUT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bringers/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access so orders can be delivered to you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -763,6 +774,7 @@
 				DEVELOPMENT_TEAM = X9NZ672UUT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bringers/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow access so orders can be delivered to you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -919,6 +931,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		53E388C427B2E5B000933350 /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 21.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -961,6 +981,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 53BDE54F2788060A00347516 /* XCRemoteSwiftPackageReference "mapper" */;
 			productName = Mapper;
+		};
+		53E388C527B2E5B100933350 /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53E388C427B2E5B000933350 /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

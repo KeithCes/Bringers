@@ -27,6 +27,9 @@ struct BringerOrderMapView: View {
     @State private var receiptImage: Image = Image("placeholder")
     @State private var receiptImageUploaded: Bool = false
     
+    @State private var isShowingBringerCompleteConfirmation: Bool = false
+    @State private var isOrderSuccessfullyCompleted: Bool = false
+    
     @State private var profileInputImage: UIImage?
     @State private var profileImage: Image = Image("placeholder")
     @State private var profileImageUploaded: Bool = false
@@ -140,8 +143,7 @@ struct BringerOrderMapView: View {
                 if ((self.currentOrder.pickupBuy == "Buy" && self.receiptImageUploaded) || self.currentOrder.pickupBuy == "Pick-up") && self.currentOrder.location.distance(from: viewModel.getLocation()?.location?.coordinate ?? self.currentOrder.location) < 0.25
                 {
                     Button("COMPLETE ORDER") {
-                        // TODO: confirmation screen
-                        deactivateOrder(isCompleted: true)
+                        isShowingBringerCompleteConfirmation.toggle()
                     }
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                     .font(.system(size: 15, weight: .bold, design: .rounded))
@@ -191,6 +193,18 @@ struct BringerOrderMapView: View {
         .onChange(of: receiptInputImage) { _ in
             loadImage()
             uploadReceipt()
+        }
+        
+        .sheet(isPresented: $isShowingBringerCompleteConfirmation, onDismiss: {
+            if !isShowingBringerCompleteConfirmation && isOrderSuccessfullyCompleted {
+                deactivateOrder(isCompleted: true)
+            }
+        }) {
+            BringerOrderCompleteConfirmation(
+                isShowingBringerCompleteConfirmation: $isShowingBringerCompleteConfirmation,
+                isOrderSuccessfullyCompleted: $isOrderSuccessfullyCompleted,
+                currentOrder: $currentOrder
+            )
         }
     }
     
@@ -382,7 +396,14 @@ struct BringerOrderMapView: View {
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
-                rating: activeUserInfoMap.rating
+                rating: activeUserInfoMap.rating,
+                stripeAccountID: activeUserInfoMap.stripeAccountID,
+                stripeCustomerID: activeUserInfoMap.stripeCustomerID,
+                address: activeUserInfoMap.address,
+                state: activeUserInfoMap.state,
+                city: activeUserInfoMap.city,
+                country: activeUserInfoMap.country,
+                zipcode: activeUserInfoMap.zipcode
             )
             
             self.ordererInfo = userInfo

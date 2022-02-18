@@ -1,15 +1,25 @@
 # stuff to do soon
-- create account dob constraints are off
-- get profile picture on order/bringer screens; its still scarra i think
+- make refund orderer + bringer payout one transaction to prevent partial completions on error
+- disable complete button bringer while backend calling to prevent double/triple charges
+- change your profit in bringer view to be 75% of delviery fee
+- TESTING!!!!
+- user stripe native credit card add form instead of plain text
+- handle refunds on order cancels
+- add address to your profile for editting
 - texting/calling support
+- add number of orders/bringers placed/completed/cancelled
+- add rating after order
 
 # shit to do if bored
+- TESTING!!!!
 - modulate button (place order, login, accept order, etc)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
+- placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
 
 # stuff to add later
 
+- probably need auth headers for all HTTP calls so someone can't remotely do stuff (SECURITY)
 - when email is changed the email is only changed in db not auth (login uses creation email)
 - slight flickering of keyboard when password fields selected (create)
 - item name/description on confirmation screen
@@ -18,3 +28,5 @@
 - databse rules: make user unable to read email, phone number from other users
 - custom cropping profile picture
 - add push notifications for bringer coming/order complete/etc
+- map could be bigger on large devices (ipad especially)
+- if no orders on bringerorderview stop infintie loading and display message
