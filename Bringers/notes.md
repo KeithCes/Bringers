@@ -1,5 +1,10 @@
 # stuff to do soon
+- make refund orderer + bringer payout one transaction to prevent partial completions on error
+- disable complete button bringer while backend calling to prevent double/triple charges
+- change your profit in bringer view to be 75% of delviery fee
 - TESTING!!!!
+- user stripe native credit card add form instead of plain text
+- handle refunds on order cancels
 - add address to your profile for editting
 - texting/calling support
 - add number of orders/bringers placed/completed/cancelled

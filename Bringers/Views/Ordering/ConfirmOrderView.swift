@@ -23,6 +23,8 @@ struct ConfirmOrderView: View {
     
     @State private var ordererInfo: UserInfoModel = UserInfoModel()
     
+    @State private var paymentIntentID: String = ""
+    
     @State private var paymentSheet: PaymentSheet?
     @State private var paymentResult: PaymentSheetResult?
     
@@ -77,7 +79,7 @@ struct ConfirmOrderView: View {
                     CustomLabel(labelText: "TOTAL ESTIMATED MAXIMUM COST = $" + String(format:"%.02f", (estTax + order.maxPrice + order.deliveryFee)), height: 75, isBold: true)
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
                     
-                    CustomLabel(labelText: "Note: Final costs may be slightly different than estimates due to actual item prices", height: 75, fontSize: 14)
+                    CustomLabel(labelText: "Note: If the actual item price is cheaper than the max item price, you will be refunded the difference when the order is complete", height: 75, fontSize: 14)
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
                 }
                 else {
@@ -131,7 +133,8 @@ struct ConfirmOrderView: View {
             "maxPrice": order.maxPrice,
             "deliveryFee": order.deliveryFee,
             "status": order.status,
-            "userID": order.userID
+            "userID": order.userID,
+            "paymentIntentID": self.paymentIntentID
         ] as [String : Any]
         
         ref.child("activeOrders").updateChildValues([order.id : orderJson])
@@ -182,12 +185,15 @@ struct ConfirmOrderView: View {
     func preparePaymentSheet(completion: @escaping (String?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/payment-sheet")!
         
+        // TODO: calc tax based on location (change 0.0625 to be dynamic)
+        let estTax = round(CGFloat(self.order.maxPrice) * 0.0625 * 100)
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONEncoder().encode([
             "customerID" : self.ordererInfo.stripeCustomerID,
-            "deliveryFee" : "\(Int(self.order.deliveryFee * 100))"
+            "deliveryFee" : "\(Int((self.order.deliveryFee * 100) + (self.order.maxPrice * 100) + estTax))"
         ])
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -198,10 +204,13 @@ struct ConfirmOrderView: View {
                   let customerId = json["customer"] as? String,
                   let customerEphemeralKeySecret = json["ephemeralKey"] as? String,
                   let intentClientSecret = json["paymentIntent"] as? String,
+                  let paymentIntentID = json["paymentIntentID"] as? String,
                   let publishableKey = json["publishableKey"] as? String else {
                       completion(nil)
                       return
                   }
+            
+            self.paymentIntentID = paymentIntentID
             
             STPAPIClient.shared.publishableKey = publishableKey
             // MARK: Create a PaymentSheet instance

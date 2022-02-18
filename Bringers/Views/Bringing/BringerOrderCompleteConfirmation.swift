@@ -23,6 +23,8 @@ struct BringerOrderCompleteConfirmation: View {
     
     @State private var actualItemPrice: String = ""
     
+    @State private var paymentIntentID: String = ""
+    
     // amount we payout to user
     var userProfitPercent = 0.75
     
@@ -47,13 +49,15 @@ struct BringerOrderCompleteConfirmation: View {
                 
                 if CGFloat(Int(actualItemPrice) ?? 0) < currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
-                        payoutBringer { success in
-                            guard let success = success else {
-                                return
-                            }
-                            if success {
-                                self.isShowingBringerCompleteConfirmation.toggle()
-                                self.isOrderSuccessfullyCompleted = true
+                        payoutBringer { successBringer in
+                            payOrdererItemPriceDiff { successOrderer in
+                                guard let successBringer = successBringer, let successOrderer = successOrderer else {
+                                    return
+                                }
+                                if successBringer && successOrderer {
+                                    self.isShowingBringerCompleteConfirmation.toggle()
+                                    self.isOrderSuccessfullyCompleted = true
+                                }
                             }
                         }
                     }
@@ -69,13 +73,15 @@ struct BringerOrderCompleteConfirmation: View {
             // if pickup
             else {
                 Button("COMPLETE ORDER") {
-                    payoutBringer { success in
-                        guard let success = success else {
-                            return
-                        }
-                        if success {
-                            self.isShowingBringerCompleteConfirmation.toggle()
-                            self.isOrderSuccessfullyCompleted = true
+                    payoutBringer { successBringer in
+                        payOrdererItemPriceDiff { successOrderer in
+                            guard let successBringer = successBringer, let successOrderer = successOrderer else {
+                                return
+                            }
+                            if successBringer && successOrderer {
+                                self.isShowingBringerCompleteConfirmation.toggle()
+                                self.isOrderSuccessfullyCompleted = true
+                            }
                         }
                     }
                 }
@@ -182,24 +188,79 @@ struct BringerOrderCompleteConfirmation: View {
     private func payoutBringer(completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/payout-account")!
         
+        let bringerProfits = self.currentOrder.deliveryFee * 100 * self.userProfitPercent
+        
+        guard let actualItemPrice = Double(self.actualItemPrice) else {
+            return
+        }
+        
+        // TODO: calc tax based on location (change 0.0625 to be dynamic)
+        let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONEncoder().encode([
-            "amount" : "\(Int(self.currentOrder.deliveryFee * 100 * self.userProfitPercent))",
+            "amount" : "\(Int(bringerProfits + actualItemPriceWithTax))",
             "accountID" : self.bringerInfo.stripeAccountID,
         ])
         
-        print("\(Int(self.currentOrder.deliveryFee * 100 * self.userProfitPercent))")
-        print(self.bringerInfo.stripeAccountID)
-        
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil,
+            guard let _ = data, error == nil,
                   (response as? HTTPURLResponse)?.statusCode == 200 else {
                       completion(nil)
                       return
                   }
             completion(true)
         }.resume()
+    }
+    
+    private func payOrdererItemPriceDiff(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/refund-maxitemprice-customer")!
+        
+        guard let actualItemPrice = Double(self.actualItemPrice) else {
+            return
+        }
+        
+        getOrderPaymentIntent { _ in
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let itemPriceDiff = round(self.currentOrder.maxPrice * 100 * 1.0625) - round(actualItemPrice * 100 * 1.0625)
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "refundAmount" : "\(Int(itemPriceDiff))",
+                "paymentIntentID" : self.paymentIntentID,
+            ])
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200 else {
+                          completion(nil)
+                          return
+                      }
+                completion(true)
+            }.resume()
+        }
+    }
+    
+    func getOrderPaymentIntent(completion: @escaping (Bool?) -> Void) {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(self.currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
+                completion(nil)
+                return
+            }
+            
+            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+                completion(nil)
+                return
+            }
+            
+            self.paymentIntentID = paymentIntentID
+            completion(true)
+        })
     }
 }
