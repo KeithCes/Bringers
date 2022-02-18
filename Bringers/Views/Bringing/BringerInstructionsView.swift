@@ -52,7 +52,7 @@ struct BringerInstructionsView: View {
                     CustomLabelWithTab(labelText: "Maximum Item Cost", tabText: "$" + String(format:"%.0f", self.currentOrder.maxPrice))
                 }
                 
-                CustomLabelWithTab(labelText: "Your Profit", tabText: "$" + String(format:"%.0f", self.currentOrder.deliveryFee), isBold: true)
+                CustomLabelWithTab(labelText: "Your Profit", tabText: "$" + String(format:"%.0f", self.currentOrder.deliveryFee * 0.75), isBold: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
             }
             .background(Rectangle()

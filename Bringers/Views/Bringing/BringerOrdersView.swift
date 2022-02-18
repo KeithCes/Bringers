@@ -119,6 +119,7 @@ struct BringerOrdersView: View {
         .onAppear {
             viewModel.checkIfLocationServicesEnabled()
             getActiveOrders { (orders) in
+                self.getYourProfile()
                 self.orders = orders
             }
         }
@@ -192,7 +193,6 @@ struct BringerOrdersView: View {
             if self.givenOrder.status == "inprogress" {
                 isShowingBringerMap = true
             }
-            self.getYourProfile()
         }
     }
     
@@ -253,8 +253,6 @@ struct BringerOrdersView: View {
                 
                 // sorts orders on distance
                 let sortedOrders: [OrderModel] = filteredActiveOrders.sorted(by: { a, b in self.currentCoords.distance(from: a.location) < self.currentCoords.distance(from: b.location) })
-                
-                self.isProgressViewHidden = true
                 
                 completion(sortedOrders)
             }

@@ -63,17 +63,17 @@ struct WaitingForBringerView: View {
                 }
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 40, trailing: 20))
             
-            Button {
+            Button("CANCEL ORDER") {
+                // TODO: confirmation screen
                 deactivateOrder()
-            } label: {
-                Image(systemName: "x.circle")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(CustomColors.darkGray)
             }
-            .frame(width: 49, height: 28)
-            .background(CustomColors.lightRed)
-            .cornerRadius(15)
+            .font(.system(size: 15, weight: .bold, design: .rounded))
+            .foregroundColor(Color.white)
+            .background(Rectangle()
+                            .fill(CustomColors.lightRed)
+                            .frame(width: CustomDimensions.width, height: 35)
+                            .cornerRadius(15))
+            .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
@@ -95,24 +95,24 @@ struct WaitingForBringerView: View {
         let ref = Database.database().reference()
         
         // moves order from active to past, closes view
-        ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
             
             // adds to past
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
             
             // sets date completed
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd/YYYY"
             let currentDateString = dateFormatter.string(from: Date())
             
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(["dateCompleted" : currentDateString])
+            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
             
             // sets order cancelled
-            ref.child("users").child(userID).child("pastOrders").child($order.wrappedValue.id).updateChildValues(["status" : "cancelled"])
+            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["status" : "cancelled"])
             
             
             // removes from active
-            ref.child("activeOrders").child($order.wrappedValue.id).removeValue()
+            ref.child("activeOrders").child(order.id).removeValue()
             ref.child("users").child(userID).child("activeOrders").removeValue()
             
             self.timer?.invalidate()
@@ -131,7 +131,7 @@ struct WaitingForBringerView: View {
     
     func checkIfOrderInProgress() {
         let ref = Database.database().reference()
-        ref.child("activeOrders").child($order.wrappedValue.id).observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let currentStatus = (snapshot.value as! NSDictionary)["status"] else {
                 self.timer?.invalidate()
                 isShowingWaitingForBringer = false

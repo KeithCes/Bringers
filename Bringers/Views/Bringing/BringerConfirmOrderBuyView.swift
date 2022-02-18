@@ -32,7 +32,7 @@ struct BringerConfirmOrderBuyView: View {
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
             }
             
-            CustomLabel(labelText: "YOUR PROFIT = $" + String(format:"%.02f", self.currentOrder.deliveryFee), isBold: true)
+            CustomLabel(labelText: "YOUR PROFIT = $" + String(format:"%.02f", self.currentOrder.deliveryFee * 0.75), isBold: true)
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
             
             CustomLabel(labelText: "REMEMBER: DO NOT spend more than the max item price on the requested item. Cancel the order or contact the orderer if the price of the item you find exceeds it", height: 90, fontSize: 14)

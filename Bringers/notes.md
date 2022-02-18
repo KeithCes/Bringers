@@ -1,7 +1,6 @@
 # stuff to do soon
 - make refund orderer + bringer payout one transaction to prevent partial completions on error
 - disable complete button bringer while backend calling to prevent double/triple charges
-- change your profit in bringer view to be 75% of delviery fee
 - TESTING!!!!
 - user stripe native credit card add form instead of plain text
 - handle refunds on order cancels
@@ -19,6 +18,7 @@
 
 # stuff to add later
 
+- our db rules are non-existant, should probably add someH
 - probably need auth headers for all HTTP calls so someone can't remotely do stuff (SECURITY)
 - when email is changed the email is only changed in db not auth (login uses creation email)
 - slight flickering of keyboard when password fields selected (create)
