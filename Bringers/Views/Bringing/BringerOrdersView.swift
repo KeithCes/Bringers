@@ -39,7 +39,7 @@ struct BringerOrdersView: View {
     @State private var userInfo: UserInfoModel = UserInfoModel()
     
     // TODO: change to custom URL when wesbite setup
-    @State var stripeURLString = "https://duckduckgo.com"
+    @State var stripeURLString = "https://example.com"
     @State var stripeAccountID = ""
     @State var isShowingSafari: Bool = false
     

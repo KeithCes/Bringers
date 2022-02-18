@@ -71,13 +71,11 @@ struct PrelogView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
-        // i have no clue why this is needed; without it we don't transition from login/create -> tab view
         .onChange(of: isShowingLogin) { _ in
             checkIfActiveOrder { (isOrderFetched) in
                 self.isOrderFetched = isOrderFetched
             }
         }
-        // i have no clue why this is needed; without it we don't transition from login/create -> tab view
         .onChange(of: isShowingCreate) { _ in
             checkIfActiveOrder { (isOrderFetched) in
                 self.isOrderFetched = isOrderFetched
