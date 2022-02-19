@@ -1,8 +1,7 @@
 # stuff to do soon
 - make refund orderer + bringer payout one transaction to prevent partial completions on error
-- disable complete button bringer while backend calling to prevent double/triple charges
 - TESTING!!!!
-- user stripe native credit card add form instead of plain text
+- use stripe native credit card add form instead of plain text
 - handle refunds on order cancels
 - add address to your profile for editting
 - texting/calling support

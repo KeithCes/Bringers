@@ -16,6 +16,7 @@ struct BringerOrderCompleteConfirmation: View {
     
     @Binding var isShowingBringerCompleteConfirmation: Bool
     @Binding var isOrderSuccessfullyCompleted: Bool
+    
     @Binding var currentOrder: OrderModel
     
     @State private var ordererInfo: UserInfoModel = UserInfoModel()
@@ -24,6 +25,8 @@ struct BringerOrderCompleteConfirmation: View {
     @State private var actualItemPrice: String = ""
     
     @State private var paymentIntentID: String = ""
+    
+    @State private var isCompleteButtonEnabled: Bool = true
     
     // amount we payout to user
     var userProfitPercent = 0.75
@@ -49,6 +52,7 @@ struct BringerOrderCompleteConfirmation: View {
                 
                 if CGFloat(Int(actualItemPrice) ?? 0) < currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
+                        self.isCompleteButtonEnabled = false
                         payoutBringer { successBringer in
                             payOrdererItemPriceDiff { successOrderer in
                                 guard let successBringer = successBringer, let successOrderer = successOrderer else {
@@ -68,6 +72,7 @@ struct BringerOrderCompleteConfirmation: View {
                                     .frame(width: CustomDimensions.width, height: 70)
                                     .cornerRadius(15))
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+                    .disabled(!self.isCompleteButtonEnabled)
                 }
             }
             // if pickup
@@ -208,6 +213,7 @@ struct BringerOrderCompleteConfirmation: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let _ = data, error == nil,
                   (response as? HTTPURLResponse)?.statusCode == 200 else {
+                      self.isCompleteButtonEnabled = true
                       completion(nil)
                       return
                   }
@@ -237,6 +243,7 @@ struct BringerOrderCompleteConfirmation: View {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let _ = data, error == nil,
                       (response as? HTTPURLResponse)?.statusCode == 200 else {
+                          self.isCompleteButtonEnabled = true
                           completion(nil)
                           return
                       }
@@ -250,15 +257,17 @@ struct BringerOrderCompleteConfirmation: View {
         
         ref.child("activeOrders").child(self.currentOrder.id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
+                self.isCompleteButtonEnabled = true
                 completion(nil)
                 return
             }
             
             guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+                self.isCompleteButtonEnabled = true
                 completion(nil)
                 return
             }
-            
+
             self.paymentIntentID = paymentIntentID
             completion(true)
         })
