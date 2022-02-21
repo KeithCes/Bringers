@@ -148,12 +148,6 @@ struct YourProfileView: View {
                     }
                 }
             
-            // TODO: send credit card data securly (probably thorugh payment provider; stripe?)
-            CustomTextboxTitleText(field: $savedCreditCard, placeholderText: "****-****-****-9420", titleText: "SAVED CREDIT CARD")
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                .submitLabel(.done)
-                .onSubmit { }
-            
             
             Text("RATING: " + "\(rating)" + "/5")
                 .font(.system(size: 24, weight: .regular, design: .rounded))
@@ -161,6 +155,7 @@ struct YourProfileView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             RatingView(rating: rating, maxRating: 5)
                 .frame(width: 112, height: 16)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
         }
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))

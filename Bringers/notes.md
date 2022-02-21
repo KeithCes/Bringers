@@ -1,17 +1,16 @@
 # stuff to do soon
 - make refund orderer + bringer payout one transaction to prevent partial completions on error
-- TESTING!!!!
-- use stripe native credit card add form instead of plain text
 - handle refunds on order cancels
+- use stripe native credit card add form instead of plain text
 - add address to your profile for editting
-- remove creidt card editting in profile view
 - texting/calling support
+- TESTING!!!!
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
-- make fields dropdown for state/country on create acc
 
 # shit to do if bored
 - TESTING!!!!
+- modeulate dropdown (state createacc, pickupbuy placeorder)
 - modulate button (place order, login, accept order, etc)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second

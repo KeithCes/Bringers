@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseAuth
 import FirebaseDatabase
+import Combine
 
 struct CreateAccountView: View {
     
@@ -20,8 +21,8 @@ struct CreateAccountView: View {
     @State private var address: String = ""
     @State private var city: String = ""
     @State private var zipcode: String = ""
-    @State private var state: String = ""
-    @State private var country: String = ""
+    @State private var state: String = "State"
+    @State private var country: String = "Country"
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     
@@ -30,6 +31,14 @@ struct CreateAccountView: View {
     @State private var isDobChanged: Bool = false
     
     @Binding var isShowingCreate: Bool
+    
+    @State private var countryColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
+    @State private var stateColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
+    var stateCodes = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC",
+                          "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+                          "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",
+                          "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",
+                          "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -84,25 +93,70 @@ struct CreateAccountView: View {
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     .keyboardType(.numberPad)
                 
-                // TODO: restrictions on data input to match Stripe Customer creation parameters
                 Group {
                     CustomTextbox(field: $address, placeholderText: "Billing Address", onEditingChanged: { if $0 { self.kGuardian.showField = 5 } })
                         .background(GeometryGetter(rect: $kGuardian.rects[5]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    // TODO: state dropdown
-                    CustomTextbox(field: $state, placeholderText: "State", onEditingChanged: { if $0 { self.kGuardian.showField = 6 } })
-                        .background(GeometryGetter(rect: $kGuardian.rects[6]))
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    
+                    // state
+                    Menu {
+                        ForEach(self.stateCodes.reversed(), id: \.self) { state in
+                            Button {
+                                self.state = state
+                                self.stateColor = CustomColors.midGray
+                            } label: {
+                                Text(state)
+                            }
+                        }
+                    } label: {
+                        Text(self.state)
+                    }
+                    .font(.system(size: 18, weight: .regular, design: .rounded))
+                    .foregroundColor(self.stateColor)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
+                    .background(Rectangle()
+                                    .fill(Color.white.opacity(0.5))
+                                    .frame(width: CustomDimensions.width, height: 50)
+                                    .cornerRadius(15))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    
+                    
                     CustomTextbox(field: $city, placeholderText: "City", onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
                         .background(GeometryGetter(rect: $kGuardian.rects[7]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    CustomTextbox(field: $zipcode, placeholderText: "Zipcode", onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
+                    CustomTextbox(field: $zipcode, placeholderText: "Zipcode", charLimit: 5, onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
                         .background(GeometryGetter(rect: $kGuardian.rects[7]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    // TODO: country dropdown
-                    CustomTextbox(field: $country, placeholderText: "Country", onEditingChanged: { if $0 { self.kGuardian.showField = 8 } })
-                        .background(GeometryGetter(rect: $kGuardian.rects[8]))
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                        .onReceive(Just(zipcode)) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.zipcode = filtered
+                            }
+                        }
+                        .keyboardType(.numberPad)
+                    
+                    // country
+                    Menu {
+                        Button {
+                            self.country = "US"
+                            self.countryColor = CustomColors.midGray
+                        } label: {
+                            Text("US")
+                        }
+                        
+                    } label: {
+                        Text(self.country)
+                    }
+                    .font(.system(size: 18, weight: .regular, design: .rounded))
+                    .foregroundColor(self.countryColor)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
+                    .background(Rectangle()
+                                    .fill(Color.white.opacity(0.5))
+                                    .frame(width: CustomDimensions.width, height: 50)
+                                    .cornerRadius(15))
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 }
                 
                 CustomSecureTextbox(field: $password, placeholderText: "Password")
@@ -147,7 +201,7 @@ struct CreateAccountView: View {
     }
     
     func checkIfCreateInfoValid() -> Bool {
-        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count > 1 && country.count > 1
+        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count == 2 && country.count == 2
     }
     
     func createAccount() {

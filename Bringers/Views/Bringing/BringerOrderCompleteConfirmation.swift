@@ -11,6 +11,7 @@ import MapKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import Combine
 
 struct BringerOrderCompleteConfirmation: View {
     
@@ -46,9 +47,15 @@ struct BringerOrderCompleteConfirmation: View {
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
                 }
                 
-                // TODO: make number/currency only for textfield
                 CustomTextbox(field: $actualItemPrice, placeholderText: "Actual Item Price")
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
+                    .onReceive(Just(actualItemPrice)) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.actualItemPrice = filtered
+                        }
+                    }
+                    .keyboardType(.numberPad)
                 
                 if CGFloat(Int(actualItemPrice) ?? 0) < currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
