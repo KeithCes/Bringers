@@ -67,7 +67,7 @@ struct BringerOrdersView: View {
                             ProgressView()
                                 .isHidden(self.isProgressViewHidden)
                                 .scaleEffect(x: 2, y: 2, anchor: .center)
-                                .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
                                 .background(RoundedRectangle(cornerRadius: 3)
                                                 .fill(CustomColors.seafoamGreen))
                                 .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
@@ -109,7 +109,7 @@ struct BringerOrdersView: View {
             }
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
-                .frame(width: CustomDimensions.width, height: CustomDimensions.height600, alignment: .center)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
                 .background(RoundedRectangle(cornerRadius: 3)
                                 .fill(CustomColors.seafoamGreen))
                 .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))

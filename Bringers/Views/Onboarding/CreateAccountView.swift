@@ -75,7 +75,7 @@ struct CreateAccountView: View {
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 65, trailing: 20))
                 )
                 
-                CustomTextbox(field: $email, placeholderText: "Email", onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
+                CustomTextbox(field: $email, placeholderText: "Email", charLimit: 30, onEditingChanged: { if $0 { self.kGuardian.showField = 3 } })
                     .background(GeometryGetter(rect: $kGuardian.rects[3]))
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     .textInputAutocapitalization(.never)
@@ -86,7 +86,7 @@ struct CreateAccountView: View {
                 
                 // TODO: restrictions on data input to match Stripe Customer creation parameters
                 Group {
-                    CustomTextbox(field: $address, placeholderText: "Address", onEditingChanged: { if $0 { self.kGuardian.showField = 5 } })
+                    CustomTextbox(field: $address, placeholderText: "Billing Address", onEditingChanged: { if $0 { self.kGuardian.showField = 5 } })
                         .background(GeometryGetter(rect: $kGuardian.rects[5]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     // TODO: state dropdown

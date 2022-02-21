@@ -4,9 +4,11 @@
 - use stripe native credit card add form instead of plain text
 - handle refunds on order cancels
 - add address to your profile for editting
+- remove creidt card editting in profile view
 - texting/calling support
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
+- make fields dropdown for state/country on create acc
 
 # shit to do if bored
 - TESTING!!!!
@@ -17,7 +19,9 @@
 
 # stuff to add later
 
-- our db rules are non-existant, should probably add someH
+- send email receipt of transaction on completion
+- handle card declined case for orders
+- our db rules are non-existant, should probably add some
 - probably need auth headers for all HTTP calls so someone can't remotely do stuff (SECURITY)
 - when email is changed the email is only changed in db not auth (login uses creation email)
 - slight flickering of keyboard when password fields selected (create)

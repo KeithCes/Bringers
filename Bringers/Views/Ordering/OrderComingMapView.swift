@@ -24,6 +24,8 @@ struct OrderComingMapView: View {
     @State private var isShowingReceipt = false
     @State private var isShowingUserProfile = false
     
+    @State private var isShowingOrderCompleted = false
+    
     @State private var receiptInputImage: UIImage?
     @State private var receiptImage: Image = Image("placeholder")
     
@@ -162,28 +164,40 @@ struct OrderComingMapView: View {
                 getReceipt()
             }
         }
+        
+        .sheet(isPresented: $isShowingOrderCompleted, content: {
+            OrderCompleteView(isShowingOrderCompleted: $isShowingOrderCompleted)
+        })
+        
+        .onChange(of: isShowingOrderCompleted) { _ in
+            if !isShowingOrderCompleted {
+                isShowingOrderComing = false
+            }
+        }
     }
     
     func checkOrderCancelled() {
         let ref = Database.database().reference()
+        
         ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotDict = (snapshot.value as? NSDictionary) else {
-                orderCancelled()
+                orderEnded()
                 return
             }
             
             guard let _ = snapshotDict["id"] else {
-                orderCancelled()
+                orderEnded()
                 return
             }
             
             if snapshot.value == nil {
-                orderCancelled()
+                orderEnded()
             }
         })
     }
     
-    func orderCancelled() {
+    func orderEnded() {
+        let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
         ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -192,7 +206,25 @@ struct OrderComingMapView: View {
             ref.child("activeOrders").child(order.id).removeValue()
             
             self.timer?.invalidate()
-            isShowingOrderComing = false
+            
+            // checks if order completed
+            DispatchQueue.main.async {
+                ref.child("users").child(userID).child("pastOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let snapshotDict = (snapshot.value as? NSDictionary) else {
+                        return
+                    }
+                    guard let orderStatus = snapshotDict["status"] as? String else {
+                        return
+                    }
+                    
+                    if orderStatus == "completed" {
+                        isShowingOrderCompleted = true
+                    }
+                    else {
+                        isShowingOrderComing = false
+                    }
+                })
+            }
         })
     }
     
@@ -247,7 +279,7 @@ struct OrderComingMapView: View {
         let ref = Database.database().reference()
         ref.child("activeOrders").child(self.order.id).child("bringerLocation").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotCoords = snapshot.value as? NSArray else {
-                orderCancelled()
+                orderEnded()
                 return
             }
             let bringerLat = snapshotCoords[0] as! CGFloat
