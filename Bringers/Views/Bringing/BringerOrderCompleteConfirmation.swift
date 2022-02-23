@@ -57,15 +57,33 @@ struct BringerOrderCompleteConfirmation: View {
                     }
                     .keyboardType(.numberPad)
                 
-                if CGFloat(Int(actualItemPrice) ?? 0) < currentOrder.maxPrice && actualItemPrice.count > 0 {
+                if CGFloat(Int(actualItemPrice) ?? 0) <= currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
+                        
                         self.isCompleteButtonEnabled = false
-                        payoutBringer { successBringer in
-                            payOrdererItemPriceDiff { successOrderer in
-                                guard let successBringer = successBringer, let successOrderer = successOrderer else {
+                        
+                        guard let actualItemPrice = Double(self.actualItemPrice) else {
+                            return
+                        }
+
+                        
+                        if actualItemPrice == self.currentOrder.maxPrice {
+                            completeOrderNoRefund { success in
+                                guard let success = success else {
                                     return
                                 }
-                                if successBringer && successOrderer {
+                                if success {
+                                    self.isShowingBringerCompleteConfirmation.toggle()
+                                    self.isOrderSuccessfullyCompleted = true
+                                }
+                            }
+                        }
+                        else {
+                            completeOrder { success in
+                                guard let success = success else {
+                                    return
+                                }
+                                if success {
                                     self.isShowingBringerCompleteConfirmation.toggle()
                                     self.isOrderSuccessfullyCompleted = true
                                 }
@@ -85,12 +103,30 @@ struct BringerOrderCompleteConfirmation: View {
             // if pickup
             else {
                 Button("COMPLETE ORDER") {
-                    payoutBringer { successBringer in
-                        payOrdererItemPriceDiff { successOrderer in
-                            guard let successBringer = successBringer, let successOrderer = successOrderer else {
+                    
+                    self.isCompleteButtonEnabled = false
+                    
+                    guard let actualItemPrice = Double(self.actualItemPrice) else {
+                        return
+                    }
+                    
+                    if actualItemPrice == self.currentOrder.maxPrice {
+                        completeOrderNoRefund { success in
+                            guard let success = success else {
                                 return
                             }
-                            if successBringer && successOrderer {
+                            if success {
+                                self.isShowingBringerCompleteConfirmation.toggle()
+                                self.isOrderSuccessfullyCompleted = true
+                            }
+                        }
+                    }
+                    else {
+                        completeOrder { success in
+                            guard let success = success else {
+                                return
+                            }
+                            if success {
                                 self.isShowingBringerCompleteConfirmation.toggle()
                                 self.isOrderSuccessfullyCompleted = true
                             }
@@ -197,14 +233,52 @@ struct BringerOrderCompleteConfirmation: View {
         })
     }
     
-    private func payoutBringer(completion: @escaping (Bool?) -> Void) {
-        let url = URL(string: "https://bringers-nodejs.vercel.app/payout-account")!
-        
-        let bringerProfits = self.currentOrder.deliveryFee * 100 * self.userProfitPercent
+    private func completeOrder(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order")!
         
         guard let actualItemPrice = Double(self.actualItemPrice) else {
             return
         }
+        
+        getOrderPaymentIntent { _ in
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let itemPriceDiff = round(self.currentOrder.maxPrice * 100 * 1.0625) - round(actualItemPrice * 100 * 1.0625)
+            
+            let bringerProfits = self.currentOrder.deliveryFee * 100 * self.userProfitPercent
+            
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "amount" : "\(Int(bringerProfits + actualItemPriceWithTax))",
+                "accountID" : self.bringerInfo.stripeAccountID,
+                "refundAmount" : "\(Int(itemPriceDiff))",
+                "paymentIntentID" : self.paymentIntentID,
+            ])
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200 else {
+                          self.isCompleteButtonEnabled = true
+                          completion(nil)
+                          return
+                      }
+                completion(true)
+            }.resume()
+        }
+    }
+    
+    private func completeOrderNoRefund(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order-norefund")!
+        
+        guard let actualItemPrice = Double(self.actualItemPrice) else {
+            return
+        }
+        
+        let bringerProfits = self.currentOrder.deliveryFee * 100 * self.userProfitPercent
         
         // TODO: calc tax based on location (change 0.0625 to be dynamic)
         let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
@@ -226,37 +300,6 @@ struct BringerOrderCompleteConfirmation: View {
                   }
             completion(true)
         }.resume()
-    }
-    
-    private func payOrdererItemPriceDiff(completion: @escaping (Bool?) -> Void) {
-        let url = URL(string: "https://bringers-nodejs.vercel.app/refund-maxitemprice-customer")!
-        
-        guard let actualItemPrice = Double(self.actualItemPrice) else {
-            return
-        }
-        
-        getOrderPaymentIntent { _ in
-            // TODO: calc tax based on location (change 0.0625 to be dynamic)
-            let itemPriceDiff = round(self.currentOrder.maxPrice * 100 * 1.0625) - round(actualItemPrice * 100 * 1.0625)
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = try! JSONEncoder().encode([
-                "refundAmount" : "\(Int(itemPriceDiff))",
-                "paymentIntentID" : self.paymentIntentID,
-            ])
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let _ = data, error == nil,
-                      (response as? HTTPURLResponse)?.statusCode == 200 else {
-                          self.isCompleteButtonEnabled = true
-                          completion(nil)
-                          return
-                      }
-                completion(true)
-            }.resume()
-        }
     }
     
     func getOrderPaymentIntent(completion: @escaping (Bool?) -> Void) {

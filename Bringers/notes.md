@@ -2,16 +2,19 @@
 - make refund orderer + bringer payout one transaction to prevent partial completions on error
 - handle refunds on order cancels
 - use stripe native credit card add form instead of plain text
-- add address to your profile for editting
 - texting/calling support
 - TESTING!!!!
+- allow decimals for actual item price bringerconfirm
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
+- add address to your profile for editting
+- update stripe when users name/email/phone changed
 
 # shit to do if bored
 - TESTING!!!!
 - modeulate dropdown (state createacc, pickupbuy placeorder)
-- modulate button (place order, login, accept order, etc)
+- modulate network calls (own classes) 
+- modulate dropdown (state createacc, pickupbuy placeorder)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
 - placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
