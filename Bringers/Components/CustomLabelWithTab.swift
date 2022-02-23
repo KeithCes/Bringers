@@ -40,13 +40,13 @@ struct CustomLabelWithTab: View {
             
             Rectangle()
                 .foregroundColor(CustomColors.veryDarkGray.opacity(0.5))
-                .frame(width: (CustomDimensions.width - 20) * 0.199, height: self.height)
+                .frame(width: (CustomDimensions.width - 20) * 0.249, height: self.height)
                 .overlay(
                     Text(self.tabText)
                         .font(.system(size: 18, weight: self.isBold ? .bold : .regular, design: .rounded))
                         .foregroundColor(CustomColors.seafoamGreen)
                 )
-                .padding(EdgeInsets(top: 0, leading: self.width * 0.798, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: self.width * 0.748, bottom: 0, trailing: 0))
                 .cornerRadius(15)
         }
 

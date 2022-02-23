@@ -1,5 +1,4 @@
 # stuff to do soon
-- make refund orderer + bringer payout one transaction to prevent partial completions on error
 - handle refunds on order cancels
 - use stripe native credit card add form instead of plain text
 - texting/calling support
