@@ -87,7 +87,12 @@ struct OrderComingMapView: View {
                 VStack {
                     
                     Button {
-                        // TODO: implement texting
+                        let sms = "sms:" + self.bringerInfo.phoneNumber
+                        let formattedString = sms.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                        guard let url = URL(string: formattedString) else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
                     } label: {
                         Image(systemName: "message.fill")
                             .resizable()
@@ -100,7 +105,12 @@ struct OrderComingMapView: View {
                     .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
                     
                     Button {
-                        // TODO: implement calling
+                        let telephone = "tel://"
+                        let formattedString = telephone + self.bringerInfo.phoneNumber
+                        guard let url = URL(string: formattedString) else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
                     } label: {
                         Image(systemName: "phone.fill")
                             .resizable()

@@ -80,7 +80,12 @@ struct BringerOrderMapView: View {
                 VStack {
                     
                     Button {
-                        // TODO: implement texting
+                        let sms = "sms:" + self.ordererInfo.phoneNumber
+                        let formattedString = sms.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                        guard let url = URL(string: formattedString) else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
                     } label: {
                         Image(systemName: "message.fill")
                             .resizable()
@@ -93,7 +98,10 @@ struct BringerOrderMapView: View {
                     .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
                     
                     Button {
-                        // TODO: implement calling
+                        let telephone = "tel://"
+                        let formattedString = telephone + self.ordererInfo.phoneNumber
+                        guard let url = URL(string: formattedString) else { return }
+                        UIApplication.shared.open(url)
                     } label: {
                         Image(systemName: "phone.fill")
                             .resizable()

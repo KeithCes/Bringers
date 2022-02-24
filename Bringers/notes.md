@@ -1,7 +1,6 @@
 # stuff to do soon
 - handle refunds on order cancels
 - use stripe native credit card add form instead of plain text
-- texting/calling support
 - TESTING!!!!
 - allow decimals for actual item price bringerconfirm
 - add number of orders/bringers placed/completed/cancelled
