@@ -35,6 +35,8 @@ struct OrderComingMapView: View {
     
     @State private var bringerInfo: UserInfoModel = UserInfoModel()
     
+    @State private var paymentIntentID: String = ""
+    
     @State private var timer: Timer?
     
     @State private var bringerLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
@@ -242,39 +244,45 @@ struct OrderComingMapView: View {
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
-        
-        // moves order from active to past, closes view
-        ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+        // TODO: show toast if order fails to be canceled
+        sendCancelOrder { success in
+            guard let success = success, success == true else {
+                return
+            }
             
-            // adds to past
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
-            
-            // adds to past FOR BRINGER
-            let bringerID = (snapshot.value as! [AnyHashable : Any])["bringerID"] as! String
-            ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
-            
-            // sets date completed
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/YYYY"
-            let currentDateString = dateFormatter.string(from: Date())
-            
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
-            ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
-            
-            // sets order cancelled
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["status" : "cancelled"])
-            ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(["status" : "cancelled"])
-            
-            
-            // removes from active
-            ref.child("activeOrders").child(order.id).removeValue()
-            ref.child("users").child(bringerID).child("activeBringers").removeValue()
-            ref.child("users").child(userID).child("activeOrders").removeValue()
-            
-            self.timer?.invalidate()
-            isShowingOrderComing = false
-            isOrderCancelledMap = true
-        })
+            // moves order from active to past, closes view
+            ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                // adds to past
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+                
+                // adds to past FOR BRINGER
+                let bringerID = (snapshot.value as! [AnyHashable : Any])["bringerID"] as! String
+                ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+                
+                // sets date completed
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM/dd/YYYY"
+                let currentDateString = dateFormatter.string(from: Date())
+                
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
+                ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
+                
+                // sets order cancelled
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["status" : "cancelled"])
+                ref.child("users").child(bringerID).child("pastBringers").child(order.id).updateChildValues(["status" : "cancelled"])
+                
+                
+                // removes from active
+                ref.child("activeOrders").child(order.id).removeValue()
+                ref.child("users").child(bringerID).child("activeBringers").removeValue()
+                ref.child("users").child(userID).child("activeOrders").removeValue()
+                
+                self.timer?.invalidate()
+                isShowingOrderComing = false
+                isOrderCancelledMap = true
+            })
+        }
     }
     
     func sendUserLocation() {
@@ -401,6 +409,48 @@ struct OrderComingMapView: View {
                 
                 getProfilePicture(bringerID: bringerID)
             })
+        })
+    }
+    
+    func sendCancelOrder(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/cancel-order")!
+
+        getOrderPaymentIntent { _ in
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "paymentIntentID" : self.paymentIntentID,
+            ])
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200 else {
+                          completion(nil)
+                          return
+                      }
+                completion(true)
+            }.resume()
+        }
+    }
+    
+    func getOrderPaymentIntent(completion: @escaping (Bool?) -> Void) {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
+                completion(nil)
+                return
+            }
+            
+            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+                completion(nil)
+                return
+            }
+
+            self.paymentIntentID = paymentIntentID
+            completion(true)
         })
     }
 }

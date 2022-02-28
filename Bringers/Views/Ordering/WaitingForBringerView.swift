@@ -24,6 +24,8 @@ struct WaitingForBringerView: View {
     
     @State private var animationAmount: CGFloat = 1
     
+    @State private var paymentIntentID: String = ""
+    
     @State private var timer: Timer?
     
     var body: some View {
@@ -94,31 +96,38 @@ struct WaitingForBringerView: View {
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
-        // moves order from active to past, closes view
-        ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            // adds to past
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
-            
-            // sets date completed
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/YYYY"
-            let currentDateString = dateFormatter.string(from: Date())
-            
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
-            
-            // sets order cancelled
-            ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["status" : "cancelled"])
-            
-            
-            // removes from active
-            ref.child("activeOrders").child(order.id).removeValue()
-            ref.child("users").child(userID).child("activeOrders").removeValue()
-            
-            self.timer?.invalidate()
-            isShowingWaitingForBringer = false
-            isOrderCancelledWaiting = true
-        })
+        // TODO: show toast if order fails to be canceled
+        sendCancelOrder { success in
+            guard let success = success, success == true else {
+                return
+            }
+
+            // moves order from active to past, closes view
+            ref.child("activeOrders").child(order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                // adds to past
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(snapshot.value as! [AnyHashable : Any])
+                
+                // sets date completed
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM/dd/YYYY"
+                let currentDateString = dateFormatter.string(from: Date())
+                
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["dateCompleted" : currentDateString])
+                
+                // sets order cancelled
+                ref.child("users").child(userID).child("pastOrders").child(order.id).updateChildValues(["status" : "cancelled"])
+                
+                
+                // removes from active
+                ref.child("activeOrders").child(order.id).removeValue()
+                ref.child("users").child(userID).child("activeOrders").removeValue()
+                
+                self.timer?.invalidate()
+                isShowingWaitingForBringer = false
+                isOrderCancelledWaiting = true
+            })
+        }
     }
     
     func sendUserLocation() {
@@ -142,6 +151,48 @@ struct WaitingForBringerView: View {
                 self.timer?.invalidate()
                 isShowingWaitingForBringer = false
             }
+        })
+    }
+    
+    func sendCancelOrder(completion: @escaping (Bool?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/cancel-order")!
+
+        getOrderPaymentIntent { _ in
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "paymentIntentID" : self.paymentIntentID,
+            ])
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let _ = data, error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200 else {
+                          completion(nil)
+                          return
+                      }
+                completion(true)
+            }.resume()
+        }
+    }
+    
+    func getOrderPaymentIntent(completion: @escaping (Bool?) -> Void) {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(self.order.id).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
+                completion(nil)
+                return
+            }
+            
+            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+                completion(nil)
+                return
+            }
+
+            self.paymentIntentID = paymentIntentID
+            completion(true)
         })
     }
 }

@@ -1,5 +1,4 @@
 # stuff to do soon
-- handle refunds on order cancels
 - use stripe native credit card add form instead of plain text
 - TESTING!!!!
 - allow decimals for actual item price bringerconfirm
@@ -10,7 +9,6 @@
 
 # shit to do if bored
 - TESTING!!!!
-- modeulate dropdown (state createacc, pickupbuy placeorder)
 - modulate network calls (own classes) 
 - modulate dropdown (state createacc, pickupbuy placeorder)
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
@@ -19,6 +17,8 @@
 
 # stuff to add later
 
+- inform bringer of orderer cancel
+- inform orderer of bringer cancel
 - send email receipt of transaction on completion
 - handle card declined case for orders
 - our db rules are non-existant, should probably add some
