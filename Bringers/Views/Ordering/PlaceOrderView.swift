@@ -60,20 +60,48 @@ struct PlaceOrderView: View {
                 CustomTitleText(labelText: "ADD A CREDIT CARD TO GET STARTED!")
                 
                 // TODO: make exp/creditcardnum number only
-                CustomTextbox(field: $creditCardNumber, placeholderText: "Credit Card Number")
+                CustomTextbox(field: $creditCardNumber, placeholderText: "Credit Card Number", charLimit: 16)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .onReceive(Just(creditCardNumber)) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.creditCardNumber = filtered
+                        }
+                    }
+                    .keyboardType(.numberPad)
                 
                 CustomTextbox(field: $cardholderName, placeholderText: "Cardholder Name")
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                 
-                CustomTextbox(field: $expMonth, placeholderText: "Exp Month")
+                CustomTextbox(field: $expMonth, placeholderText: "Exp Month", charLimit: 2)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .onReceive(Just(expMonth)) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.expMonth = filtered
+                        }
+                    }
+                    .keyboardType(.numberPad)
                 
-                CustomTextbox(field: $expYear, placeholderText: "Exp Year")
+                CustomTextbox(field: $expYear, placeholderText: "Exp Year", charLimit: 2)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .onReceive(Just(expYear)) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.expYear = filtered
+                        }
+                    }
+                    .keyboardType(.numberPad)
                 
-                CustomTextbox(field: $cvcNumber, placeholderText: "CVC")
+                CustomTextbox(field: $cvcNumber, placeholderText: "CVC", charLimit: 4)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    .onReceive(Just(cvcNumber)) { newValue in
+                        let filtered = newValue.filter { "0123456789".contains($0) }
+                        if filtered != newValue {
+                            self.cvcNumber = filtered
+                        }
+                    }
+                    .keyboardType(.numberPad)
                 
                 Button("ADD CARD") {
                     self.addCreditCard()

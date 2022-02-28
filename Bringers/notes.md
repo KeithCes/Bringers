@@ -1,5 +1,4 @@
 # stuff to do soon
-- use stripe native credit card add form instead of plain text
 - TESTING!!!!
 - allow decimals for actual item price bringerconfirm
 - add number of orders/bringers placed/completed/cancelled
@@ -16,7 +15,7 @@
 - placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
 
 # stuff to add later
-
+- use stripe native credit card add form instead of plain text?? (looked a bit, not sure if there's any benefit)
 - inform bringer of orderer cancel
 - inform orderer of bringer cancel
 - send email receipt of transaction on completion
