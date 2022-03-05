@@ -1,0 +1,10 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/get-customer-details"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "get-customer-details-request.json"
+    }
+}

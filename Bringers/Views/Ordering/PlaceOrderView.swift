@@ -202,6 +202,7 @@ struct PlaceOrderView: View {
                                 .frame(width: CustomDimensions.width, height: 70)
                                 .cornerRadius(15))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+                .accessibility(identifier: "Place Order Place Order Button")
             }
             
         }
@@ -341,7 +342,7 @@ struct PlaceOrderView: View {
     }
     
     func fetchCustomerDetails() {
-        let url = URL(string: "https://bringers-nodejs.vercel.app/get-customer-details")!
+        let url = URL(string: BuildConfigURL.url + "get-customer-details")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
