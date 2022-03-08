@@ -204,12 +204,14 @@ struct BringerOrdersView: View {
         
         ref.child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let activeOrders = (snapshot.value as? NSDictionary)?.allValues else {
+                self.isProgressViewHidden = true
                 return
             }
             for activeOrder in activeOrders {
                 let activeOrderMap = Order.from(activeOrder as! NSDictionary)
                 
                 guard let activeOrderMap = activeOrderMap else {
+                    self.isProgressViewHidden = true
                     continue
                 }
                 

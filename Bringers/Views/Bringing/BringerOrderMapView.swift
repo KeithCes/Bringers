@@ -257,7 +257,7 @@ struct BringerOrderMapView: View {
         
         
         // TODO: show toast if order fails to be canceled
-        sendCancelOrder { success in
+        sendCancelOrder(isCompleted: isCompleted) { success in
             guard let success = success, success == true else {
                 return
             }
@@ -429,9 +429,13 @@ struct BringerOrderMapView: View {
         getProfilePicture()
     }
     
-    func sendCancelOrder(completion: @escaping (Bool?) -> Void) {
+    func sendCancelOrder(isCompleted: Bool, completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/cancel-order")!
 
+        if isCompleted {
+            completion(true)
+            return
+        }
         getOrderPaymentIntent { _ in
             
             var request = URLRequest(url: url)
