@@ -42,29 +42,21 @@ struct BringerOrderCompleteConfirmation: View {
                 CustomLabel(labelText: "How much did the item ACTUALLY cost?", height: 75, fontSize: 14)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
                 
-                if CGFloat(Int(actualItemPrice) ?? 0) > currentOrder.maxPrice {
+                if actualItemPrice.currencyAsCGFloat() > currentOrder.maxPrice {
                     CustomLabel(labelText: "THE ACTUAL PRICE CANNOT EXCEED THE MAX PRICE REQUESTED BY THE ORDERER", height: 75, fontSize: 14, backgroundColor: CustomColors.lightRed)
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
                 }
                 
-                CustomTextbox(field: $actualItemPrice, placeholderText: "Actual Item Price")
+                CustomTextboxCurrencyDecimal(field: $actualItemPrice, placeholderText: "Actual Item Price")
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
-                    .onReceive(Just(actualItemPrice)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.actualItemPrice = filtered
-                        }
-                    }
                     .keyboardType(.numberPad)
                 
-                if CGFloat(Int(actualItemPrice) ?? 0) <= currentOrder.maxPrice && actualItemPrice.count > 0 {
+                if actualItemPrice.currencyAsCGFloat() <= currentOrder.maxPrice && actualItemPrice.count > 0 {
                     Button("COMPLETE ORDER") {
                         
                         self.isCompleteButtonEnabled = false
                         
-                        guard let actualItemPrice = Double(self.actualItemPrice) else {
-                            return
-                        }
+                        let actualItemPrice = actualItemPrice.currencyAsCGFloat()
 
                         
                         if actualItemPrice == self.currentOrder.maxPrice {
@@ -106,10 +98,8 @@ struct BringerOrderCompleteConfirmation: View {
                     
                     self.isCompleteButtonEnabled = false
                     
-                    guard let actualItemPrice = Double(self.actualItemPrice) else {
-                        return
-                    }
-                    
+                    let actualItemPrice = actualItemPrice.currencyAsCGFloat()
+                            
                     if actualItemPrice == self.currentOrder.maxPrice {
                         completeOrderNoRefund { success in
                             guard let success = success else {
@@ -236,9 +226,7 @@ struct BringerOrderCompleteConfirmation: View {
     private func completeOrder(completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order")!
         
-        guard let actualItemPrice = Double(self.actualItemPrice) else {
-            return
-        }
+        let actualItemPrice = actualItemPrice.currencyAsCGFloat()
         
         getOrderPaymentIntent { _ in
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
@@ -274,9 +262,7 @@ struct BringerOrderCompleteConfirmation: View {
     private func completeOrderNoRefund(completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order-norefund")!
         
-        guard let actualItemPrice = Double(self.actualItemPrice) else {
-            return
-        }
+        let actualItemPrice = actualItemPrice.currencyAsCGFloat()
         
         let bringerProfits = self.currentOrder.deliveryFee * 100 * self.userProfitPercent
         

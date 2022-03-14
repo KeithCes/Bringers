@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import FirebaseAuth
 import FirebaseDatabase
+import Combine
 
 struct PrelogView: View {
     
@@ -23,6 +24,8 @@ struct PrelogView: View {
     
     @State private var isBringerFetched: Bool = false
     @State private var isBringerNotFetched: Bool = false
+    
+    @State private var actualItemPrice: String = ""
     
     @State private var activeOrder: OrderModel = OrderModel()
     

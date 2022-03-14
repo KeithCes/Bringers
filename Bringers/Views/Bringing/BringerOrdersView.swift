@@ -118,8 +118,9 @@ struct BringerOrdersView: View {
         .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
         .onAppear {
             viewModel.checkIfLocationServicesEnabled()
+            
+            getYourProfile()
             getActiveOrders { (orders) in
-                self.getYourProfile()
                 self.orders = orders
             }
         }

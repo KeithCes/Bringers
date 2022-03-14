@@ -1,6 +1,6 @@
 # stuff to do soon
+- add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
-- allow decimals for actual item price bringerconfirm
 - add number of orders/bringers placed/completed/cancelled
 - add rating after order
 - add address to your profile for editting

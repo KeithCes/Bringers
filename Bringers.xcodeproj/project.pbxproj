@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		531CC5CF27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */; };
+		531CC5D127DFA58800F68FC5 /* String+currencyInputFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CC5D027DFA58800F68FC5 /* String+currencyInputFormatting.swift */; };
 		532BF3E5276F96FB00D8ADA3 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */; };
 		532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */; };
 		532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3EC276FAE7D00D8ADA3 /* View+Placeholder.swift */; };
@@ -95,6 +97,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxCurrencyDecimal.swift; sourceTree = "<group>"; };
+		531CC5D027DFA58800F68FC5 /* String+currencyInputFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+currencyInputFormatting.swift"; sourceTree = "<group>"; };
 		532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		532BF3E9276F98D000D8ADA3 /* Color+Hexcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hexcode.swift"; sourceTree = "<group>"; };
 		532BF3EC276FAE7D00D8ADA3 /* View+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Placeholder.swift"; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				53BDE556278A85E000347516 /* View+isHidden.swift */,
 				53BDE55A278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift */,
 				53BDE55D278B679B00347516 /* CLLocationCoordinate2D+distance.swift */,
+				531CC5D027DFA58800F68FC5 /* String+currencyInputFormatting.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 				532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */,
 				532BF42C2783EE2200D8ADA3 /* CustomTitleText.swift */,
 				53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */,
+				531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -587,6 +593,8 @@
 				532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */,
 				53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */,
 				532BF3F3276FDD1300D8ADA3 /* KeyboardObserver.swift in Sources */,
+				531CC5CF27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift in Sources */,
+				531CC5D127DFA58800F68FC5 /* String+currencyInputFormatting.swift in Sources */,
 				53BDE560278D0C8A00347516 /* DefaultCoords.swift in Sources */,
 				532BF3F827711C8F00D8ADA3 /* PlaceOrderView.swift in Sources */,
 				532BF421277954C000D8ADA3 /* CustomLabelWithTab.swift in Sources */,
