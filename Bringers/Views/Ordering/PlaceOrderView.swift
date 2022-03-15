@@ -252,10 +252,10 @@ struct PlaceOrderView: View {
                 getYourProfile()
             }
             
-            if self.givenOrder.status == "waiting" {
+            if self.givenOrder.status == "waiting" && self.givenOrder.id != "" {
                 isShowingWaitingForBringer = true
             }
-            if self.givenOrder.status == "inprogress" {
+            if self.givenOrder.status == "inprogress" && self.givenOrder.id != "" {
                 isShowingOrderComing = true
             }
         }
