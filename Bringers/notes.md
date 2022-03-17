@@ -1,7 +1,7 @@
 # stuff to do soon
+- refresh bringer listings on cancel/complete
 - add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
-- add number of orders/bringers placed/completed/cancelled
 - add rating after order
 - add address to your profile for editting
 - update stripe when users name/email/phone changed
@@ -13,6 +13,7 @@
 - supposed to use getToken() instead of uid for authing; less secure? later problem...
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
 - placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
+- break up UserInfo object in DB and models
 
 # stuff to add later
 - use stripe native credit card add form instead of plain text?? (looked a bit, not sure if there's any benefit)

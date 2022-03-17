@@ -17,6 +17,7 @@ struct BringerOrderMapView: View {
     @StateObject var viewModel = LocationViewModel()
     
     @Binding var isShowingBringerMap: Bool
+    @Binding var isOrderCancelledMap: Bool
     @Binding var currentOrder: OrderModel
     @Binding var currentCoords: CLLocationCoordinate2D
     
@@ -411,6 +412,10 @@ struct BringerOrderMapView: View {
                 lastName: activeUserInfoMap.lastName,
                 ordersCompleted: activeUserInfoMap.ordersCompleted,
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
+                ordersCanceled: activeUserInfoMap.ordersCanceled,
+                bringersCompleted: activeUserInfoMap.bringersCompleted,
+                bringersAccepted: activeUserInfoMap.bringersAccepted,
+                bringersCanceled: activeUserInfoMap.bringersCanceled,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
@@ -451,6 +456,7 @@ struct BringerOrderMapView: View {
                           completion(nil)
                           return
                       }
+                isOrderCancelledMap = true
                 completion(true)
             }.resume()
         }

@@ -17,6 +17,10 @@ struct UserInfo: Mappable {
     let lastName: String
     let ordersCompleted: CGFloat
     let ordersPlaced: CGFloat
+    let ordersCanceled: CGFloat
+    let bringersCompleted: CGFloat
+    let bringersAccepted: CGFloat
+    let bringersCanceled: CGFloat
     let phoneNumber: String
     let profilePictureURL: String
     let rating: CGFloat
@@ -36,6 +40,10 @@ struct UserInfo: Mappable {
         try lastName = map.from("lastName")
         try ordersCompleted = map.from("ordersCompleted")
         try ordersPlaced = map.from("ordersPlaced")
+        try ordersCanceled = map.from("ordersCanceled")
+        try bringersCompleted = map.from("bringersCompleted")
+        try bringersAccepted = map.from("bringersAccepted")
+        try bringersCanceled = map.from("bringersCanceled")
         try phoneNumber = map.from("phoneNumber")
         try profilePictureURL = map.from("profilePictureURL")
         try rating = map.from("rating")

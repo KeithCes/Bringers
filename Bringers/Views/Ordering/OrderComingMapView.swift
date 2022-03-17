@@ -183,7 +183,9 @@ struct OrderComingMapView: View {
         
         .onChange(of: isShowingOrderCompleted) { _ in
             if !isShowingOrderCompleted {
+                self.timer?.invalidate()
                 isShowingOrderComing = false
+                isOrderCancelledMap = false
             }
         }
     }
@@ -233,7 +235,9 @@ struct OrderComingMapView: View {
                         isShowingOrderCompleted = true
                     }
                     else {
+                        self.timer?.invalidate()
                         isShowingOrderComing = false
+                        isOrderCancelledMap = true
                     }
                 })
             }
@@ -393,6 +397,10 @@ struct OrderComingMapView: View {
                     lastName: activeUserInfoMap.lastName,
                     ordersCompleted: activeUserInfoMap.ordersCompleted,
                     ordersPlaced: activeUserInfoMap.ordersPlaced,
+                    ordersCanceled: activeUserInfoMap.ordersCanceled,
+                    bringersCompleted: activeUserInfoMap.bringersCompleted,
+                    bringersAccepted: activeUserInfoMap.bringersAccepted,
+                    bringersCanceled: activeUserInfoMap.bringersCanceled,
                     phoneNumber: activeUserInfoMap.phoneNumber,
                     profilePictureURL: activeUserInfoMap.profilePictureURL,
                     rating: activeUserInfoMap.rating,

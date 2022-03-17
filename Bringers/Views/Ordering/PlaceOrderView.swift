@@ -188,8 +188,12 @@ struct PlaceOrderView: View {
                 }
                 
                 .sheet(isPresented: $isShowingConfirm, onDismiss: {
+                    
+                    getYourProfile()
+                    
                     if !isShowingConfirm && confirmPressed {
                         confirmPressed = false
+                        incrementOrdersPlaced()
                         isShowingWaitingForBringer.toggle()
                     }
                 }) {
@@ -232,6 +236,10 @@ struct PlaceOrderView: View {
                 isShowingOrderComing.toggle()
                 givenOrder = OrderModel()
             }
+            else if isOrderCancelledWaiting {
+                incrementOrdersCanceled()
+            }
+            isOrderCancelledWaiting = false
         }) {
             WaitingForBringerView(
                 isShowingWaitingForBringer: $isShowingWaitingForBringer,
@@ -240,7 +248,15 @@ struct PlaceOrderView: View {
             )
         }
         
-        .fullScreenCover(isPresented: $isShowingOrderComing) {
+        .fullScreenCover(isPresented: $isShowingOrderComing, onDismiss: {
+            if !isShowingOrderComing && !isOrderCancelledMap {
+                incrementOrdersCompleted()
+            }
+            else {
+                incrementOrdersCanceled()
+            }
+            isOrderCancelledMap = false
+        }) {
             OrderComingMapView(
                 isShowingOrderComing: $isShowingOrderComing,
                 isOrderCancelledMap: $isOrderCancelledMap,
@@ -323,6 +339,10 @@ struct PlaceOrderView: View {
                 lastName: activeUserInfoMap.lastName,
                 ordersCompleted: activeUserInfoMap.ordersCompleted,
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
+                ordersCanceled: activeUserInfoMap.ordersCanceled,
+                bringersCompleted: activeUserInfoMap.bringersCompleted,
+                bringersAccepted: activeUserInfoMap.bringersAccepted,
+                bringersCanceled: activeUserInfoMap.bringersCanceled,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
@@ -390,5 +410,26 @@ struct PlaceOrderView: View {
                   }
             self.hasSavedCreditCard = true
         }.resume()
+    }
+    
+    func incrementOrdersPlaced() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersPlaced" : self.userInfo.ordersPlaced + 1])
+    }
+    
+    func incrementOrdersCanceled() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersCanceled" : self.userInfo.ordersCanceled + 1])
+    }
+    
+    func incrementOrdersCompleted() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersCompleted" : self.userInfo.ordersCompleted + 1])
     }
 }

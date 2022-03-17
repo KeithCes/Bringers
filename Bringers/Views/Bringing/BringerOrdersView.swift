@@ -20,6 +20,7 @@ struct BringerOrdersView: View {
     @State private var isShowingBringerConfirm: Bool = false
     @State private var confirmPressed: Bool = false
     @State private var isShowingBringerMap: Bool = false
+    @State private var isOrderCancelledMap: Bool = false
     
     @State private var orders: [OrderModel] = []
     @State private var currentOrder: OrderModel = OrderModel(id: "", title: "", description: "", pickupBuy: "", maxPrice: 0, deliveryFee: 0, dateSent: "", dateCompleted: "", status: "", userID: "", location: CLLocationCoordinate2D(latitude: 0, longitude: -122.009015))
@@ -154,6 +155,7 @@ struct BringerOrdersView: View {
         .sheet(isPresented: $isShowingBringerConfirm, onDismiss: {
             if !isShowingBringerConfirm && confirmPressed {
                 self.setOrderInProgress()
+                incrementBringersAccepted()
                 confirmPressed = false
                 isShowingBringerMap.toggle()
             }
@@ -165,9 +167,17 @@ struct BringerOrdersView: View {
             )
         }
         
-        .fullScreenCover(isPresented: $isShowingBringerMap) {
+        .fullScreenCover(isPresented: $isShowingBringerMap, onDismiss: {
+            if !isShowingBringerMap && !isOrderCancelledMap {
+                incrementBringersCompleted()
+            }
+            else if isOrderCancelledMap {
+                incrementBringersCanceled()
+            }
+        }) {
             BringerOrderMapView(
                 isShowingBringerMap: $isShowingBringerMap,
+                isOrderCancelledMap: $isOrderCancelledMap,
                 currentOrder: self.givenOrder.status == "inprogress" ? $givenOrder : $currentOrder,
                 currentCoords: self.$currentCoords
             )
@@ -299,6 +309,10 @@ struct BringerOrdersView: View {
                 lastName: activeUserInfoMap.lastName,
                 ordersCompleted: activeUserInfoMap.ordersCompleted,
                 ordersPlaced: activeUserInfoMap.ordersPlaced,
+                ordersCanceled: activeUserInfoMap.ordersCanceled,
+                bringersCompleted: activeUserInfoMap.bringersCompleted,
+                bringersAccepted: activeUserInfoMap.bringersAccepted,
+                bringersCanceled: activeUserInfoMap.bringersCanceled,
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
@@ -371,6 +385,27 @@ struct BringerOrdersView: View {
         
         
         ref.child("users").child(userID).child("userInfo").updateChildValues(["stripeAccountID" : self.stripeAccountID])
+    }
+    
+    func incrementBringersAccepted() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["bringersAccepted" : self.userInfo.bringersAccepted + 1])
+    }
+    
+    func incrementBringersCanceled() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["bringersCanceled" : self.userInfo.bringersCanceled + 1])
+    }
+    
+    func incrementBringersCompleted() {
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("users").child(userID).child("userInfo").updateChildValues(["bringersCompleted" : self.userInfo.bringersCompleted + 1])
     }
 }
 
