@@ -105,7 +105,12 @@ struct BringerOrdersView: View {
                         shippingAlpha: ((order.deliveryFee - self.lowestShipping) * self.alphaIncrementValShipping) + 0.4
                     )
                 }
-                
+                .refreshable {
+                    getYourProfile()
+                    getActiveOrders { (orders) in
+                        self.orders = orders
+                    }
+                }
                 .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
             }
             ProgressView()
@@ -153,6 +158,12 @@ struct BringerOrdersView: View {
         }
         
         .sheet(isPresented: $isShowingBringerConfirm, onDismiss: {
+            
+            getYourProfile()
+            getActiveOrders { (orders) in
+                self.orders = orders
+            }
+            
             if !isShowingBringerConfirm && confirmPressed {
                 self.setOrderInProgress()
                 incrementBringersAccepted()
@@ -168,6 +179,12 @@ struct BringerOrdersView: View {
         }
         
         .fullScreenCover(isPresented: $isShowingBringerMap, onDismiss: {
+            
+            getYourProfile()
+            getActiveOrders { (orders) in
+                self.orders = orders
+            }
+            
             if !isShowingBringerMap && !isOrderCancelledMap {
                 incrementBringersCompleted()
             }
@@ -216,6 +233,7 @@ struct BringerOrdersView: View {
         ref.child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let activeOrders = (snapshot.value as? NSDictionary)?.allValues else {
                 self.isProgressViewHidden = true
+                completion([])
                 return
             }
             for activeOrder in activeOrders {

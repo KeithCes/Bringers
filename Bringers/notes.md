@@ -1,5 +1,4 @@
 # stuff to do soon
-- refresh bringer listings on cancel/complete
 - add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
 - add rating after order
