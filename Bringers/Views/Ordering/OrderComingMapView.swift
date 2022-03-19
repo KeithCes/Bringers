@@ -178,7 +178,12 @@ struct OrderComingMapView: View {
         }
         
         .sheet(isPresented: $isShowingOrderCompleted, content: {
-            OrderCompleteView(isShowingOrderCompleted: $isShowingOrderCompleted)
+            OrderCompleteView(
+                isShowingOrderCompleted: $isShowingOrderCompleted,
+                orderID: self.order.id,
+                bringerRating: self.bringerInfo.rating,
+                bringerTotalRatings: self.bringerInfo.totalRatings
+            )
         })
         
         .onChange(of: isShowingOrderCompleted) { _ in
@@ -404,6 +409,7 @@ struct OrderComingMapView: View {
                     phoneNumber: activeUserInfoMap.phoneNumber,
                     profilePictureURL: activeUserInfoMap.profilePictureURL,
                     rating: activeUserInfoMap.rating,
+                    totalRatings: activeUserInfoMap.totalRatings,
                     stripeAccountID: activeUserInfoMap.stripeAccountID,
                     stripeCustomerID: activeUserInfoMap.stripeCustomerID,
                     address: activeUserInfoMap.address,

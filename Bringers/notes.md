@@ -1,7 +1,6 @@
 # stuff to do soon
 - add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
-- add rating after order
 - add address to your profile for editting
 - update stripe when users name/email/phone changed
 

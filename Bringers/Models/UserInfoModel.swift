@@ -23,6 +23,7 @@ struct UserInfoModel {
     var phoneNumber: String = ""
     var profilePictureURL: String = ""
     var rating: CGFloat = 0
+    var totalRatings: CGFloat = 0
     var stripeAccountID: String = ""
     var stripeCustomerID: String = ""
     var address: String = ""
@@ -33,7 +34,7 @@ struct UserInfoModel {
     
     init(){}
     
-    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, ordersCanceled: CGFloat, bringersCompleted: CGFloat, bringersAccepted: CGFloat, bringersCanceled: CGFloat, phoneNumber: String, profilePictureURL: String, rating: CGFloat, stripeAccountID: String, stripeCustomerID: String, address: String, state: String, city: String, country: String, zipcode: String) {
+    init(dateOfBirth: String, dateOfCreation: String, email: String, firstName: String, lastName: String, ordersCompleted: CGFloat, ordersPlaced: CGFloat, ordersCanceled: CGFloat, bringersCompleted: CGFloat, bringersAccepted: CGFloat, bringersCanceled: CGFloat, phoneNumber: String, profilePictureURL: String, rating: CGFloat, totalRatings: CGFloat, stripeAccountID: String, stripeCustomerID: String, address: String, state: String, city: String, country: String, zipcode: String) {
         self.dateOfBirth = dateOfBirth
         self.dateOfCreation = dateOfCreation
         self.email = email
@@ -48,6 +49,7 @@ struct UserInfoModel {
         self.phoneNumber = phoneNumber
         self.profilePictureURL = profilePictureURL
         self.rating = rating
+        self.totalRatings = totalRatings
         self.stripeAccountID = stripeAccountID
         self.stripeCustomerID = stripeCustomerID
         self.address = address

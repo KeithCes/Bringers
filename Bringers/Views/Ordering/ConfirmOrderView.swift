@@ -173,6 +173,7 @@ struct ConfirmOrderView: View {
                 phoneNumber: activeUserInfoMap.phoneNumber,
                 profilePictureURL: activeUserInfoMap.profilePictureURL,
                 rating: activeUserInfoMap.rating,
+                totalRatings: activeUserInfoMap.totalRatings,
                 stripeAccountID: activeUserInfoMap.stripeAccountID,
                 stripeCustomerID: activeUserInfoMap.stripeCustomerID,
                 address: activeUserInfoMap.address,
