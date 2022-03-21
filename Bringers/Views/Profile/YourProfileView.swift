@@ -36,8 +36,6 @@ struct YourProfileView: View {
     
     @State private var userInfo: UserInfoModel = UserInfoModel()
     
-    private var rating: CGFloat = 3.8
-    
     @ObservedObject private var keyboard = KeyboardResponder()
     private var keyboardHeight: CGFloat = 0
     
@@ -180,11 +178,11 @@ struct YourProfileView: View {
                     }
                 }
             
-            Text("RATING: " + "\(rating)" + "/5")
+            Text("RATING: " + "\((self.userInfo.rating * 10).rounded(.toNearestOrAwayFromZero) / 10)" + "/5")
                 .font(.system(size: 24, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            RatingView(rating: rating, maxRating: 5)
+            RatingView(rating: (self.userInfo.rating * 10).rounded(.toNearestOrAwayFromZero) / 10, maxRating: 5)
                 .frame(width: 112, height: 16)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
         }

@@ -98,6 +98,10 @@ struct CreateAccountView: View {
                         .background(GeometryGetter(rect: $kGuardian.rects[5]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     
+                    CustomTextbox(field: $city, placeholderText: "City", onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
+                        .background(GeometryGetter(rect: $kGuardian.rects[7]))
+                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                    
                     // state
                     Menu {
                         ForEach(self.stateCodes.reversed(), id: \.self) { state in
@@ -121,10 +125,6 @@ struct CreateAccountView: View {
                                     .cornerRadius(15))
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     
-                    
-                    CustomTextbox(field: $city, placeholderText: "City", onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
-                        .background(GeometryGetter(rect: $kGuardian.rects[7]))
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     CustomTextbox(field: $zipcode, placeholderText: "Zipcode", charLimit: 5, onEditingChanged: { if $0 { self.kGuardian.showField = 7 } })
                         .background(GeometryGetter(rect: $kGuardian.rects[7]))
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))

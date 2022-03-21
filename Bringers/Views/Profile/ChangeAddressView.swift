@@ -47,6 +47,17 @@ struct ChangeAddressView: View {
                         }
                     }
                 
+                CustomTextbox(field: $city, placeholderText: self.userInfo.city)
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
+                    .onSubmit {
+                        if city.count > 2 {
+                            updateUserValue()
+                        }
+                        else {
+                            // TODO: error toast invalid
+                        }
+                    }
+                
                 // state
                 Menu {
                     ForEach(self.stateCodes.reversed(), id: \.self) { state in
@@ -71,16 +82,6 @@ struct ChangeAddressView: View {
                                 .cornerRadius(15))
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                 
-                CustomTextbox(field: $city, placeholderText: self.userInfo.city)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
-                    .onSubmit {
-                        if city.count > 2 {
-                            updateUserValue()
-                        }
-                        else {
-                            // TODO: error toast invalid
-                        }
-                    }
                 CustomTextbox(field: $zipcode, placeholderText: self.userInfo.zipcode, charLimit: 5)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                     .onReceive(Just(zipcode)) { newValue in

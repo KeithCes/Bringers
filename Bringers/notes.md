@@ -1,7 +1,6 @@
 # stuff to do soon
-- add stripe fee (no refund of stripe fee on cancel?)
+- add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - TESTING!!!!
-- use real rating in profileview(s)
 
 # shit to do if bored
 - TESTING!!!!

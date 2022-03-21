@@ -34,11 +34,11 @@ struct UserProfileView: View {
                 .font(.system(size: 24, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
-            Text("RATING: " + "\(self.rating)" + "/5")
+            Text("RATING: " + "\((self.rating * 10).rounded(.toNearestOrAwayFromZero) / 10)" + "/5")
                 .font(.system(size: 24, weight: .regular, design: .rounded))
                 .foregroundColor(CustomColors.midGray)
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0))
-            RatingView(rating: rating, maxRating: 5)
+            RatingView(rating: (self.rating * 10).rounded(.toNearestOrAwayFromZero) / 10, maxRating: 5)
                 .frame(width: 112, height: 16)
         }
         .fixedSize(horizontal: false, vertical: true)
