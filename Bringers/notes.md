@@ -2,8 +2,6 @@
 - add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
 - use real rating in profileview(s)
-- add address to your profile for editting
-- update stripe when users name/email/phone changed
 
 # shit to do if bored
 - TESTING!!!!

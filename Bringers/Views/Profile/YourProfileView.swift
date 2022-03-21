@@ -130,7 +130,7 @@ struct YourProfileView: View {
                 .submitLabel(.done)
                 .onSubmit {
                     if firstname.count > 2 {
-                        updateUserValue(property: "firstName", value: self.firstname)
+                        updateUserValue()
                     }
                     else {
                         // TODO: show toast name too short/invalid
@@ -142,7 +142,7 @@ struct YourProfileView: View {
                 .submitLabel(.done)
                 .onSubmit {
                     if lastname.count > 2 {
-                        updateUserValue(property: "lastName", value: self.lastname)
+                        updateUserValue()
                     }
                     else {
                         // TODO: show toast name too short/invalid
@@ -154,12 +154,13 @@ struct YourProfileView: View {
                 .submitLabel(.done)
                 .onSubmit {
                     if checkValidEmail(email: email) {
-                        updateUserValue(property: "email", value: self.email)
+                        updateUserValue()
                     }
                     else {
                         // TODO: show email invalid toast/notification
                     }
                 }
+                .textInputAutocapitalization(.never)
             
             CustomTextboxTitleText(field: $phoneNumber, placeholderText: self.userInfo.phoneNumber, titleText: "PHONE NUMBER")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
@@ -172,7 +173,7 @@ struct YourProfileView: View {
                 }
                 .onSubmit {
                     if phoneNumber.count == 10 || phoneNumber.count == 11 {
-                        updateUserValue(property: "phoneNumber", value: self.phoneNumber)
+                        updateUserValue()
                     }
                     else {
                         // TODO: show phone number invalid toast/notification
@@ -278,11 +279,50 @@ struct YourProfileView: View {
         })
     }
     
-    func updateUserValue(property: String, value: Any) {
+    func updateUserValue() {
         let ref = Database.database().reference()
         let userID = Auth.auth().currentUser!.uid
         
-        ref.child("users").child(userID).child("userInfo").updateChildValues([property : value])
+        let firstname = self.firstname != "" ? self.firstname : self.userInfo.firstName
+        let lastname = self.lastname != "" ? self.lastname : self.userInfo.lastName
+        
+        updateUserValueStripe { _ in
+            ref.child("users").child(userID).child("userInfo").updateChildValues([
+                "firstName" : firstname,
+                "lastName" : lastname,
+                "email" : self.email != "" ? self.email : self.userInfo.email,
+                "phoneNumber" : self.phoneNumber != "" ? self.phoneNumber : self.userInfo.phoneNumber,
+            ])
+            getYourProfile()
+        }
+    }
+    
+    private func updateUserValueStripe(completion: @escaping (String?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/update-customer-info")!
+        
+        let firstname = self.firstname != "" ? self.firstname : self.userInfo.firstName
+        let lastname = self.lastname != "" ? self.lastname : self.userInfo.lastName
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode([
+            "customerID" : self.userInfo.stripeCustomerID,
+            "fullName" : firstname + " " + lastname,
+            "email" : self.email != "" ? self.email : self.userInfo.email,
+            "phoneNumber" : self.phoneNumber != "" ? self.phoneNumber : self.userInfo.phoneNumber,
+        ])
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil,
+                  (response as? HTTPURLResponse)?.statusCode == 200,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                  let customerID = json["customerID"] as? String else {
+                      completion(nil)
+                      return
+                  }
+            completion(customerID)
+        }.resume()
     }
     
     func checkValidEmail(email: String) -> Bool {

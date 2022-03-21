@@ -40,7 +40,7 @@ struct ChangeAddressView: View {
                     .submitLabel(.done)
                     .onSubmit {
                         if address.count > 5 {
-                            updateUserValue(property: "address", value: self.address)
+                            updateUserValue()
                         }
                         else {
                             // TODO: error toast invalid
@@ -53,7 +53,7 @@ struct ChangeAddressView: View {
                         Button {
                             self.state = state
                             self.stateColor = CustomColors.midGray
-                            updateUserValue(property: "state", value: self.state)
+                            updateUserValue()
                         } label: {
                             Text(state)
                         }
@@ -75,7 +75,7 @@ struct ChangeAddressView: View {
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 21, trailing: 20))
                     .onSubmit {
                         if city.count > 2 {
-                            updateUserValue(property: "city", value: self.city)
+                            updateUserValue()
                         }
                         else {
                             // TODO: error toast invalid
@@ -92,7 +92,7 @@ struct ChangeAddressView: View {
                     .submitLabel(.done)
                     .onSubmit {
                         if zipcode.count == 5 {
-                            updateUserValue(property: "zipcode", value: self.zipcode)
+                            updateUserValue()
                         }
                         else {
                             // TODO: error toast invalid
@@ -104,7 +104,7 @@ struct ChangeAddressView: View {
                     Button {
                         self.country = self.userInfo.country
                         self.countryColor = CustomColors.midGray
-                        updateUserValue(property: "country", value: self.country)
+                        updateUserValue()
                     } label: {
                         Text("US")
                     }
@@ -134,11 +134,46 @@ struct ChangeAddressView: View {
         .ignoresSafeArea()
     }
     
-    func updateUserValue(property: String, value: Any) {
+    private func updateUserValue() {
         let ref = Database.database().reference()
         let userID = Auth.auth().currentUser!.uid
         
-        ref.child("users").child(userID).child("userInfo").updateChildValues([property : value])
+        updateUserValueStripe { _ in
+            ref.child("users").child(userID).child("userInfo").updateChildValues([
+                "address" : self.address != "" ? self.address : self.userInfo.address,
+                "state" : self.state != "" ? self.state : self.userInfo.state,
+                "city" : self.city != "" ? self.city : self.userInfo.city,
+                "zipcode" : self.zipcode != "" ? self.zipcode : self.userInfo.zipcode,
+                "country" : self.country != "" ? self.country : self.userInfo.country,
+            ])
+        }
+    }
+    
+    private func updateUserValueStripe(completion: @escaping (String?) -> Void) {
+        let url = URL(string: "https://bringers-nodejs.vercel.app/update-customer-address")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode([
+            "customerID" : self.userInfo.stripeCustomerID,
+            "addressLine1" : self.address != "" ? self.address : self.userInfo.address,
+            "addressCity" : self.city != "" ? self.city : self.userInfo.city,
+            "addressCountry" : self.country != "" ? self.country : self.userInfo.country,
+            "addressState": self.state != "" ? self.state : self.userInfo.state,
+            "addressPostalCode" : self.zipcode != "" ? self.zipcode : self.userInfo.zipcode,
+        ])
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil,
+                  (response as? HTTPURLResponse)?.statusCode == 200,
+                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                  let customerID = json["customerID"] as? String else {
+                      completion(nil)
+                      return
+                  }
+            completion(customerID)
+        }.resume()
     }
 }
 
