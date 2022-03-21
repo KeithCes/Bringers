@@ -23,6 +23,7 @@ struct YourProfileView: View {
     @State private var savedCreditCard: String = ""
     
     @State private var isShowingChangePassword: Bool = false
+    @State private var isShowingChangeAddress: Bool = false
     @State private var isShowingImagePicker = false
     
     @State private var isProgressViewHidden: Bool = false
@@ -53,6 +54,7 @@ struct YourProfileView: View {
                     .cornerRadius(15)
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
                 
+                // edit profile picture
                 Button(action: {
                     isShowingImagePicker.toggle()
                 }) {
@@ -67,6 +69,7 @@ struct YourProfileView: View {
                 }
                 .padding(EdgeInsets(top: 190, leading: 190, bottom: 0, trailing: 20))
                 
+                // logout
                 Button(action: {
                     try! Auth.auth().signOut()
                     self.isUserLoggedOut.toggle()
@@ -82,6 +85,24 @@ struct YourProfileView: View {
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 160, trailing: 250))
                 
+                // address
+                Button(action: {
+                    isShowingChangeAddress.toggle()
+                }) {
+                    Text("ADDRESS")
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .foregroundColor(CustomColors.darkGray)
+                        .background(Rectangle()
+                                        .fill(Color.white.opacity(0.5))
+                                        .frame(width: 60, height: 31)
+                                        .cornerRadius(15))
+                }
+                .padding(EdgeInsets(top: 190, leading: 0, bottom: 0, trailing: 250))
+                .sheet(isPresented: $isShowingChangeAddress, content: {
+                    ChangeAddressView(userInfo: $userInfo)
+                })
+                
+                // password
                 Button(action: {
                     isShowingChangePassword.toggle()
                 }) {
@@ -108,14 +129,24 @@ struct YourProfileView: View {
                 .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    updateUserValue(property: "firstName", value: self.firstname)
+                    if firstname.count > 2 {
+                        updateUserValue(property: "firstName", value: self.firstname)
+                    }
+                    else {
+                        // TODO: show toast name too short/invalid
+                    }
                 }
             
             CustomTextboxTitleText(field: $lastname, placeholderText: self.userInfo.lastName, titleText: "LAST NAME")
                 .padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    updateUserValue(property: "lastName", value: self.lastname)
+                    if lastname.count > 2 {
+                        updateUserValue(property: "lastName", value: self.lastname)
+                    }
+                    else {
+                        // TODO: show toast name too short/invalid
+                    }
                 }
             
             CustomTextboxTitleText(field: $email, placeholderText: self.userInfo.email, titleText: "EMAIL")
@@ -147,7 +178,6 @@ struct YourProfileView: View {
                         // TODO: show phone number invalid toast/notification
                     }
                 }
-            
             
             Text("RATING: " + "\(rating)" + "/5")
                 .font(.system(size: 24, weight: .regular, design: .rounded))
@@ -193,6 +223,9 @@ struct YourProfileView: View {
         .onChange(of: profileInputImage) { _ in
             loadImage()
             uploadProfilePicture()
+        }
+        .onChange(of: isShowingChangeAddress) { _ in
+            getYourProfile()
         }
     }
     

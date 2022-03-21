@@ -1,6 +1,7 @@
 # stuff to do soon
 - add stripe fee (no refund of stripe fee on cancel?)
 - TESTING!!!!
+- use real rating in profileview(s)
 - add address to your profile for editting
 - update stripe when users name/email/phone changed
 
@@ -12,6 +13,7 @@
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
 - placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
 - break up UserInfo object in DB and models
+- modulate statecodes
 
 # stuff to add later
 - use stripe native credit card add form instead of plain text?? (looked a bit, not sure if there's any benefit)

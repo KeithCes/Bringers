@@ -48,6 +48,7 @@
 		5378495D27A467EF006FF843 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495C27A467EF006FF843 /* UserInfo.swift */; };
 		5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5378495E27A4689F006FF843 /* UserInfoModel.swift */; };
 		5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */; };
+		539E634827E8E69F003D01A3 /* ChangeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E634727E8E69F003D01A3 /* ChangeAddressView.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -143,6 +144,7 @@
 		5378495E27A4689F006FF843 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
 		5398CB4927BC25660006A2AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmation.swift; sourceTree = "<group>"; };
+		539E634727E8E69F003D01A3 /* ChangeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAddressView.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */,
 				532BF41227778C4F00D8ADA3 /* YourProfileView.swift */,
 				532BF414277819FE00D8ADA3 /* ChangePasswordView.swift */,
+				539E634727E8E69F003D01A3 /* ChangeAddressView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				53A5E1E62796002000482059 /* ImagePicker.swift in Sources */,
 				53BDE53B2784FE1600347516 /* LoginView.swift in Sources */,
 				532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */,
+				539E634827E8E69F003D01A3 /* ChangeAddressView.swift in Sources */,
 				532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */,
 				53BDE54327852ADA00347516 /* KeyboardGuardian.swift in Sources */,
 				532BF4262782580C00D8ADA3 /* BringerOrderMapView.swift in Sources */,

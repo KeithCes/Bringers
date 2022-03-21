@@ -201,7 +201,7 @@ struct CreateAccountView: View {
     }
     
     func checkIfCreateInfoValid() -> Bool {
-        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count == 2 && country.count == 2
+        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count == 2 && country.count == 2 && zipcode.count == 5
     }
     
     func createAccount() {
