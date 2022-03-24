@@ -30,3 +30,7 @@
 - add push notifications for bringer coming/order complete/etc
 - map could be bigger on large devices (ipad especially)
 - if no orders on bringerorderview stop infintie loading and display message
+
+
+# stackoverflow links
+- https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui

@@ -19,9 +19,6 @@ struct ChangePasswordView: View {
     @FocusState private var isNewPasswordFocused: Bool
     @FocusState private var isConfirmPasswordFocused: Bool
     
-    private var oldPassword: String = "******"
-    
-    @ObservedObject private var keyboard = KeyboardResponder()
     
     var body: some View {
         VStack {
