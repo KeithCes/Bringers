@@ -50,6 +50,8 @@
 		5398CB4B27BD9E070006A2AB /* BringerOrderCompleteConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */; };
 		539E634827E8E69F003D01A3 /* ChangeAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E634727E8E69F003D01A3 /* ChangeAddressView.swift */; };
 		539E63A027ECDE3F003D01A3 /* YourProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */; };
+		539E63A427ED0224003D01A3 /* StateCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A327ED0224003D01A3 /* StateCodes.swift */; };
+		539E63A727ED029D003D01A3 /* ChangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -147,6 +149,8 @@
 		5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmation.swift; sourceTree = "<group>"; };
 		539E634727E8E69F003D01A3 /* ChangeAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAddressView.swift; sourceTree = "<group>"; };
 		539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourProfileViewModel.swift; sourceTree = "<group>"; };
+		539E63A327ED0224003D01A3 /* StateCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCodes.swift; sourceTree = "<group>"; };
+		539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAddressViewModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -261,8 +265,8 @@
 		532BF40B277635A300D8ADA3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				539E63A527ED028A003D01A3 /* Profile */,
 				532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */,
-				539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -273,6 +277,7 @@
 				532BF4292783C98600D8ADA3 /* CustomDimensions.swift */,
 				532BF3E4276F96FB00D8ADA3 /* CustomColors.swift */,
 				53BDE55F278D0C8A00347516 /* DefaultCoords.swift */,
+				539E63A327ED0224003D01A3 /* StateCodes.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -354,6 +359,15 @@
 				53E7699527D3D2E4000E3C54 /* PlaceOrderTestCase.swift */,
 			);
 			path = BringersUITests;
+			sourceTree = "<group>";
+		};
+		539E63A527ED028A003D01A3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */,
+				539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		53BDE5362784FDA100347516 /* Ordering */ = {
@@ -581,6 +595,7 @@
 			files = (
 				53BDE55E278B679B00347516 /* CLLocationCoordinate2D+distance.swift in Sources */,
 				532BF42D2783EE2200D8ADA3 /* CustomTitleText.swift in Sources */,
+				539E63A427ED0224003D01A3 /* StateCodes.swift in Sources */,
 				53E7697127C4126B000E3C54 /* OrderCompleteView.swift in Sources */,
 				532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */,
 				532BF411277654A100D8ADA3 /* WaitingForBringerView.swift in Sources */,
@@ -631,6 +646,7 @@
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				5378495D27A467EF006FF843 /* UserInfo.swift in Sources */,
+				539E63A727ED029D003D01A3 /* ChangeAddressViewModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

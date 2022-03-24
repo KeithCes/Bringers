@@ -11,14 +11,11 @@ import Combine
 
 struct YourProfileView: View {
     
-    @StateObject var viewModel = YourProfileViewModel()
+    @StateObject private var viewModel = YourProfileViewModel()
     
     @ObservedObject private var keyboard = KeyboardResponder()
-    private var keyboardHeight: CGFloat = 0
+    private var keyboardHeight: CGFloat = KeyboardResponder().currentHeight
     
-    init() {
-        keyboardHeight = keyboard.currentHeight
-    }
     
     var body: some View {
         VStack {
@@ -97,7 +94,6 @@ struct YourProfileView: View {
                     PrelogView()
                 }
             }
-            
             
             CustomTextboxTitleText(field: $viewModel.firstname, placeholderText: viewModel.userInfo.firstName, titleText: "FIRST NAME")
                 .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))

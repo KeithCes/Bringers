@@ -34,11 +34,6 @@ struct CreateAccountView: View {
     
     @State private var countryColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     @State private var stateColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
-    var stateCodes = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC",
-                          "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
-                          "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE",
-                          "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC",
-                          "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -104,7 +99,7 @@ struct CreateAccountView: View {
                     
                     // state
                     Menu {
-                        ForEach(self.stateCodes.reversed(), id: \.self) { state in
+                        ForEach(StateCodes.codes, id: \.self) { state in
                             Button {
                                 self.state = state
                                 self.stateColor = CustomColors.midGray
