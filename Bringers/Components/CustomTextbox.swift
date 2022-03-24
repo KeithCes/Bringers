@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct CustomTextbox: View {
 
@@ -39,8 +40,12 @@ struct CustomTextbox: View {
                             .fill(Color.white.opacity(0.5))
                             .frame(width: self.width, height: self.height)
                             .cornerRadius(15))
-            .onReceive(self.field.publisher.collect()) {
-                self.field = String($0.prefix(self.charLimit))
-            }
+            .onReceive(Just(self.field)) { _ in limitText(self.charLimit) }
+    }
+    
+    func limitText(_ upper: Int) {
+        if self.field.count > upper {
+            self.field = String(self.field.prefix(upper))
+        }
     }
 }
