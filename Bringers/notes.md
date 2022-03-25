@@ -1,4 +1,7 @@
 # stuff to do soon
+- move uitest stuff to own folder
+- move network calls to own struct
+- private all vars in custom componenets
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - TESTING!!!!
 
