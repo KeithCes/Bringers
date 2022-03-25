@@ -52,6 +52,7 @@
 		539E63A027ECDE3F003D01A3 /* YourProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */; };
 		539E63A427ED0224003D01A3 /* StateCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A327ED0224003D01A3 /* StateCodes.swift */; };
 		539E63A727ED029D003D01A3 /* ChangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */; };
+		539E63AA27EE4C6F003D01A3 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -151,6 +152,7 @@
 		539E639F27ECDE3F003D01A3 /* YourProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourProfileViewModel.swift; sourceTree = "<group>"; };
 		539E63A327ED0224003D01A3 /* StateCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCodes.swift; sourceTree = "<group>"; };
 		539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAddressViewModel.swift; sourceTree = "<group>"; };
+		539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 		532BF40B277635A300D8ADA3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				539E63A827EE4C5D003D01A3 /* Onboarding */,
 				539E63A527ED028A003D01A3 /* Profile */,
 				532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */,
 			);
@@ -368,6 +371,14 @@
 				539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		539E63A827EE4C5D003D01A3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		53BDE5362784FDA100347516 /* Ordering */ = {
@@ -645,6 +656,7 @@
 				532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */,
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
+				539E63AA27EE4C6F003D01A3 /* CreateAccountViewModel.swift in Sources */,
 				5378495D27A467EF006FF843 /* UserInfo.swift in Sources */,
 				539E63A727ED029D003D01A3 /* ChangeAddressViewModel.swift in Sources */,
 				53BDE53F2785039300347516 /* PrelogView.swift in Sources */,
