@@ -54,6 +54,7 @@
 		539E63A727ED029D003D01A3 /* ChangeAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */; };
 		539E63AA27EE4C6F003D01A3 /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */; };
 		539E63AC27EE5161003D01A3 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63AB27EE5161003D01A3 /* LoginViewModel.swift */; };
+		539E63AE27EE52E9003D01A3 /* PrelogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63AD27EE52E9003D01A3 /* PrelogViewModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -155,6 +156,7 @@
 		539E63A627ED029D003D01A3 /* ChangeAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAddressViewModel.swift; sourceTree = "<group>"; };
 		539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		539E63AB27EE5161003D01A3 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		539E63AD27EE52E9003D01A3 /* PrelogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrelogViewModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			children = (
 				539E63AB27EE5161003D01A3 /* LoginViewModel.swift */,
 				539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */,
+				539E63AD27EE52E9003D01A3 /* PrelogViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				539E63A427ED0224003D01A3 /* StateCodes.swift in Sources */,
 				53E7697127C4126B000E3C54 /* OrderCompleteView.swift in Sources */,
 				532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */,
+				539E63AE27EE52E9003D01A3 /* PrelogViewModel.swift in Sources */,
 				532BF411277654A100D8ADA3 /* WaitingForBringerView.swift in Sources */,
 				53BDE5532789F15F00347516 /* CGFloat+Covertible.swift in Sources */,
 				532BF3FA27711E6600D8ADA3 /* ConfirmOrderView.swift in Sources */,
