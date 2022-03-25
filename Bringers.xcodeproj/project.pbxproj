@@ -67,7 +67,6 @@
 		53BDE53D2785007D00347516 /* CustomSecureTextbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */; };
 		53BDE53F2785039300347516 /* PrelogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE53E2785039300347516 /* PrelogView.swift */; };
 		53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5402785199A00347516 /* CreateAccountView.swift */; };
-		53BDE54327852ADA00347516 /* KeyboardGuardian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54227852ADA00347516 /* KeyboardGuardian.swift */; };
 		53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54427852B0000347516 /* GeometryGetter.swift */; };
 		53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE5492787A15A00347516 /* OrderModel.swift */; };
 		53BDE54E2788045300347516 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BDE54D2788045300347516 /* Order.swift */; };
@@ -162,7 +161,6 @@
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
 		53BDE53E2785039300347516 /* PrelogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrelogView.swift; sourceTree = "<group>"; };
 		53BDE5402785199A00347516 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
-		53BDE54227852ADA00347516 /* KeyboardGuardian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardian.swift; sourceTree = "<group>"; };
 		53BDE54427852B0000347516 /* GeometryGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryGetter.swift; sourceTree = "<group>"; };
 		53BDE5492787A15A00347516 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		53BDE54D2788045300347516 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				532BF3F2276FDD1300D8ADA3 /* KeyboardObserver.swift */,
-				53BDE54227852ADA00347516 /* KeyboardGuardian.swift */,
 				53BDE54427852B0000347516 /* GeometryGetter.swift */,
 				53A5E1E52796002000482059 /* ImagePicker.swift */,
 			);
@@ -381,8 +378,8 @@
 			isa = PBXGroup;
 			children = (
 				539E63AB27EE5161003D01A3 /* LoginViewModel.swift */,
-				539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */,
 				539E63AD27EE52E9003D01A3 /* PrelogViewModel.swift */,
+				539E63A927EE4C6F003D01A3 /* CreateAccountViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -653,7 +650,6 @@
 				532BF41327778C5000D8ADA3 /* YourProfileView.swift in Sources */,
 				539E634827E8E69F003D01A3 /* ChangeAddressView.swift in Sources */,
 				532BF4192778D86F00D8ADA3 /* CustomTextboxTitleText.swift in Sources */,
-				53BDE54327852ADA00347516 /* KeyboardGuardian.swift in Sources */,
 				532BF4262782580C00D8ADA3 /* BringerOrderMapView.swift in Sources */,
 				532BF41B27790A0700D8ADA3 /* BringerOrdersView.swift in Sources */,
 				532BF3F0276FB08F00D8ADA3 /* CustomTextbox.swift in Sources */,
