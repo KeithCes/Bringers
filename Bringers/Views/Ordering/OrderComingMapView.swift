@@ -148,9 +148,7 @@ struct OrderComingMapView: View {
         .sheet(isPresented: $viewModel.isShowingOrderCompleted, content: {
             OrderCompleteView(
                 isShowingOrderCompleted: $viewModel.isShowingOrderCompleted,
-                orderID: self.order.id,
-                bringerRating: viewModel.bringerInfo.rating,
-                bringerTotalRatings: viewModel.bringerInfo.totalRatings
+                newRating: $viewModel.newRating
             )
         })
         
@@ -167,6 +165,13 @@ struct OrderComingMapView: View {
         }
         .onChange(of: viewModel.isShowingOrderComing) { _ in
             self.isShowingOrderComing = false
+        }
+        .onChange(of: viewModel.newRating) { _ in
+            viewModel.sendRating(
+                orderID: self.order.id,
+                bringerRating: viewModel.bringerInfo.rating,
+                bringerTotalRatings: viewModel.bringerInfo.totalRatings
+            )
         }
     }
     
