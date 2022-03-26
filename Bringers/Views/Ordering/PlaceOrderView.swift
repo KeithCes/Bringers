@@ -8,9 +8,6 @@
 import Foundation
 import SwiftUI
 import Combine
-import FirebaseAuth
-import MapKit
-import FirebaseDatabase
 
 struct PlaceOrderView: View {
     
