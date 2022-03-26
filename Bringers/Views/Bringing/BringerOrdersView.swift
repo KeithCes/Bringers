@@ -119,7 +119,7 @@ struct BringerOrdersView: View {
                 isShowingOrder: $viewModel.isShowingOrder,
                 acceptPressed: $viewModel.acceptPressed,
                 order: $viewModel.currentOrder,
-                currentCoords: viewModel.currentCoords
+                currentCoords: $viewModel.currentCoords
             )
         }
         
