@@ -33,6 +33,7 @@ struct OrderCompleteView: View {
                             self.newRating = CGFloat(i + 1)
                         }
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                        .foregroundColor(.gray)
                 }
             }
             .padding(EdgeInsets(top: 5, leading: 60, bottom: 35, trailing: 60))
