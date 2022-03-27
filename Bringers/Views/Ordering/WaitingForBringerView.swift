@@ -50,6 +50,7 @@ struct WaitingForBringerView: View {
                                 .repeatForever(autoreverses: false),
                             value: viewModel.animationAmount
                         )
+                        .foregroundColor(Color.gray)
                 )
                 .onAppear {
                     viewModel.animationAmount = 2
