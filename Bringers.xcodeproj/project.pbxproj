@@ -247,13 +247,13 @@
 		532BF3EE276FB07400D8ADA3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */,
 				532BF3EF276FB08F00D8ADA3 /* CustomTextbox.swift */,
 				532BF3FB2771801700D8ADA3 /* CustomLabel.swift */,
 				532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */,
 				532BF4162778314900D8ADA3 /* CustomSecureTextboxTitleText.swift */,
 				532BF4182778D86F00D8ADA3 /* CustomTextboxTitleText.swift */,
 				532BF420277954C000D8ADA3 /* CustomLabelWithTab.swift */,
-				532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */,
 				532BF42C2783EE2200D8ADA3 /* CustomTitleText.swift */,
 				53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */,
 				531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */,
@@ -339,9 +339,7 @@
 		537718D5276EDB5E00F541B5 /* Bringers */ = {
 			isa = PBXGroup;
 			children = (
-				53E7698E27D3CB6B000E3C54 /* __files */,
-				53E7698C27D3CB6B000E3C54 /* mappings */,
-				53E7698B27D3CB6B000E3C54 /* wiremock-jre8-standalone-2.32.0.jar */,
+				539E63C427F11AE2003D01A3 /* Wiremock */,
 				532BF42B2783C99F00D8ADA3 /* Constants */,
 				532BF40B277635A300D8ADA3 /* ViewModels */,
 				53BDE5482787A10300347516 /* Models */,
@@ -425,6 +423,16 @@
 				539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */,
 			);
 			path = Bringing;
+			sourceTree = "<group>";
+		};
+		539E63C427F11AE2003D01A3 /* Wiremock */ = {
+			isa = PBXGroup;
+			children = (
+				53E7698E27D3CB6B000E3C54 /* __files */,
+				53E7698C27D3CB6B000E3C54 /* mappings */,
+				53E7698B27D3CB6B000E3C54 /* wiremock-jre8-standalone-2.32.0.jar */,
+			);
+			path = Wiremock;
 			sourceTree = "<group>";
 		};
 		53BDE5362784FDA100347516 /* Ordering */ = {

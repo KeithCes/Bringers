@@ -1,8 +1,7 @@
 # stuff to do soon
-- move uitest stuff to own folder
 - move network calls to own struct
-- private all vars in custom componenets
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
+- bidding on orders? offer on orders?
 - TESTING!!!!
 
 # shit to do if bored
@@ -35,5 +34,6 @@
 - if no orders on bringerorderview stop infintie loading and display message
 
 
-# stackoverflow links
+# stackoverflow/github links
 - https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
+- https://github.com/onmyway133/blog/issues/844

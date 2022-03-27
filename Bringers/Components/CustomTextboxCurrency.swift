@@ -10,11 +10,9 @@ import SwiftUI
 
 struct CustomTextboxCurrency: View {
     
-    // https://github.com/onmyway133/blog/issues/844
-    
     @Binding var field: CGFloat
     
-    var placeholderText: String
+    private var placeholderText: String
     
     init(field: Binding<CGFloat>, placeholderText: String) {
         self._field = field

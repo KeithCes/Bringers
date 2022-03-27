@@ -12,8 +12,8 @@ import Combine
 struct CustomMultilineTextbox: View {
 
     @Binding var field: String
-    var placeholderText: String
-    var charLimit: Int
+    private var placeholderText: String
+    private var charLimit: Int
 
     init(field: Binding<String>, placeholderText: String, charLimit: Int = 200) {
         UITextView.appearance().textContainerInset = UIEdgeInsets(top: 24, left: 17, bottom: 0, right: 0)

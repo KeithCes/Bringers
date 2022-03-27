@@ -10,10 +10,10 @@ import SwiftUI
 
 struct OrderListButton: View {
     
-    @Binding private var isShowingOrder: Bool
+    @Binding var isShowingOrder: Bool
     
     private var order: OrderModel
-    @Binding private var currentOrder: OrderModel
+    @Binding var currentOrder: OrderModel
     
     private var distance: CGFloat
     private var distanceAlpha: CGFloat

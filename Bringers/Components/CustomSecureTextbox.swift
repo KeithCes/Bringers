@@ -12,10 +12,10 @@ import Combine
 struct CustomSecureTextbox: View {
 
     @Binding var field: String
-    var placeholderText: String
-    var height: CGFloat
-    var width: CGFloat
-    var charLimit: Int
+    private var placeholderText: String
+    private var height: CGFloat
+    private var width: CGFloat
+    private var charLimit: Int
 
     init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20) {
         self._field = field

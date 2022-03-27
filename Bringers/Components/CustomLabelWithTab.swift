@@ -10,12 +10,12 @@ import SwiftUI
 
 struct CustomLabelWithTab: View {
     
-    var labelText: String
-    var height: CGFloat
-    var width: CGFloat
-    var isBold: Bool
-    var fontSize: CGFloat
-    var tabText: String
+    private var labelText: String
+    private var height: CGFloat
+    private var width: CGFloat
+    private var isBold: Bool
+    private var fontSize: CGFloat
+    private var tabText: String
     
     init(labelText: String, tabText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width - 20, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true) {
         self.labelText = labelText
