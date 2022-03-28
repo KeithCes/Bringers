@@ -1,7 +1,10 @@
 # stuff to do soon
 - move network calls to own struct
+- when bringer deets added refresh view
+- THAT STUPID BRINGER VIEW ORDER FALSE DB (probs given order not reseting in placeorderview) (CAN RECREATE EVERYTIME: GO TO BRINGERORDER, ACEEPT ORDER, ORDERER CANCELS, BRINGER REFRESHS AND ACCEPTS ANOTHER ORDER (same name?), DOESTN OPEN MAP VIEW AND IF REDIRECT TO ORDER TAB THE BUG HAPPENS)
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - bidding on orders? offer on orders?
+- might be bug with incrementing? double check...
 - TESTING!!!!
 
 # shit to do if bored
@@ -43,7 +46,6 @@
 - log in, log out, log in, log out, log in, place order
 - createacc, add cc info, place order
 - createacc, add bringer info, accept bringer
-- place order, log out, log in, make sure order persistent
 - place order buy, bringer accept, check instructions, check text/call, bringer complete, check final price too high/ok, check for picture in backend
 - place order buy, bringer accept, bringer cancel
 - place order buy, bringer accept, orderer cancel
