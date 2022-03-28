@@ -17,16 +17,10 @@ struct BringerSelectedOrderView: View {
     
     @Binding var order: OrderModel
     
-    private var currentCoords: CLLocationCoordinate2D
+    @Binding var currentCoords: CLLocationCoordinate2D
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(isShowingOrder: Binding<Bool>, acceptPressed: Binding<Bool>, order: Binding<OrderModel>, currentCoords: CLLocationCoordinate2D) {
-        self._isShowingOrder = isShowingOrder
-        self._acceptPressed = acceptPressed
-        self._order = order
-        self.currentCoords = currentCoords
-    }
     
     var body: some View {
         VStack {

@@ -10,17 +10,10 @@ import SwiftUI
 
 struct BringerConfirmOrderBuyView: View {
     
-    @Environment(\.presentationMode) private var presentationMode
-    
     @Binding var isShowingBringerConfirm: Bool
     @Binding var confirmPressed: Bool
     @Binding var currentOrder: OrderModel
     
-    init(isShowingBringerConfirm: Binding<Bool>, confirmPressed: Binding<Bool>, currentOrder: Binding<OrderModel>) {
-        self._isShowingBringerConfirm = isShowingBringerConfirm
-        self._confirmPressed = confirmPressed
-        self._currentOrder = currentOrder
-    }
     
     var body: some View {
         VStack {

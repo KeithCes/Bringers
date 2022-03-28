@@ -17,8 +17,6 @@ struct BringerInstructionsView: View {
     @Binding var currentOrder: OrderModel
     @Binding var currentCoords: CLLocationCoordinate2D
     
-    @ObservedObject private var keyboard = KeyboardResponder()
-    
     var body: some View {
         VStack {
             VStack {
@@ -29,11 +27,9 @@ struct BringerInstructionsView: View {
                     CustomLabel(labelText: self.currentOrder.title, width: (CustomDimensions.width - 20) * 0.715)
                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 0))
                 }
-                
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .frame(width: CustomDimensions.width - 20, height: 100)
                 .fixedSize(horizontal: true, vertical: true)
-                
                 
                 Text(self.currentOrder.description)
                     .font(.system(size: 18, weight: .regular, design: .rounded))

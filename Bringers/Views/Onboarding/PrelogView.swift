@@ -7,27 +7,12 @@
 
 import Foundation
 import SwiftUI
-import FirebaseAuth
-import FirebaseDatabase
 import Combine
+import FirebaseAuth
 
 struct PrelogView: View {
     
-    @State private var tabSelection = 2
-    
-    @State private var isShowingLogin: Bool = false
-    @State private var isShowingCreate: Bool = false
-    @State private var isCreateSuccessful: Bool = false
-    
-    @State private var isOrderFetched: Bool = false
-    @State private var isOrderNotFetched: Bool = false
-    
-    @State private var isBringerFetched: Bool = false
-    @State private var isBringerNotFetched: Bool = false
-    
-    @State private var actualItemPrice: String = ""
-    
-    @State private var activeOrder: OrderModel = OrderModel()
+    @StateObject private var viewModel = PrelogViewModel()
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(CustomColors.tabbarGray)
@@ -41,7 +26,7 @@ struct PrelogView: View {
         VStack {
             if Auth.auth().currentUser == nil {
                 Button("LOGIN") {
-                    isShowingLogin.toggle()
+                    viewModel.isShowingLogin.toggle()
                 }
                 .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
                 .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -51,12 +36,12 @@ struct PrelogView: View {
                                 .frame(width: CustomDimensions.width, height: 70)
                                 .cornerRadius(15))
                 
-                .sheet(isPresented: $isShowingLogin) {
-                    LoginView(isShowingLogin: $isShowingLogin)
+                .sheet(isPresented: $viewModel.isShowingLogin) {
+                    LoginView(isShowingLogin: $viewModel.isShowingLogin)
                 }
                 
                 Button("CREATE") {
-                    isShowingCreate.toggle()
+                    viewModel.isShowingCreate.toggle()
                 }
                 .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
                 .font(.system(size: 30, weight: .bold, design: .rounded))
@@ -66,200 +51,81 @@ struct PrelogView: View {
                                 .frame(width: CustomDimensions.width, height: 70)
                                 .cornerRadius(15))
                 
-                .sheet(isPresented: $isShowingCreate) {
-                    CreateAccountView(isShowingCreate: $isShowingCreate)
+                .sheet(isPresented: $viewModel.isShowingCreate) {
+                    CreateAccountView(isShowingCreate: $viewModel.isShowingCreate)
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
-        .onChange(of: isShowingLogin) { _ in
-            checkIfActiveOrder { (isOrderFetched) in
-                self.isOrderFetched = isOrderFetched
+        .onChange(of: viewModel.isShowingLogin) { _ in
+            viewModel.checkIfActiveOrder { (isOrderFetched) in
+                viewModel.isOrderFetched = isOrderFetched
             }
         }
-        .onChange(of: isShowingCreate) { _ in
-            checkIfActiveOrder { (isOrderFetched) in
-                self.isOrderFetched = isOrderFetched
+        .onChange(of: viewModel.isShowingCreate) { _ in
+            viewModel.checkIfActiveOrder { (isOrderFetched) in
+                viewModel.isOrderFetched = isOrderFetched
             }
         }
         // case active order
-        .fullScreenCover(isPresented: $isOrderFetched) {
-            TabView(selection: $tabSelection) {
+        .fullScreenCover(isPresented: $viewModel.isOrderFetched) {
+            TabView(selection: $viewModel.tabSelection) {
                 
                 YourProfileView()
                     .tag(1)
                 
-                PlaceOrderView(givenOrder: $activeOrder)
+                PlaceOrderView(givenOrder: $viewModel.activeOrder)
                     .tag(2)
                     .background(CustomColors.seafoamGreen)
                 
-                BringerOrdersView(givenOrder: $activeOrder)
+                BringerOrdersView(givenOrder: $viewModel.activeOrder)
                     .tag(3)
             }
             .accentColor(Color.black)
         }
-        .onChange(of: isOrderNotFetched) { _ in
-            checkIfActiveBringer { (isBringerFetched) in
-                self.isBringerFetched = isBringerFetched
+        .onChange(of: viewModel.isOrderNotFetched) { _ in
+            viewModel.checkIfActiveBringer { (isBringerFetched) in
+                viewModel.isBringerFetched = isBringerFetched
             }
         }
         // case active bringer
-        .fullScreenCover(isPresented: $isBringerFetched) {
-            TabView(selection: $tabSelection) {
+        .fullScreenCover(isPresented: $viewModel.isBringerFetched) {
+            TabView(selection: $viewModel.tabSelection) {
                 
                 YourProfileView()
                     .tag(1)
                 
-                PlaceOrderView(givenOrder: $activeOrder)
+                PlaceOrderView(givenOrder: $viewModel.activeOrder)
                     .tag(2)
                     .background(CustomColors.seafoamGreen)
                 
-                BringerOrdersView(givenOrder: $activeOrder)
+                BringerOrdersView(givenOrder: $viewModel.activeOrder)
                     .tag(3)
             }
             .accentColor(Color.black)
         }
         // case no active order no active bringer or order not fetched
-        .fullScreenCover(isPresented: $isBringerNotFetched) {
-            TabView(selection: $tabSelection) {
+        .fullScreenCover(isPresented: $viewModel.isBringerNotFetched) {
+            TabView(selection: $viewModel.tabSelection) {
                 
                 YourProfileView()
                     .tag(1)
                 
-                PlaceOrderView(givenOrder: $activeOrder)
+                PlaceOrderView(givenOrder: $viewModel.activeOrder)
                     .tag(2)
                     .background(CustomColors.seafoamGreen)
                 
-                BringerOrdersView(givenOrder: $activeOrder)
+                BringerOrdersView(givenOrder: $viewModel.activeOrder)
                     .tag(3)
             }
             .accentColor(Color.black)
         }
         .onAppear {
-            checkIfActiveOrder { (isOrderFetched) in
-                self.isOrderFetched = isOrderFetched
+            viewModel.checkIfActiveOrder { (isOrderFetched) in
+                viewModel.isOrderFetched = isOrderFetched
             }
         }
-    }
-    
-    func checkIfActiveOrder(completion: @escaping (Bool) -> ()) {
-        
-        if Auth.auth().currentUser == nil {
-            return
-        }
-        
-        guard let userID = Auth.auth().currentUser?.uid else {
-            isOrderNotFetched = true
-            return
-        }
-        
-        let ref = Database.database().reference()
-        
-        ref.child("users").child(userID).child("activeOrders").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
-                isOrderNotFetched = true
-                return
-            }
-            
-            guard let activeOrderID = (activeUser["activeOrder"] as? String) else {
-                isOrderNotFetched = true
-                return
-            }
-            
-            ref.child("activeOrders").child(activeOrderID).observeSingleEvent(of: .value, with: { (snapshotOrders) in
-                guard let activeOrder = snapshotOrders.value as? NSDictionary else {
-                    isOrderNotFetched = true
-                    return
-                }
-                
-                guard let activeOrderMap = Order.from(activeOrder) else {
-                    isOrderNotFetched = true
-                    return
-                }
-                
-                let order = OrderModel(
-                    id: activeOrderMap.id,
-                    title: activeOrderMap.title,
-                    description: activeOrderMap.description,
-                    pickupBuy: activeOrderMap.pickupBuy,
-                    maxPrice: activeOrderMap.maxPrice,
-                    deliveryFee: activeOrderMap.deliveryFee,
-                    dateSent: activeOrderMap.dateSent,
-                    dateCompleted: activeOrderMap.dateCompleted,
-                    status: activeOrderMap.status,
-                    userID: activeOrderMap.userID,
-                    location: activeOrderMap.location
-                )
-                
-                DispatchQueue.main.async {
-                    isOrderFetched = true
-                    self.activeOrder = order
-                    completion(isOrderFetched)
-                }
-            })
-        })
-    }
-    
-    func checkIfActiveBringer(completion: @escaping (Bool) -> ()) {
-        
-        if Auth.auth().currentUser == nil {
-            return
-        }
-        
-        guard let userID = Auth.auth().currentUser?.uid else {
-            isBringerNotFetched = true
-            return
-        }
-        
-        let ref = Database.database().reference()
-        
-        ref.child("users").child(userID).child("activeBringers").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
-                isBringerNotFetched = true
-                return
-            }
-            
-            guard let activeBringerID = (activeUser["activeBringer"] as? String) else {
-                isBringerNotFetched = true
-                return
-            }
-            
-            ref.child("activeOrders").child(activeBringerID).observeSingleEvent(of: .value, with: { (snapshotOrders) in
-                guard let activeOrder = snapshotOrders.value as? NSDictionary else {
-                    isBringerNotFetched = true
-                    return
-                }
-                
-                guard let activeOrderMap = Order.from(activeOrder) else {
-                    isBringerNotFetched = true
-                    return
-                }
-                
-                let order = OrderModel(
-                    id: activeOrderMap.id,
-                    title: activeOrderMap.title,
-                    description: activeOrderMap.description,
-                    pickupBuy: activeOrderMap.pickupBuy,
-                    maxPrice: activeOrderMap.maxPrice,
-                    deliveryFee: activeOrderMap.deliveryFee,
-                    dateSent: activeOrderMap.dateSent,
-                    dateCompleted: activeOrderMap.dateCompleted,
-                    status: activeOrderMap.status,
-                    userID: activeOrderMap.userID,
-                    location: activeOrderMap.location
-                )
-                
-                DispatchQueue.main.async {
-                    isBringerFetched = true
-                    self.activeOrder = order
-                    self.tabSelection = 3
-                    completion(isBringerFetched)
-                }
-            })
-        })
     }
 }

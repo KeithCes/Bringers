@@ -7,14 +7,15 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct CustomSecureTextbox: View {
 
     @Binding var field: String
-    var placeholderText: String
-    var height: CGFloat
-    var width: CGFloat
-    var charLimit: Int
+    private var placeholderText: String
+    private var height: CGFloat
+    private var width: CGFloat
+    private var charLimit: Int
 
     init(field: Binding<String>, placeholderText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, charLimit: Int = 20) {
         self._field = field
@@ -37,8 +38,12 @@ struct CustomSecureTextbox: View {
                             .fill(Color.white.opacity(0.5))
                             .frame(width: self.width, height: self.height)
                             .cornerRadius(15))
-            .onReceive(self.field.publisher.collect()) {
-                self.field = String($0.prefix(self.charLimit))
-            }
+            .onReceive(Just(self.field)) { _ in limitText(self.charLimit) }
+    }
+    
+    func limitText(_ upper: Int) {
+        if self.field.count > upper {
+            self.field = String(self.field.prefix(upper))
+        }
     }
 }

@@ -13,16 +13,8 @@ import FirebaseDatabase
 struct OrderCompleteView: View {
     
     @Binding var isShowingOrderCompleted: Bool
-    private var orderID: String
-    private var bringerRating: CGFloat
-    private var bringerTotalRatings: CGFloat
+    @Binding var newRating: CGFloat
     
-    init(isShowingOrderCompleted: Binding<Bool>, orderID: String, bringerRating: CGFloat, bringerTotalRatings: CGFloat) {
-        self._isShowingOrderCompleted = isShowingOrderCompleted
-        self.orderID = orderID
-        self.bringerRating = bringerRating
-        self.bringerTotalRatings = bringerTotalRatings
-    }
     
     var body: some View {
         VStack {
@@ -38,9 +30,10 @@ struct OrderCompleteView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .onTapGesture {
-                            sendRating(newRating: CGFloat(i + 1))
+                            self.newRating = CGFloat(i + 1)
                         }
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
+                        .foregroundColor(.gray)
                 }
             }
             .padding(EdgeInsets(top: 5, leading: 60, bottom: 35, trailing: 60))
@@ -59,25 +52,5 @@ struct OrderCompleteView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
-    }
-    
-    func sendRating(newRating: CGFloat) {
-        
-        let userID = Auth.auth().currentUser!.uid
-        let ref = Database.database().reference()
-        
-        ref.child("users").child(userID).child("pastOrders").child(orderID).child("bringerID").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            guard let bringerID = snapshot.value as? String else {
-                return
-            }
-            
-            let calcRating = ((bringerRating * bringerTotalRatings) + newRating) / (bringerTotalRatings + 1)
-            
-            ref.child("users").child(bringerID).child("userInfo").updateChildValues(["rating" : calcRating])
-            ref.child("users").child(bringerID).child("userInfo").updateChildValues(["totalRatings" : bringerTotalRatings + 1])
-            
-            self.isShowingOrderCompleted.toggle()
-        })
     }
 }

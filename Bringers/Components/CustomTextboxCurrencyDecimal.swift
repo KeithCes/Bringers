@@ -11,8 +11,7 @@ import SwiftUI
 struct CustomTextboxCurrencyDecimal: View {
     
     @Binding var field: String
-    
-    var placeholderText: String
+    private var placeholderText: String
     
     init(field: Binding<String>, placeholderText: String) {
         self._field = field

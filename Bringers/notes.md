@@ -1,5 +1,10 @@
 # stuff to do soon
+- move network calls to own struct
+- when bringer deets added refresh view
+- THAT STUPID BRINGER VIEW ORDER FALSE DB (probs given order not reseting in placeorderview) (CAN RECREATE EVERYTIME: GO TO BRINGERORDER, ACEEPT ORDER, ORDERER CANCELS, BRINGER REFRESHS AND ACCEPTS ANOTHER ORDER (same name?), DOESTN OPEN MAP VIEW AND IF REDIRECT TO ORDER TAB THE BUG HAPPENS)
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
+- bidding on orders? offer on orders?
+- might be bug with incrementing? double check...
 - TESTING!!!!
 
 # shit to do if bored
@@ -30,3 +35,26 @@
 - add push notifications for bringer coming/order complete/etc
 - map could be bigger on large devices (ipad especially)
 - if no orders on bringerorderview stop infintie loading and display message
+
+
+# stackoverflow/github links
+- https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
+- https://github.com/onmyway133/blog/issues/844
+
+
+# manual flow testing
+- log in, log out, log in, log out, log in, place order
+- createacc, add cc info, place order
+- createacc, add bringer info, accept bringer
+- place order buy, bringer accept, check instructions, check text/call, bringer complete, check final price too high/ok, check for picture in backend
+- place order buy, bringer accept, bringer cancel
+- place order buy, bringer accept, orderer cancel
+- place order buy, force close app(do bringer end too), check order persistent, orderer cancel
+- place order pick-up, bringer accept, check instructions, check text/call, bringer complete
+- place order pick-up, bringer accept, bringer cancel
+- place order pick-up, bringer accept, orderer cancel
+- place order pick-up, force close app(do bringer end too), orderer cancel
+- upload profile picture, check for picture in backend
+- change password, login new password
+- change personal details, check Stripe
+- change address, check Stripe

@@ -10,8 +10,6 @@ import SwiftUI
 
 struct RatingView: View {
     
-    // https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
-    
     private var rating: CGFloat
     private var maxRating: Int
     
@@ -43,5 +41,3 @@ struct RatingView: View {
         .foregroundColor(.gray)
     }
 }
-
-

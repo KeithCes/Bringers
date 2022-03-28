@@ -8,103 +8,68 @@
 import Foundation
 import SwiftUI
 import Combine
-import FirebaseAuth
-import MapKit
-import FirebaseDatabase
 
 struct PlaceOrderView: View {
     
-    @State private var pickupBuy: String = "Pick-up or buy?"
-    @State private var pickupBuyColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
-    @State private var pickupBuyImageName: String = ""
-    @State private var deliveryFee: CGFloat = 0
-    @State private var maxItemPrice: CGFloat = 0
-    @State private var itemName: String = ""
-    @State private var description: String = ""
-    
-    @State private var order: OrderModel = OrderModel()
-    
-    @State private var isShowingConfirm: Bool = false
-    @State private var confirmPressed: Bool = false
-    @State private var confirmDismissed: Bool = false
-    @State private var isShowingWaitingForBringer: Bool = false
-    @State private var isOrderCancelledWaiting: Bool = false
-    @State private var isShowingOrderComing: Bool = false
-    @State private var isOrderCancelledMap: Bool = false
-    
-    @State private var userInfo: UserInfoModel = UserInfoModel()
-    
-    @State private var hasSavedCreditCard: Bool = true
-    
-    @State private var creditCardNumber: String = ""
-    @State private var cardholderName: String = ""
-    @State private var expMonth: String = ""
-    @State private var expYear: String = ""
-    @State private var cvcNumber: String = ""
-    
-    @State private var isProgressViewHidden: Bool = false
+    @StateObject private var viewModel = PlaceOrderViewModel()
     
     @Binding var givenOrder: OrderModel
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(givenOrder: Binding<OrderModel>) {
-        UITextView.appearance().textContainerInset = UIEdgeInsets(top: 24, left: 17, bottom: 0, right: 0)
-        
-        self._givenOrder = givenOrder
-    }
     
     var body: some View {
         VStack {
-            if !self.hasSavedCreditCard {
+            if !viewModel.hasSavedCreditCard {
+                
                 CustomTitleText(labelText: "ADD A CREDIT CARD TO GET STARTED!")
-                
+
                 // TODO: make exp/creditcardnum number only
-                CustomTextbox(field: $creditCardNumber, placeholderText: "Credit Card Number", charLimit: 16)
+                CustomTextbox(field: $viewModel.creditCardNumber, placeholderText: "Credit Card Number", charLimit: 16)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    .onReceive(Just(creditCardNumber)) { newValue in
+                    .onReceive(Just(viewModel.creditCardNumber)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
-                            self.creditCardNumber = filtered
+                            viewModel.creditCardNumber = filtered
                         }
                     }
                     .keyboardType(.numberPad)
-                
-                CustomTextbox(field: $cardholderName, placeholderText: "Cardholder Name")
+
+                CustomTextbox(field: $viewModel.cardholderName, placeholderText: "Cardholder Name")
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                
-                CustomTextbox(field: $expMonth, placeholderText: "Exp Month", charLimit: 2)
+
+                CustomTextbox(field: $viewModel.expMonth, placeholderText: "Exp Month", charLimit: 2)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    .onReceive(Just(expMonth)) { newValue in
+                    .onReceive(Just(viewModel.expMonth)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
-                            self.expMonth = filtered
+                            viewModel.expMonth = filtered
                         }
                     }
                     .keyboardType(.numberPad)
-                
-                CustomTextbox(field: $expYear, placeholderText: "Exp Year", charLimit: 2)
+
+                CustomTextbox(field: $viewModel.expYear, placeholderText: "Exp Year", charLimit: 2)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    .onReceive(Just(expYear)) { newValue in
+                    .onReceive(Just(viewModel.expYear)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
-                            self.expYear = filtered
+                            viewModel.expYear = filtered
                         }
                     }
                     .keyboardType(.numberPad)
-                
-                CustomTextbox(field: $cvcNumber, placeholderText: "CVC", charLimit: 4)
+
+                CustomTextbox(field: $viewModel.cvcNumber, placeholderText: "CVC", charLimit: 4)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
-                    .onReceive(Just(cvcNumber)) { newValue in
+                    .onReceive(Just(viewModel.cvcNumber)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
-                            self.cvcNumber = filtered
+                            viewModel.cvcNumber = filtered
                         }
                     }
                     .keyboardType(.numberPad)
-                
+
                 Button("ADD CARD") {
-                    self.addCreditCard()
+                    viewModel.addCreditCard()
                 }
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundColor(Color.white)
@@ -119,27 +84,27 @@ struct PlaceOrderView: View {
                 
                 Menu {
                     Button {
-                        pickupBuy = "Buy"
-                        pickupBuyColor = CustomColors.midGray
-                        pickupBuyImageName = "tag"
+                        viewModel.pickupBuy = "Buy"
+                        viewModel.pickupBuyColor = CustomColors.midGray
+                        viewModel.pickupBuyImageName = "tag"
                     } label: {
                         Text("Buy")
                         Image(systemName: "tag")
                     }
                     Button {
-                        pickupBuy = "Pick-up"
-                        pickupBuyColor = CustomColors.midGray
-                        pickupBuyImageName = "bag"
+                        viewModel.pickupBuy = "Pick-up"
+                        viewModel.pickupBuyColor = CustomColors.midGray
+                        viewModel.pickupBuyImageName = "bag"
                     } label: {
                         Text("Pick-up")
                         Image(systemName: "bag")
                     }
                 } label: {
-                    Text(pickupBuy)
-                    Image(systemName: pickupBuyImageName)
+                    Text(viewModel.pickupBuy)
+                    Image(systemName: viewModel.pickupBuyImageName)
                 }
                 .font(.system(size: 18, weight: .regular, design: .rounded))
-                .foregroundColor(pickupBuyColor)
+                .foregroundColor(viewModel.pickupBuyColor)
                 .fixedSize(horizontal: false, vertical: true)
                 .multilineTextAlignment(.center)
                 .background(Rectangle()
@@ -149,11 +114,11 @@ struct PlaceOrderView: View {
                 .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
                 
                 HStack {
-                    CustomTextboxCurrency(field: $deliveryFee, placeholderText: "Delivery Fee")
+                    CustomTextboxCurrency(field: $viewModel.deliveryFee, placeholderText: "Delivery Fee")
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
-                    if pickupBuy != "Pick-up" {
-                        CustomTextboxCurrency(field: $maxItemPrice, placeholderText: "Max Item Price")
+                    if viewModel.pickupBuy != "Pick-up" {
+                        CustomTextboxCurrency(field: $viewModel.maxItemPrice, placeholderText: "Max Item Price")
                             .padding(EdgeInsets(top: 0, leading: 26, bottom: 0, trailing: 0))
                     }
                 }
@@ -161,43 +126,27 @@ struct PlaceOrderView: View {
                 .frame(width: CustomDimensions.width, height: 100)
                 .fixedSize(horizontal: false, vertical: true)
                 
-                CustomTextbox(field: $itemName, placeholderText: "Name of Item")
+                CustomTextbox(field: $viewModel.itemName, placeholderText: "Name of Item")
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
                 
-                TextEditor(text: $description)
-                    .placeholderTopLeft(when: self.description.isEmpty) {
-                        Text("Description").foregroundColor(CustomColors.midGray.opacity(0.5))
-                        // makes placeholder even with text in box, not sure why we need this padding
-                            .padding(.top, 24)
-                            .padding(.leading, 20)
-                    }
-                    .font(.system(size: 18, weight: .regular, design: .rounded))
-                    .foregroundColor(CustomColors.midGray)
-                    .background(Rectangle()
-                                    .fill(Color.white.opacity(0.5))
-                                    .frame(width: CustomDimensions.width, height: 153)
-                                    .cornerRadius(15))
-                    .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: 140)
-                    .onReceive(self.description.publisher.collect()) {
-                        self.description = String($0.prefix(200))
-                    }
+                CustomMultilineTextbox(field: $viewModel.description, placeholderText: "Description")
                     .padding(EdgeInsets(top: 24, leading: 20, bottom: 30, trailing: 20))
                 
                 Button("PLACE ORDER") {
-                    self.showConfirmScreen()
+                    viewModel.showConfirmScreen()
                 }
                 
-                .sheet(isPresented: $isShowingConfirm, onDismiss: {
+                .sheet(isPresented: $viewModel.isShowingConfirm, onDismiss: {
                     
-                    getYourProfile()
+                    viewModel.getYourProfile()
                     
-                    if !isShowingConfirm && confirmPressed {
-                        confirmPressed = false
-                        incrementOrdersPlaced()
-                        isShowingWaitingForBringer.toggle()
+                    if !viewModel.isShowingConfirm && viewModel.confirmPressed {
+                        viewModel.confirmPressed = false
+                        viewModel.incrementOrdersPlaced()
+                        viewModel.isShowingWaitingForBringer.toggle()
                     }
                 }) {
-                    ConfirmOrderView(isShowingConfirm: $isShowingConfirm, confirmPressed: $confirmPressed, order: $order)
+                    ConfirmOrderView(isShowingConfirm: $viewModel.isShowingConfirm, confirmPressed: $viewModel.confirmPressed, order: $viewModel.order)
                 }
                 .font(.system(size: 30, weight: .bold, design: .rounded))
                 .foregroundColor(Color.white)
@@ -228,209 +177,53 @@ struct PlaceOrderView: View {
                 .background(RoundedRectangle(cornerRadius: 3)
                                 .fill(CustomColors.seafoamGreen))
                 .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
-                .isHidden(self.isProgressViewHidden)
+                .isHidden(viewModel.isProgressViewHidden)
         )
         
-        .fullScreenCover(isPresented: $isShowingWaitingForBringer, onDismiss: {
-            if (!isShowingWaitingForBringer && !isOrderCancelledWaiting) {
-                isShowingOrderComing.toggle()
-                givenOrder = OrderModel()
+        .fullScreenCover(isPresented: $viewModel.isShowingWaitingForBringer, onDismiss: {
+            if (!viewModel.isShowingWaitingForBringer && !viewModel.isOrderCancelledWaiting) {
+                viewModel.isShowingOrderComing.toggle()
+                self.givenOrder = OrderModel()
             }
-            else if isOrderCancelledWaiting {
-                incrementOrdersCanceled()
+            else if viewModel.isOrderCancelledWaiting {
+                viewModel.incrementOrdersCanceled()
             }
-            isOrderCancelledWaiting = false
+            viewModel.isOrderCancelledWaiting = false
         }) {
             WaitingForBringerView(
-                isShowingWaitingForBringer: $isShowingWaitingForBringer,
-                isOrderCancelledWaiting: $isOrderCancelledWaiting,
-                order: self.givenOrder.status == "waiting" ? $givenOrder : $order
+                isShowingWaitingForBringer: $viewModel.isShowingWaitingForBringer,
+                isOrderCancelledWaiting: $viewModel.isOrderCancelledWaiting,
+                order: self.givenOrder.status == "waiting" ? $givenOrder : $viewModel.order
             )
         }
         
-        .fullScreenCover(isPresented: $isShowingOrderComing, onDismiss: {
-            if !isShowingOrderComing && !isOrderCancelledMap {
-                incrementOrdersCompleted()
+        .fullScreenCover(isPresented: $viewModel.isShowingOrderComing, onDismiss: {
+            if !viewModel.isShowingOrderComing && !viewModel.isOrderCancelledMap {
+                viewModel.incrementOrdersCompleted()
             }
             else {
-                incrementOrdersCanceled()
+                viewModel.incrementOrdersCanceled()
             }
-            isOrderCancelledMap = false
+            viewModel.isOrderCancelledMap = false
         }) {
             OrderComingMapView(
-                isShowingOrderComing: $isShowingOrderComing,
-                isOrderCancelledMap: $isOrderCancelledMap,
-                order: self.givenOrder.status == "inprogress" ? $givenOrder : $order
+                isShowingOrderComing: $viewModel.isShowingOrderComing,
+                isOrderCancelledMap: $viewModel.isOrderCancelledMap,
+                order: self.givenOrder.status == "inprogress" ? $givenOrder : $viewModel.order
             )
         }
         .onAppear {
             DispatchQueue.main.async {
-                getYourProfile()
+                viewModel.getYourProfile()
             }
             
             if self.givenOrder.status == "waiting" && self.givenOrder.id != "" {
-                isShowingWaitingForBringer = true
+                viewModel.isShowingWaitingForBringer = true
             }
             if self.givenOrder.status == "inprogress" && self.givenOrder.id != "" {
-                isShowingOrderComing = true
+                viewModel.isShowingOrderComing = true
             }
         }
-        
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-    }
-    
-    
-    func showConfirmScreen() {
-        
-        if self.deliveryFee > 0 &&
-            self.itemName.count > 0 &&
-            self.description.count > 0
-        {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/YYYY"
-            let currentDateString = dateFormatter.string(from: Date())
-            
-            let userID = Auth.auth().currentUser!.uid
-            
-            self.order = OrderModel(
-                id: UUID().uuidString,
-                title: self.itemName,
-                description: self.description,
-                pickupBuy: self.pickupBuy,
-                maxPrice: self.pickupBuy == "Buy" && self.maxItemPrice > 0 ? self.maxItemPrice : 0,
-                deliveryFee: self.deliveryFee,
-                dateSent: currentDateString,
-                dateCompleted: "",
-                status: "waiting",
-                userID: userID,
-                location: DefaultCoords.coords
-            )
-            
-            isShowingConfirm.toggle()
-        }
-        else {
-            print("error")
-        }
-    }
-    
-    func getYourProfile() {
-        
-        guard let userID = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
-        let ref = Database.database().reference()
-        
-        ref.child("users").child(userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            guard let activeUserInfo = snapshot.value as? NSDictionary else {
-                return
-            }
-            
-            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
-                return
-            }
-            
-            let userInfo = UserInfoModel(
-                dateOfBirth: activeUserInfoMap.dateOfBirth,
-                dateOfCreation: activeUserInfoMap.dateOfCreation,
-                email: activeUserInfoMap.email,
-                firstName: activeUserInfoMap.firstName,
-                lastName: activeUserInfoMap.lastName,
-                ordersCompleted: activeUserInfoMap.ordersCompleted,
-                ordersPlaced: activeUserInfoMap.ordersPlaced,
-                ordersCanceled: activeUserInfoMap.ordersCanceled,
-                bringersCompleted: activeUserInfoMap.bringersCompleted,
-                bringersAccepted: activeUserInfoMap.bringersAccepted,
-                bringersCanceled: activeUserInfoMap.bringersCanceled,
-                phoneNumber: activeUserInfoMap.phoneNumber,
-                profilePictureURL: activeUserInfoMap.profilePictureURL,
-                rating: activeUserInfoMap.rating,
-                totalRatings: activeUserInfoMap.totalRatings,
-                stripeAccountID: activeUserInfoMap.stripeAccountID,
-                stripeCustomerID: activeUserInfoMap.stripeCustomerID,
-                address: activeUserInfoMap.address,
-                state: activeUserInfoMap.state,
-                city: activeUserInfoMap.city,
-                country: activeUserInfoMap.country,
-                zipcode: activeUserInfoMap.zipcode
-            )
-            
-            self.userInfo = userInfo
-            
-            fetchCustomerDetails()
-        })
-    }
-    
-    func fetchCustomerDetails() {
-        let url = URL(string: BuildConfigURL.url + "get-customer-details")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try! JSONEncoder().encode(["customerID" : self.userInfo.stripeCustomerID])
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data,
-                  error == nil,
-                  (response as? HTTPURLResponse)?.statusCode == 200,
-                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                  let _ = json["defaultSource"] as? String else {
-                      self.hasSavedCreditCard = false
-                      self.isProgressViewHidden = true
-                      return
-                  }
-            self.hasSavedCreditCard = true
-            self.isProgressViewHidden = true
-        }.resume()
-    }
-    
-    // TODO: show error toasts if credit card not valid/not added
-    func addCreditCard() {
-        let url = URL(string: "https://bringers-nodejs.vercel.app/add-credit-card")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try! JSONEncoder().encode([
-            "customerID" : self.userInfo.stripeCustomerID,
-            "ccNumber" : self.creditCardNumber,
-            "expMonth" : self.expMonth,
-            "expYear" : self.expYear,
-            "cvc" : self.cvcNumber
-        ])
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data,
-                  error == nil,
-                  (response as? HTTPURLResponse)?.statusCode == 200,
-                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                  let _ = json["defaultSource"] as? String else {
-                      self.hasSavedCreditCard = false
-                      return
-                  }
-            self.hasSavedCreditCard = true
-        }.resume()
-    }
-    
-    func incrementOrdersPlaced() {
-        let ref = Database.database().reference()
-        let userID = Auth.auth().currentUser!.uid
-        
-        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersPlaced" : self.userInfo.ordersPlaced + 1])
-    }
-    
-    func incrementOrdersCanceled() {
-        let ref = Database.database().reference()
-        let userID = Auth.auth().currentUser!.uid
-        
-        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersCanceled" : self.userInfo.ordersCanceled + 1])
-    }
-    
-    func incrementOrdersCompleted() {
-        let ref = Database.database().reference()
-        let userID = Auth.auth().currentUser!.uid
-        
-        ref.child("users").child(userID).child("userInfo").updateChildValues(["ordersCompleted" : self.userInfo.ordersCompleted + 1])
     }
 }

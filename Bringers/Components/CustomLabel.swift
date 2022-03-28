@@ -10,13 +10,13 @@ import SwiftUI
 
 struct CustomLabel: View {
     
-    var labelText: String
-    var height: CGFloat
-    var width: CGFloat
-    var isBold: Bool
-    var fontSize: CGFloat
-    var hasBackground: Bool
-    var backgroundColor: Color
+    private var labelText: String
+    private var height: CGFloat
+    private var width: CGFloat
+    private var isBold: Bool
+    private var fontSize: CGFloat
+    private var hasBackground: Bool
+    private var backgroundColor: Color
     
     init(labelText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true, backgroundColor: Color = Color.white) {
         self.labelText = labelText
