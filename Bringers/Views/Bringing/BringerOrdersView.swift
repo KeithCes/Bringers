@@ -43,8 +43,8 @@ struct BringerOrdersView: View {
 
                             
                             viewModel.didSelectConnectWithStripe { url in
-                                viewModel.stripeURLString = url ?? ""
                                 DispatchQueue.main.async {
+                                    viewModel.stripeURLString = url ?? ""
                                     viewModel.isProgressViewHidden = true
                                     viewModel.isShowingSafari = true
                                 }
@@ -61,23 +61,40 @@ struct BringerOrdersView: View {
                 }
             }
             else {
-                List(viewModel.orders) { order in
-                    OrderListButton(
-                        isShowingOrder: $viewModel.isShowingOrder,
-                        order: order,
-                        currentOrder: $viewModel.currentOrder,
-                        distance: viewModel.currentCoords.distance(from: order.location),
-                        distanceAlpha: ((viewModel.currentCoords.distance(from: order.location) - viewModel.currentCoords.distance(from: viewModel.lowestDistance)) * viewModel.alphaIncrementValDistance) + 0.4,
-                        shippingAlpha: ((order.deliveryFee - viewModel.lowestShipping) * viewModel.alphaIncrementValShipping) + 0.4
-                    )
-                }
-                .refreshable {
-                    viewModel.getYourProfile()
-                    viewModel.getActiveOrders { (orders) in
-                        viewModel.orders = orders
+                if viewModel.orders.isEmpty {
+                    List {
+                        CustomLabel(labelText: "NO ACTIVE ORDERS IN YOUR AREA", height: 100, isBold: true, fontSize: 30, hasBackground: false)
+                            .multilineTextAlignment(.center)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
+                    .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
+                    .refreshable {
+                        viewModel.getActiveOrders { (orders) in
+                            viewModel.getYourProfile()
+                            viewModel.orders = orders
+                        }
                     }
                 }
-                .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
+                else {
+                    List(viewModel.orders) { order in
+                        OrderListButton(
+                            isShowingOrder: $viewModel.isShowingOrder,
+                            order: order,
+                            currentOrder: $viewModel.currentOrder,
+                            distance: viewModel.currentCoords.distance(from: order.location),
+                            distanceAlpha: ((viewModel.currentCoords.distance(from: order.location) - viewModel.currentCoords.distance(from: viewModel.lowestDistance)) * viewModel.alphaIncrementValDistance) + 0.4,
+                            shippingAlpha: ((order.deliveryFee - viewModel.lowestShipping) * viewModel.alphaIncrementValShipping) + 0.4
+                        )
+                    }
+                    .refreshable {
+                        viewModel.getActiveOrders { (orders) in
+                            viewModel.getYourProfile()
+                            viewModel.orders = orders
+                        }
+                    }
+                    .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
+                }
             }
             ProgressView()
                 .scaleEffect(x: 2, y: 2, anchor: .center)
@@ -91,8 +108,8 @@ struct BringerOrdersView: View {
         .onAppear {
             viewModel.checkIfLocationServicesEnabled()
             
-            viewModel.getYourProfile()
             viewModel.getActiveOrders { (orders) in
+                viewModel.getYourProfile()
                 viewModel.orders = orders
             }
         }
@@ -124,8 +141,8 @@ struct BringerOrdersView: View {
         }
         
         .sheet(isPresented: $viewModel.isShowingBringerConfirm, onDismiss: {
-            viewModel.getYourProfile()
             viewModel.getActiveOrders { (orders) in
+                viewModel.getYourProfile()
                 viewModel.orders = orders
             }
             
@@ -145,8 +162,8 @@ struct BringerOrdersView: View {
         
         .fullScreenCover(isPresented: $viewModel.isShowingBringerMap, onDismiss: {
             
-            viewModel.getYourProfile()
             viewModel.getActiveOrders { (orders) in
+                viewModel.getYourProfile()
                 viewModel.orders = orders
             }
             
@@ -172,6 +189,11 @@ struct BringerOrdersView: View {
                 viewModel.fetchUserDetails { chargesEnabled in
                     if chargesEnabled! {
                         viewModel.updateUserProfileStripeAccountID()
+                        
+                        viewModel.getActiveOrders { (orders) in
+                            viewModel.getYourProfile()
+                            viewModel.orders = orders
+                        }
                     }
                     else {
                         print("ERROR USER NOT CREATED")

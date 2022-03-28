@@ -17,7 +17,7 @@ struct CustomLabelWithTab: View {
     private var fontSize: CGFloat
     private var tabText: String
     
-    init(labelText: String, tabText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width - 20, isBold: Bool = false, fontSize: CGFloat = 18, hasBackground: Bool = true) {
+    init(labelText: String, tabText: String, height: CGFloat = 50, width: CGFloat = CustomDimensions.width - 20, isBold: Bool = false, fontSize: CGFloat = 18) {
         self.labelText = labelText
         self.height = height
         self.width = width

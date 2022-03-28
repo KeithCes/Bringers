@@ -33,7 +33,7 @@ struct CustomLabel: View {
             .font(.system(size: self.fontSize, weight: self.isBold ? .bold : .regular, design: .rounded))
             .foregroundColor(CustomColors.midGray)
             .background(Rectangle()
-                            .fill(self.backgroundColor.opacity(0.5))
+                            .fill(self.hasBackground ? self.backgroundColor.opacity(0.5) : self.backgroundColor.opacity(0.0))
                             .frame(width: self.width, height: self.height)
                             .cornerRadius(15))
             .fixedSize(horizontal: false, vertical: true)

@@ -1,7 +1,5 @@
 # stuff to do soon
-- move network calls to own struct
-- when bringer deets added refresh view
-- THAT STUPID BRINGER VIEW ORDER FALSE DB (probs given order not reseting in placeorderview) (CAN RECREATE EVERYTIME: GO TO BRINGERORDER, ACEEPT ORDER, ORDERER CANCELS, BRINGER REFRESHS AND ACCEPTS ANOTHER ORDER (same name?), DOESTN OPEN MAP VIEW AND IF REDIRECT TO ORDER TAB THE BUG HAPPENS)
+- THAT STUPID BRINGER VIEW ORDER FALSE DB (probs given order not reseting in placeorderview) (CAN RECREATE SOMETIMES: GO TO BRINGERORDER, ACEEPT ORDER, ORDERER CANCELS, BRINGER REFRESHS AND ACCEPTS ANOTHER ORDER (same name?), DOESTN OPEN MAP VIEW AND IF REDIRECT TO ORDER TAB THE BUG HAPPENS)
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - bidding on orders? offer on orders?
 - might be bug with incrementing? double check...
@@ -18,7 +16,7 @@
 - modulate statecodes
 
 # stuff to add later
-- use stripe native credit card add form instead of plain text?? (looked a bit, not sure if there's any benefit)
+- small refactor of network calls (can leave in viewModel but perhaps add bringerLoc to firebase calls and modulate Stripe calls)
 - inform bringer of orderer cancel
 - inform orderer of bringer cancel
 - send email receipt of transaction on completion
@@ -28,13 +26,11 @@
 - when email is changed the email is only changed in db not auth (login uses creation email)
 - slight flickering of keyboard when password fields selected (create)
 - item name/description on confirmation screen
-- seperate all logic from view into viewmodel
 - views get funky on very small screen sizes (ipod touch, iphone 8, iphone se)
 - databse rules: make user unable to read email, phone number from other users
 - custom cropping profile picture
 - add push notifications for bringer coming/order complete/etc
 - map could be bigger on large devices (ipad especially)
-- if no orders on bringerorderview stop infintie loading and display message
 
 
 # stackoverflow/github links
