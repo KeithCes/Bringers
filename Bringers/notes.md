@@ -37,3 +37,22 @@
 # stackoverflow/github links
 - https://stackoverflow.com/questions/64379079/how-to-present-accurate-star-rating-using-swiftui
 - https://github.com/onmyway133/blog/issues/844
+
+
+# manual flow testing
+- log in, log out, log in, log out, log in, place order
+- createacc, add cc info, place order
+- createacc, add bringer info, accept bringer
+- place order, log out, log in, make sure order persistent
+- place order buy, bringer accept, check instructions, check text/call, bringer complete, check final price too high/ok, check for picture in backend
+- place order buy, bringer accept, bringer cancel
+- place order buy, bringer accept, orderer cancel
+- place order buy, force close app(do bringer end too), check order persistent, orderer cancel
+- place order pick-up, bringer accept, check instructions, check text/call, bringer complete
+- place order pick-up, bringer accept, bringer cancel
+- place order pick-up, bringer accept, orderer cancel
+- place order pick-up, force close app(do bringer end too), orderer cancel
+- upload profile picture, check for picture in backend
+- change password, login new password
+- change personal details, check Stripe
+- change address, check Stripe
