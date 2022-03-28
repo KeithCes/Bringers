@@ -167,7 +167,7 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
                 break
             }
             region = MKCoordinateRegion(center: location.coordinate,
-                                        span: MapDetails.defaultSpan)
+                                        span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
         @unknown default:
             break
         }

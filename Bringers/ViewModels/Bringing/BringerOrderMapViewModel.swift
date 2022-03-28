@@ -37,8 +37,8 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
     @Published var isShowingBringerMap: Bool = true
     @Published var isOrderCancelledMap: Bool = false
     
-    @Published var orderLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
-    @Published var orderAnotations: [AnnotatedItem] = [AnnotatedItem(name: "orderLocation", coordinate: MapDetails.defaultCoords)]
+    @Published var orderLocation: CLLocationCoordinate2D = DefaultCoords.coords
+    @Published var orderAnotations: [AnnotatedItem] = [AnnotatedItem(name: "orderLocation", coordinate: DefaultCoords.coords)]
     
     @Published var region = MKCoordinateRegion(center: DefaultCoords.coords, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
     
@@ -146,7 +146,7 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
             let newAnnotation = AnnotatedItem(name: "orderLocation", coordinate: self.orderLocation)
             self.orderAnotations = [newAnnotation]
             
-            let positions = [self.orderLocation, self.getLocation()?.location?.coordinate ?? MapDetails.defaultCoords]
+            let positions = [self.orderLocation, self.getLocation()?.location?.coordinate ?? DefaultCoords.coords]
             
             var minLat = 91.0
             var maxLat = -91.0
@@ -346,7 +346,7 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
                 break
             }
             region = MKCoordinateRegion(center: location.coordinate,
-                                        span: MapDetails.defaultSpan)
+                                        span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
         @unknown default:
             break
         }

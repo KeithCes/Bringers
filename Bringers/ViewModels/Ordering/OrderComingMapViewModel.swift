@@ -37,8 +37,8 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
     
     @Published var newRating: CGFloat = 0
     
-    @Published var bringerLocation: CLLocationCoordinate2D = MapDetails.defaultCoords
-    @Published var bringerAnotations: [AnnotatedItem] = [AnnotatedItem(name: "bringerLocation", coordinate: MapDetails.defaultCoords)]
+    @Published var bringerLocation: CLLocationCoordinate2D = DefaultCoords.coords
+    @Published var bringerAnotations: [AnnotatedItem] = [AnnotatedItem(name: "bringerLocation", coordinate: DefaultCoords.coords)]
     
     @Published var region = MKCoordinateRegion(center: DefaultCoords.coords, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
     
@@ -167,7 +167,7 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
             let newAnnotation = AnnotatedItem(name: "bringerLocation", coordinate: self.bringerLocation)
             self.bringerAnotations = [newAnnotation]
             
-            let positions = [self.bringerLocation, self.getLocation()?.location?.coordinate ?? MapDetails.defaultCoords]
+            let positions = [self.bringerLocation, self.getLocation()?.location?.coordinate ?? DefaultCoords.coords]
             
             var minLat = 91.0
             var maxLat = -91.0
@@ -355,7 +355,7 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
                 break
             }
             region = MKCoordinateRegion(center: location.coordinate,
-                                        span: MapDetails.defaultSpan)
+                                        span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
         @unknown default:
             break
         }

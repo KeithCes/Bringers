@@ -19,7 +19,6 @@
 		532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FB2771801700D8ADA3 /* CustomLabel.swift */; };
 		532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */; };
 		532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF403277562B100D8ADA3 /* OrderComingMapView.swift */; };
-		532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */; };
 		532BF40A2776359B00D8ADA3 /* ReceiptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4092776359B00D8ADA3 /* ReceiptView.swift */; };
 		532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */; };
 		532BF40F27763C1000D8ADA3 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF40E27763C1000D8ADA3 /* RatingView.swift */; };
@@ -124,7 +123,6 @@
 		532BF3FB2771801700D8ADA3 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		532BF3FF277543A900D8ADA3 /* CustomTextboxCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextboxCurrency.swift; sourceTree = "<group>"; };
 		532BF403277562B100D8ADA3 /* OrderComingMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderComingMapView.swift; sourceTree = "<group>"; };
-		532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		532BF4092776359B00D8ADA3 /* ReceiptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptView.swift; sourceTree = "<group>"; };
 		532BF40C27763A7C00D8ADA3 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		532BF40E27763C1000D8ADA3 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
@@ -292,7 +290,6 @@
 				539E63B027EE555E003D01A3 /* Ordering */,
 				539E63A827EE4C5D003D01A3 /* Onboarding */,
 				539E63A527ED028A003D01A3 /* Profile */,
-				532BF40727761F5B00D8ADA3 /* LocationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -715,7 +712,6 @@
 				53BDE5412785199B00347516 /* CreateAccountView.swift in Sources */,
 				539E63C327F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift in Sources */,
 				532BF3FC2771801700D8ADA3 /* CustomLabel.swift in Sources */,
-				532BF40827761F5B00D8ADA3 /* LocationViewModel.swift in Sources */,
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				539E63AA27EE4C6F003D01A3 /* CreateAccountViewModel.swift in Sources */,
