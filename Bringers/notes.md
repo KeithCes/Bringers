@@ -1,5 +1,5 @@
 # stuff to do soon
-- THAT STUPID BRINGER VIEW ORDER FALSE DB (probs given order not reseting in placeorderview) (CAN RECREATE SOMETIMES: GO TO BRINGERORDER, ACEEPT ORDER, ORDERER CANCELS, BRINGER REFRESHS AND ACCEPTS ANOTHER ORDER (same name?), DOESTN OPEN MAP VIEW AND IF REDIRECT TO ORDER TAB THE BUG HAPPENS)
+- modulate first and clean up firebase calls
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - bidding on orders? offer on orders?
 - might be bug with incrementing? double check...
@@ -13,7 +13,6 @@
 - editing yourprofile and then going to placeorder acts like keyboard is still up for a second
 - placeholder for profile picture looks a bit janky, design a better one and replace on youprofile and map views
 - break up UserInfo object in DB and models
-- modulate statecodes
 
 # stuff to add later
 - small refactor of network calls (can leave in viewModel but perhaps add bringerLoc to firebase calls and modulate Stripe calls)

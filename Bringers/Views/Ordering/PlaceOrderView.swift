@@ -205,6 +205,8 @@ struct PlaceOrderView: View {
                 viewModel.incrementOrdersCanceled()
             }
             viewModel.isOrderCancelledMap = false
+            
+            self.givenOrder = OrderModel()
         }) {
             OrderComingMapView(
                 isShowingOrderComing: $viewModel.isShowingOrderComing,

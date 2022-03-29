@@ -173,6 +173,8 @@ struct BringerOrdersView: View {
             else if viewModel.isOrderCancelledMap {
                 viewModel.incrementBringersCanceled()
             }
+            
+            self.givenOrder = OrderModel()
         }) {
             BringerOrderMapView(
                 isShowingBringerMap: $viewModel.isShowingBringerMap,
