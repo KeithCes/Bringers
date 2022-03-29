@@ -31,6 +31,9 @@ final class CreateAccountViewModel: ObservableObject {
     
     @Published var isShowingCreate: Bool = true
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var countryColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     @Published var stateColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     
@@ -42,12 +45,47 @@ final class CreateAccountViewModel: ObservableObject {
     
     
     func checkIfCreateInfoValid() -> Bool {
-        return firstName.count > 2 && lastName.count > 2 && email.count > 0 && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count == 2 && country.count == 2 && zipcode.count == 5
+        return firstName.count > 1 && lastName.count > 1 && email.count > 0 && checkValidEmail(email: email) && (phoneNumber.count == 10 || phoneNumber.count == 11) && password.count >= 6 && password.count >= 6 && password == confirmPassword && address.count > 5 && city.count > 2 && state.count == 2 && country.count == 2 && zipcode.count == 5
+    }
+    
+    func checkPostErrorToast() {
+        if firstName.count <= 1 {
+            self.toastMessage = "Name must be at least 2 characters long"
+        }
+        else if lastName.count <= 1 {
+            self.toastMessage = "Name must be at least 2 characters long"
+        }
+        else if email.count <= 0 || !checkValidEmail(email: email) {
+            self.toastMessage = "Email is not valid"
+        }
+        else if phoneNumber.count < 10 || phoneNumber.count > 11 {
+            self.toastMessage = "Phone Number is not valid"
+        }
+        else if password.count < 6 {
+            self.toastMessage = "Password is too short"
+        }
+        else if password != confirmPassword {
+            self.toastMessage = "Password confirmation must match"
+        }
+        else if address.count <= 5 {
+            self.toastMessage = "Address is not valid"
+        }
+        else if city.count <= 2 {
+            self.toastMessage = "City is not valid"
+        }
+        else if state.count != 2 {
+            self.toastMessage = "State is not valid"
+        }
+        else if country.count != 2 {
+            self.toastMessage = "Country is not valid"
+        }
+        else if zipcode.count != 5 {
+            self.toastMessage = "Zipcode is not valid"
+        }
+        self.isShowingToast.toggle()
     }
     
     func createAccount() {
-        
-        // TODO: add toasts to show what error user is facing (password too short, email badly formatted, etc)
         
         if checkIfCreateInfoValid() {
             
@@ -127,5 +165,12 @@ final class CreateAccountViewModel: ObservableObject {
                   }
             completion(customerID)
         }.resume()
+    }
+    
+    func checkValidEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
 }

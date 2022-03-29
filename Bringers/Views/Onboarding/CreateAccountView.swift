@@ -63,6 +63,10 @@ struct CreateAccountView: View {
                     
                     CustomTextbox(field: $viewModel.city, placeholderText: "City")
                         .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
+                        .toast(message: viewModel.toastMessage,
+                               isShowing: $viewModel.isShowingToast,
+                               duration: Toast.long
+                        )
                     
                     // state
                     Menu {
@@ -131,6 +135,8 @@ struct CreateAccountView: View {
                     }
                 
                 Button("CREATE") {
+                    viewModel.checkPostErrorToast()
+                    
                     if viewModel.checkIfCreateInfoValid() {
                         
                         viewModel.createStripeCustomer { customerID in

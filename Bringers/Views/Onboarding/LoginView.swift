@@ -41,6 +41,10 @@ struct LoginView: View {
                             .frame(width: CustomDimensions.width, height: 70)
                             .cornerRadius(15))
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .onChange(of: viewModel.isShowingLogin, perform: { _ in
             self.isShowingLogin.toggle()
         })
