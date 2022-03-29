@@ -18,6 +18,9 @@ final class ChangeAddressViewModel: ObservableObject {
     @Published var state: String = ""
     @Published var country: String = ""
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var countryColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     @Published var stateColor: SwiftUI.Color = CustomColors.midGray.opacity(0.5)
     
@@ -28,10 +31,10 @@ final class ChangeAddressViewModel: ObservableObject {
         
         self.updateUserValueStripe(userInfo: userInfo) { _ in
             ref.child("users").child(userID).child("userInfo").updateChildValues([
-                "address" : self.address != "" ? self.address : userInfo.address,
+                "address" : (self.address != "" && self.address.count > 5) ? self.address : userInfo.address,
                 "state" : self.state != "" ? self.state : userInfo.state,
-                "city" : self.city != "" ? self.city : userInfo.city,
-                "zipcode" : self.zipcode != "" ? self.zipcode : userInfo.zipcode,
+                "city" : (self.city != "" && self.city.count > 2) ? self.city : userInfo.city,
+                "zipcode" : (self.zipcode != "" && self.zipcode.count == 5) ? self.zipcode : userInfo.zipcode,
                 "country" : self.country != "" ? self.country : userInfo.country,
             ])
         }
@@ -45,11 +48,11 @@ final class ChangeAddressViewModel: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONEncoder().encode([
             "customerID" : userInfo.stripeCustomerID,
-            "addressLine1" : self.address != "" ? self.address : userInfo.address,
-            "addressCity" : self.city != "" ? self.city : userInfo.city,
+            "addressLine1" : (self.address != "" && self.address.count > 5) ? self.address : userInfo.address,
+            "addressCity" : (self.city != "" && self.city.count > 2) ? self.city : userInfo.city,
             "addressCountry" : self.country != "" ? self.country : userInfo.country,
             "addressState": self.state != "" ? self.state : userInfo.state,
-            "addressPostalCode" : self.zipcode != "" ? self.zipcode : userInfo.zipcode,
+            "addressPostalCode" : (self.zipcode != "" && self.zipcode.count == 5) ? self.zipcode : userInfo.zipcode,
         ])
         
         URLSession.shared.dataTask(with: request) { data, response, error in

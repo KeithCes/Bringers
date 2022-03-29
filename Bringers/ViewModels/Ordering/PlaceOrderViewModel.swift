@@ -40,6 +40,9 @@ final class PlaceOrderViewModel: ObservableObject {
     @Published var expYear: String = ""
     @Published var cvcNumber: String = ""
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var isProgressViewHidden: Bool = false
     
     
@@ -150,7 +153,6 @@ final class PlaceOrderViewModel: ObservableObject {
         }.resume()
     }
     
-    // TODO: show error toasts if credit card not valid/not added
     func addCreditCard() {
         let url = URL(string: "https://bringers-nodejs.vercel.app/add-credit-card")!
         
@@ -171,7 +173,11 @@ final class PlaceOrderViewModel: ObservableObject {
                   (response as? HTTPURLResponse)?.statusCode == 200,
                   let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
                   let _ = json["defaultSource"] as? String else {
-                      self.hasSavedCreditCard = false
+                      DispatchQueue.main.async {
+                          self.hasSavedCreditCard = false
+                          self.toastMessage = "Error: credit card invalid"
+                          self.isShowingToast.toggle()
+                      }
                       return
                   }
             self.hasSavedCreditCard = true

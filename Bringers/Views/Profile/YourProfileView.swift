@@ -99,11 +99,12 @@ struct YourProfileView: View {
                 .padding(EdgeInsets(top: 30, leading: 20, bottom: 20, trailing: 20))
                 .submitLabel(.done)
                 .onSubmit {
-                    if viewModel.firstname.count > 2 {
+                    if viewModel.firstname.count > 1 {
                         viewModel.updateUserValue()
                     }
                     else {
-                        // TODO: show toast name too short/invalid
+                        viewModel.toastMessage = "Name must be at least 2 characters long"
+                        viewModel.isShowingToast.toggle()
                     }
                 }
             
@@ -115,7 +116,8 @@ struct YourProfileView: View {
                         viewModel.updateUserValue()
                     }
                     else {
-                        // TODO: show toast name too short/invalid
+                        viewModel.toastMessage = "Name must be at least 2 characters long"
+                        viewModel.isShowingToast.toggle()
                     }
                 }
             
@@ -127,7 +129,8 @@ struct YourProfileView: View {
                         viewModel.updateUserValue()
                     }
                     else {
-                        // TODO: show email invalid toast/notification
+                        viewModel.toastMessage = "Email is not valid"
+                        viewModel.isShowingToast.toggle()
                     }
                 }
                 .textInputAutocapitalization(.never)
@@ -146,7 +149,8 @@ struct YourProfileView: View {
                         viewModel.updateUserValue()
                     }
                     else {
-                        // TODO: show phone number invalid toast/notification
+                        viewModel.toastMessage = "Phone Number is not valid"
+                        viewModel.isShowingToast.toggle()
                     }
                 }
             
@@ -158,6 +162,10 @@ struct YourProfileView: View {
                 .frame(width: 112, height: 16)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .background(Rectangle()
                         .fill(Color.white.opacity(0.5))
                         .cornerRadius(15)

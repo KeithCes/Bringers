@@ -104,6 +104,10 @@ struct BringerOrdersView: View {
                 .progressViewStyle(CircularProgressViewStyle(tint: CustomColors.darkGray))
                 .isHidden(viewModel.isProgressViewHidden)
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .frame(width: CustomDimensions.width + 20, height: CustomDimensions.height550)
         .onAppear {
             viewModel.checkIfLocationServicesEnabled()

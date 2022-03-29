@@ -32,6 +32,9 @@ final class YourProfileViewModel: ObservableObject {
     
     @Published var isUserLoggedOut: Bool = false
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var userInfo: UserInfoModel = UserInfoModel()
     
     
@@ -128,15 +131,17 @@ final class YourProfileViewModel: ObservableObject {
         let ref = Database.database().reference()
         let userID = Auth.auth().currentUser!.uid
         
-        let firstname = self.firstname != "" ? self.firstname : self.userInfo.firstName
-        let lastname = self.lastname != "" ? self.lastname : self.userInfo.lastName
+        let firstname = (self.firstname != "" && self.firstname.count > 1) ? self.firstname : self.userInfo.firstName
+        let lastname = (self.lastname != "" && self.lastname.count > 1) ? self.lastname : self.userInfo.lastName
+        
+        
         
         updateUserValueStripe { _ in
             ref.child("users").child(userID).child("userInfo").updateChildValues([
                 "firstName" : firstname,
                 "lastName" : lastname,
-                "email" : self.email != "" ? self.email : self.userInfo.email,
-                "phoneNumber" : self.phoneNumber != "" ? self.phoneNumber : self.userInfo.phoneNumber,
+                "email" : (self.email != "" && self.checkValidEmail(email: self.email)) ? self.email : self.userInfo.email,
+                "phoneNumber" : (self.phoneNumber != "" && (self.phoneNumber.count == 10 || self.phoneNumber.count == 11)) ? self.phoneNumber : self.userInfo.phoneNumber,
             ])
             self.getYourProfile()
         }
@@ -145,8 +150,8 @@ final class YourProfileViewModel: ObservableObject {
     func updateUserValueStripe(completion: @escaping (String?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/update-customer-info")!
         
-        let firstname = self.firstname != "" ? self.firstname : self.userInfo.firstName
-        let lastname = self.lastname != "" ? self.lastname : self.userInfo.lastName
+        let firstname = (self.firstname != "" && self.firstname.count > 1) ? self.firstname : self.userInfo.firstName
+        let lastname = (self.lastname != "" && self.lastname.count > 1) ? self.lastname : self.userInfo.lastName
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -154,8 +159,8 @@ final class YourProfileViewModel: ObservableObject {
         request.httpBody = try! JSONEncoder().encode([
             "customerID" : self.userInfo.stripeCustomerID,
             "fullName" : firstname + " " + lastname,
-            "email" : self.email != "" ? self.email : self.userInfo.email,
-            "phoneNumber" : self.phoneNumber != "" ? self.phoneNumber : self.userInfo.phoneNumber,
+            "email" : (self.email != "" && self.checkValidEmail(email: self.email)) ? self.email : self.userInfo.email,
+            "phoneNumber" : (self.phoneNumber != "" && (self.phoneNumber.count == 10 || self.phoneNumber.count == 11)) ? self.phoneNumber : self.userInfo.phoneNumber,
         ])
         
         URLSession.shared.dataTask(with: request) { data, response, error in

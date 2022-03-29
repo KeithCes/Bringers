@@ -16,6 +16,9 @@ struct ChangePasswordView: View {
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
     
+    @State private var isShowingToast: Bool = false
+    @State private var toastMessage: String = "Invalid password"
+    
     @FocusState private var isNewPasswordFocused: Bool
     @FocusState private var isConfirmPasswordFocused: Bool
     
@@ -42,13 +45,19 @@ struct ChangePasswordView: View {
                         if newPassword == confirmPassword {
                             Auth.auth().currentUser?.updatePassword(to: confirmPassword) { error in
                                 if error != nil {
-                                    // TODO: display toast if error
+                                    // TODO: require user to log in before change password, otherwise can tick error
                                     print(error?.localizedDescription ?? "")
+                                    toastMessage = "Error: " + String(error?.localizedDescription ?? "")
+                                    isShowingToast.toggle()
                                 }
                                 else {
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             }
+                        }
+                        else {
+                            toastMessage = "Password confirmation must match"
+                            isShowingToast.toggle()
                         }
                     }
             }
@@ -58,6 +67,10 @@ struct ChangePasswordView: View {
                             .cornerRadius(15))
             .padding(EdgeInsets(top: 100, leading: 0, bottom: 0, trailing: 0))
         }
+        .toast(message: toastMessage,
+               isShowing: $isShowingToast,
+               duration: Toast.long
+        )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 250, trailing: 0))
         .background(CustomColors.seafoamGreen)

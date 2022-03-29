@@ -30,7 +30,8 @@ struct ChangeAddressView: View {
                             viewModel.updateUserValue(userInfo: userInfo)
                         }
                         else {
-                            // TODO: error toast invalid
+                            viewModel.toastMessage = "Address is not valid"
+                            viewModel.isShowingToast.toggle()
                         }
                     }
                 
@@ -41,7 +42,8 @@ struct ChangeAddressView: View {
                             viewModel.updateUserValue(userInfo: userInfo)
                         }
                         else {
-                            // TODO: error toast invalid
+                            viewModel.toastMessage = "City is not valid"
+                            viewModel.isShowingToast.toggle()
                         }
                     }
                 
@@ -83,7 +85,8 @@ struct ChangeAddressView: View {
                             viewModel.updateUserValue(userInfo: userInfo)
                         }
                         else {
-                            // TODO: error toast invalid
+                            viewModel.toastMessage = "Zipcode is not valid"
+                            viewModel.isShowingToast.toggle()
                         }
                     }
                 
@@ -120,5 +123,9 @@ struct ChangeAddressView: View {
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
     }
 }

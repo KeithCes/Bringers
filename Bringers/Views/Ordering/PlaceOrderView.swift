@@ -24,7 +24,6 @@ struct PlaceOrderView: View {
                 
                 CustomTitleText(labelText: "ADD A CREDIT CARD TO GET STARTED!")
 
-                // TODO: make exp/creditcardnum number only
                 CustomTextbox(field: $viewModel.creditCardNumber, placeholderText: "Credit Card Number", charLimit: 16)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 20))
                     .onReceive(Just(viewModel.creditCardNumber)) { newValue in
@@ -159,6 +158,10 @@ struct PlaceOrderView: View {
             }
             
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .padding(.bottom, keyboard.currentHeight)
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))

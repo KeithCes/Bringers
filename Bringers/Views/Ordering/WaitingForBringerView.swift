@@ -69,6 +69,10 @@ struct WaitingForBringerView: View {
                             .cornerRadius(15))
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)
         .ignoresSafeArea()

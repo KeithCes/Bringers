@@ -124,6 +124,10 @@ struct OrderComingMapView: View {
                             .cornerRadius(15))
             .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
         }
+        .toast(message: viewModel.toastMessage,
+               isShowing: $viewModel.isShowingToast,
+               duration: Toast.long
+        )
         .edgesIgnoringSafeArea(.bottom)
         .tabItem {
             Image(systemName: "cart")
@@ -174,14 +178,4 @@ struct OrderComingMapView: View {
             )
         }
     }
-    
-    
-}
-
-
-// TODO: probably should move to own class or at least more relevant class
-struct AnnotatedItem: Identifiable {
-    let id = UUID()
-    var name: String
-    var coordinate: CLLocationCoordinate2D
 }

@@ -33,6 +33,9 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     @Published var lowestShipping: CGFloat = 0
     @Published var alphaIncrementValShipping: CGFloat = 0.1
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var userInfo: UserInfoModel = UserInfoModel()
     
     // TODO: change to custom URL when wesbite setup
@@ -255,7 +258,8 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
             locationManager?.startUpdatingLocation()
         }
         else {
-            // TODO: (turn on location services) alert
+            self.toastMessage = "Error: turn on location services!"
+            self.isShowingToast.toggle()
         }
     }
     
@@ -272,11 +276,13 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            // TODO: show alert restricted (likely parental controls)
-            print("ass res")
+            self.toastMessage = "Error: location services are restricted, turn off restriction to use."
+            self.isShowingToast.toggle()
+            print("Error: restricted")
         case .denied:
-            // TODO: show alert denied (go settings and change)
-            print("ass denied")
+            self.toastMessage = "Error: location services are denied, go to settings to change"
+            self.isShowingToast.toggle()
+            print("Error: denied")
         case .authorizedAlways, .authorizedWhenInUse:
             guard let location = locationManager.location else {
                 break

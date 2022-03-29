@@ -34,6 +34,9 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
     
     @Published var timer: Timer?
     
+    @Published var isShowingToast: Bool = false
+    @Published var toastMessage: String = "Error"
+    
     @Published var isShowingBringerMap: Bool = true
     @Published var isOrderCancelledMap: Bool = false
     
@@ -83,9 +86,10 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
-        // TODO: show toast if order fails to be canceled
         sendCancelOrder(orderID: orderID, isCompleted: isCompleted) { success in
             guard let success = success, success == true else {
+                self.toastMessage = "Error canceling order"
+                self.isShowingToast.toggle()
                 return
             }
             
@@ -318,7 +322,8 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
             locationManager?.startUpdatingLocation()
         }
         else {
-            // TODO: (turn on location services) alert
+            self.toastMessage = "Error: turn on location services!"
+            self.isShowingToast.toggle()
         }
     }
     
@@ -336,11 +341,13 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
-            // TODO: show alert restricted (likely parental controls)
-            print("ass res")
+            self.toastMessage = "Error: location services are restricted, turn off restriction to use."
+            self.isShowingToast.toggle()
+            print("Error: restricted")
         case .denied:
-            // TODO: show alert denied (go settings and change)
-            print("ass denied")
+            self.toastMessage = "Error: location services are denied, go to settings to change"
+            self.isShowingToast.toggle()
+            print("Error: denied")
         case .authorizedAlways, .authorizedWhenInUse:
             guard let location = locationManager.location else {
                 break

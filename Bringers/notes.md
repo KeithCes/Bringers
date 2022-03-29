@@ -1,7 +1,7 @@
 # stuff to do soon
-- modulate first and clean up firebase calls
-- add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
+- error toasts
 - bidding on orders? offer on orders?
+- add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - might be bug with incrementing? double check...
 - TESTING!!!!
 

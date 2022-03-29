@@ -63,6 +63,8 @@
 		539E63BF27EFB418003D01A3 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63BE27EFB417003D01A3 /* SafariView.swift */; };
 		539E63C127F10420003D01A3 /* BringerOrderMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63C027F10420003D01A3 /* BringerOrderMapViewModel.swift */; };
 		539E63C327F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */; };
+		539E63CC27F36E87003D01A3 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63CB27F36E87003D01A3 /* CustomToast.swift */; };
+		539E63CE27F37F7B003D01A3 /* AnnotatedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63CD27F37F7B003D01A3 /* AnnotatedItem.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -172,6 +174,8 @@
 		539E63BE27EFB417003D01A3 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		539E63C027F10420003D01A3 /* BringerOrderMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderMapViewModel.swift; sourceTree = "<group>"; };
 		539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmationViewModel.swift; sourceTree = "<group>"; };
+		539E63CB27F36E87003D01A3 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
+		539E63CD27F37F7B003D01A3 /* AnnotatedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedItem.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 				53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */,
 				531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */,
 				539E63B327EE5A81003D01A3 /* CustomMultilineTextbox.swift */,
+				539E63CB27F36E87003D01A3 /* CustomToast.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				532BF3F2276FDD1300D8ADA3 /* KeyboardObserver.swift */,
 				53BDE54427852B0000347516 /* GeometryGetter.swift */,
 				53A5E1E52796002000482059 /* ImagePicker.swift */,
+				539E63CD27F37F7B003D01A3 /* AnnotatedItem.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				539E63CC27F36E87003D01A3 /* CustomToast.swift in Sources */,
 				53BDE55E278B679B00347516 /* CLLocationCoordinate2D+distance.swift in Sources */,
 				532BF42D2783EE2200D8ADA3 /* CustomTitleText.swift in Sources */,
 				539E63A427ED0224003D01A3 /* StateCodes.swift in Sources */,
@@ -663,6 +670,7 @@
 				532BF404277562B100D8ADA3 /* OrderComingMapView.swift in Sources */,
 				539E63AE27EE52E9003D01A3 /* PrelogViewModel.swift in Sources */,
 				532BF411277654A100D8ADA3 /* WaitingForBringerView.swift in Sources */,
+				539E63CE27F37F7B003D01A3 /* AnnotatedItem.swift in Sources */,
 				53BDE5532789F15F00347516 /* CGFloat+Covertible.swift in Sources */,
 				532BF3FA27711E6600D8ADA3 /* ConfirmOrderView.swift in Sources */,
 				539E63B427EE5A81003D01A3 /* CustomMultilineTextbox.swift in Sources */,
