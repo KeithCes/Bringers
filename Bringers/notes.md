@@ -1,9 +1,8 @@
 # stuff to do soon
-- error toasts
 - bidding on orders? offer on orders?
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - might be bug with incrementing? double check...
-- TESTING!!!!
+- TESTING!!!!ote
 
 # shit to do if bored
 - TESTING!!!!
