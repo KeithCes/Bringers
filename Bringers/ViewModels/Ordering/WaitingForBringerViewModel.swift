@@ -25,6 +25,12 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
     @Published var isShowingWaitingForBringer: Bool = true
     @Published var isOrderCancelledWaiting: Bool = false
     
+    @Published var isShowingOfferConfirm: Bool = false
+    @Published var isOfferAccepted: Bool = false
+    @Published var currentOfferAmount: CGFloat = 0
+    
+    @Published var offers: [OfferModel] = []
+    
     @Published var region = MKCoordinateRegion(center: DefaultCoords.coords, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
     
     private var locationManager: CLLocationManager?
@@ -186,5 +192,36 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
     
     private func getLocation() -> CLLocationManager? {
         return self.locationManager
+    }
+    
+    func getOffers(orderID: String, completion: @escaping ([OfferModel]) -> ()) {
+        let ref = Database.database().reference()
+        
+        var allOffers: [OfferModel] = []
+        
+        ref.child("activeOrders").child(orderID).child("offers").observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeOffers = (snapshot.value as? NSDictionary)?.allValues else {
+                completion([])
+                return
+            }
+            for activeOffer in activeOffers {
+                let activeOfferMap = Offer.from(activeOffer as! NSDictionary)
+                
+                guard let activeOfferMap = activeOfferMap else {
+                    continue
+                }
+                
+                let order = OfferModel(
+                    id: activeOfferMap.id,
+                    bringerID: activeOfferMap.bringerID,
+                    bringerLocation: activeOfferMap.bringerLocation,
+                    offerAmount: activeOfferMap.offerAmount
+                )
+                
+                allOffers.append(order)
+            }
+            
+            completion(allOffers)
+        })
     }
 }

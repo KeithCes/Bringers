@@ -65,6 +65,10 @@
 		539E63C327F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */; };
 		539E63CC27F36E87003D01A3 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63CB27F36E87003D01A3 /* CustomToast.swift */; };
 		539E63CE27F37F7B003D01A3 /* AnnotatedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E63CD27F37F7B003D01A3 /* AnnotatedItem.swift */; };
+		53A2217B27F758AD00A7F9EC /* OfferModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2217A27F758AD00A7F9EC /* OfferModel.swift */; };
+		53A2217D27F75A2600A7F9EC /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2217C27F75A2600A7F9EC /* Offer.swift */; };
+		53A2217F27F7A39100A7F9EC /* OfferListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2217E27F7A39100A7F9EC /* OfferListButton.swift */; };
+		53A2218127F934F400A7F9EC /* AcceptOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2218027F934F400A7F9EC /* AcceptOfferView.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -176,6 +180,10 @@
 		539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderCompleteConfirmationViewModel.swift; sourceTree = "<group>"; };
 		539E63CB27F36E87003D01A3 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
 		539E63CD27F37F7B003D01A3 /* AnnotatedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotatedItem.swift; sourceTree = "<group>"; };
+		53A2217A27F758AD00A7F9EC /* OfferModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferModel.swift; sourceTree = "<group>"; };
+		53A2217C27F75A2600A7F9EC /* Offer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
+		53A2217E27F7A39100A7F9EC /* OfferListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferListButton.swift; sourceTree = "<group>"; };
+		53A2218027F934F400A7F9EC /* AcceptOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptOfferView.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -261,6 +269,7 @@
 				531CC5CE27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift */,
 				539E63B327EE5A81003D01A3 /* CustomMultilineTextbox.swift */,
 				539E63CB27F36E87003D01A3 /* CustomToast.swift */,
+				53A2217E27F7A39100A7F9EC /* OfferListButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -446,6 +455,7 @@
 				532BF410277654A100D8ADA3 /* WaitingForBringerView.swift */,
 				532BF403277562B100D8ADA3 /* OrderComingMapView.swift */,
 				53E7697027C4126B000E3C54 /* OrderCompleteView.swift */,
+				53A2218027F934F400A7F9EC /* AcceptOfferView.swift */,
 			);
 			path = Ordering;
 			sourceTree = "<group>";
@@ -488,6 +498,8 @@
 		53BDE5482787A10300347516 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				53A2217A27F758AD00A7F9EC /* OfferModel.swift */,
+				53A2217C27F75A2600A7F9EC /* Offer.swift */,
 				53BDE5492787A15A00347516 /* OrderModel.swift */,
 				53BDE54D2788045300347516 /* Order.swift */,
 				5378495E27A4689F006FF843 /* UserInfoModel.swift */,
@@ -676,12 +688,15 @@
 				539E63B427EE5A81003D01A3 /* CustomMultilineTextbox.swift in Sources */,
 				53BDE53D2785007D00347516 /* CustomSecureTextbox.swift in Sources */,
 				532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */,
+				53A2218127F934F400A7F9EC /* AcceptOfferView.swift in Sources */,
+				53A2217D27F75A2600A7F9EC /* Offer.swift in Sources */,
 				5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */,
 				532BF41F27794A4100D8ADA3 /* BringerSelectedOrderView.swift in Sources */,
 				532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */,
 				532BF4172778314900D8ADA3 /* CustomSecureTextboxTitleText.swift in Sources */,
 				532BF400277543AA00D8ADA3 /* CustomTextboxCurrency.swift in Sources */,
 				532BF3EA276F98D000D8ADA3 /* Color+Hexcode.swift in Sources */,
+				53A2217F27F7A39100A7F9EC /* OfferListButton.swift in Sources */,
 				532BF415277819FE00D8ADA3 /* ChangePasswordView.swift in Sources */,
 				539E63AC27EE5161003D01A3 /* LoginViewModel.swift in Sources */,
 				532BF42A2783C98600D8ADA3 /* CustomDimensions.swift in Sources */,
@@ -723,6 +738,7 @@
 				53BDE54E2788045300347516 /* Order.swift in Sources */,
 				53BDE54A2787A15A00347516 /* OrderModel.swift in Sources */,
 				539E63AA27EE4C6F003D01A3 /* CreateAccountViewModel.swift in Sources */,
+				53A2217B27F758AD00A7F9EC /* OfferModel.swift in Sources */,
 				539E63C127F10420003D01A3 /* BringerOrderMapViewModel.swift in Sources */,
 				539E63B827EF7424003D01A3 /* WaitingForBringerViewModel.swift in Sources */,
 				5378495D27A467EF006FF843 /* UserInfo.swift in Sources */,
