@@ -14,6 +14,7 @@ struct BringerSelectedOrderView: View {
     
     @Binding var isShowingOrder: Bool
     @Binding var acceptPressed: Bool
+    @Binding var offerPressed: Bool
     
     @Binding var order: OrderModel
     
@@ -63,18 +64,42 @@ struct BringerSelectedOrderView: View {
                             .cornerRadius(15)
                             .padding())
             
-            Button("ACCEPT ORDER") {
-                isShowingOrder = false
-                acceptPressed = true
+            HStack {
+                Button("CANCEL") {
+                    isShowingOrder = false
+                }
+                .padding(EdgeInsets(top: 35, leading: 10, bottom: 35, trailing: 10))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width / 3, height: 70)
+                                .cornerRadius(15))
+                
+                Button("OFFER") {
+                    isShowingOrder = false
+                    offerPressed = true
+                }
+                .padding(EdgeInsets(top: 35, leading: 10, bottom: 35, trailing: 10))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width / 3, height: 70)
+                                .cornerRadius(15))
+                
+                Button("ACCEPT") {
+                    isShowingOrder = false
+                    acceptPressed = true
+                }
+                .padding(EdgeInsets(top: 35, leading: 10, bottom: 35, trailing: 10))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .foregroundColor(Color.white)
+                .background(Rectangle()
+                                .fill(CustomColors.blueGray.opacity(0.6))
+                                .frame(width: CustomDimensions.width / 3, height: 70)
+                                .cornerRadius(15))
             }
-            .padding(EdgeInsets(top: 35, leading: 20, bottom: 35, trailing: 20))
-            .font(.system(size: 30, weight: .bold, design: .rounded))
-            .foregroundColor(Color.white)
-            .background(Rectangle()
-                            .fill(CustomColors.blueGray.opacity(0.6))
-                            .frame(width: CustomDimensions.width, height: 70)
-                            .cornerRadius(15)
-                            .padding())
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CustomColors.seafoamGreen)

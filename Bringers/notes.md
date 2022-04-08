@@ -1,28 +1,13 @@
 # stuff to do soon
+- time to check formatting on all device types again (maybe change from padding/frame confusion?)
+- put delivery fee on bringerselectredorder
 - bidding on orders? offer on orders?
     - scrollview on waiting for bringers with list of all offers, overlay on each button when tapped accepts offer (confirmation screen?)
     - bringer confrim view add button "OFFER"
         - on offer press open view similar to bringer complete with a way to type money you want to offer (int numbers)
-    
-Order {
-    ...
-    Offers: [
-        ghwergioh: {
-            bringerID: ghwergioh,
-            bringerLocation: [69, 69],
-            offerAmount: 5
-        },
-        qwefjwei90: {
-            bringerID: qwefjwei90,
-            bringerLocation: [69, 69],
-            offerAmount: 8
-        },
-    ]
-}
-    
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - might be bug with incrementing? double check...
-- TESTING!!!!ote
+- TESTING!!!!
 
 # shit to do if bored
 - TESTING!!!!

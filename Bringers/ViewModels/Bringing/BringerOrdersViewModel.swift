@@ -16,14 +16,18 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     
     @Published var isShowingOrder: Bool = false
     @Published var acceptPressed: Bool = false
+    @Published var offerPressed: Bool = false
     @Published var isShowingBringerConfirm: Bool = false
+    @Published var isShowingBringerOffer: Bool = false
     @Published var confirmPressed: Bool = false
     @Published var isShowingBringerMap: Bool = false
     @Published var isOrderCancelledMap: Bool = false
     @Published var isShowingSafari: Bool = false
+    @Published var offerSent: Bool = false
     
     @Published var orders: [OrderModel] = []
     @Published var currentOrder: OrderModel = OrderModel()
+    @Published var currentOffer: OfferModel = OfferModel()
     
     @Published var isProgressViewHidden: Bool = false
     
@@ -295,5 +299,16 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     
     func getCurrentCoords() -> CLLocationCoordinate2D {
         return self.currentCoords
+    }
+    
+    func sendOffer(orderID: String, offer: OfferModel) {
+        
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["id" : offer.id])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["bringerID" : offer.bringerID])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["bringerLocation" : [offer.bringerLocation.latitude, offer.bringerLocation.longitude]])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["offerAmount" : offer.offerAmount])
     }
 }

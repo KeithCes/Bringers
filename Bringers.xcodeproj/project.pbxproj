@@ -31,7 +31,7 @@
 		532BF41D27791B5D00D8ADA3 /* OrderListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */; };
 		532BF41F27794A4100D8ADA3 /* BringerSelectedOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF41E27794A4000D8ADA3 /* BringerSelectedOrderView.swift */; };
 		532BF421277954C000D8ADA3 /* CustomLabelWithTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF420277954C000D8ADA3 /* CustomLabelWithTab.swift */; };
-		532BF423277BD77C00D8ADA3 /* BringerConfirmOrderBuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF422277BD77B00D8ADA3 /* BringerConfirmOrderBuyView.swift */; };
+		532BF423277BD77C00D8ADA3 /* BringerConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF422277BD77B00D8ADA3 /* BringerConfirmOrderView.swift */; };
 		532BF4262782580C00D8ADA3 /* BringerOrderMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */; };
 		532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */; };
 		532BF42A2783C98600D8ADA3 /* CustomDimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532BF4292783C98600D8ADA3 /* CustomDimensions.swift */; };
@@ -69,6 +69,9 @@
 		53A2217D27F75A2600A7F9EC /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2217C27F75A2600A7F9EC /* Offer.swift */; };
 		53A2217F27F7A39100A7F9EC /* OfferListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2217E27F7A39100A7F9EC /* OfferListButton.swift */; };
 		53A2218127F934F400A7F9EC /* AcceptOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A2218027F934F400A7F9EC /* AcceptOfferView.swift */; };
+		53A221BB2800ABA800A7F9EC /* BringerOfferOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BA2800ABA800A7F9EC /* BringerOfferOrderView.swift */; };
+		53A221BD2800BA1F00A7F9EC /* View+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BC2800BA1F00A7F9EC /* View+hideKeyboard.swift */; };
+		53A221BF2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -141,7 +144,7 @@
 		532BF41C27791B5D00D8ADA3 /* OrderListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListButton.swift; sourceTree = "<group>"; };
 		532BF41E27794A4000D8ADA3 /* BringerSelectedOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerSelectedOrderView.swift; sourceTree = "<group>"; };
 		532BF420277954C000D8ADA3 /* CustomLabelWithTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelWithTab.swift; sourceTree = "<group>"; };
-		532BF422277BD77B00D8ADA3 /* BringerConfirmOrderBuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerConfirmOrderBuyView.swift; sourceTree = "<group>"; };
+		532BF422277BD77B00D8ADA3 /* BringerConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerConfirmOrderView.swift; sourceTree = "<group>"; };
 		532BF424277BE3A300D8ADA3 /* notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = notes.md; sourceTree = "<group>"; };
 		532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOrderMapView.swift; sourceTree = "<group>"; };
 		532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerInstructionsView.swift; sourceTree = "<group>"; };
@@ -184,6 +187,9 @@
 		53A2217C27F75A2600A7F9EC /* Offer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
 		53A2217E27F7A39100A7F9EC /* OfferListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferListButton.swift; sourceTree = "<group>"; };
 		53A2218027F934F400A7F9EC /* AcceptOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptOfferView.swift; sourceTree = "<group>"; };
+		53A221BA2800ABA800A7F9EC /* BringerOfferOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOfferOrderView.swift; sourceTree = "<group>"; };
+		53A221BC2800BA1F00A7F9EC /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
+		53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOfferOrderViewModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -250,6 +256,7 @@
 				53BDE55A278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift */,
 				53BDE55D278B679B00347516 /* CLLocationCoordinate2D+distance.swift */,
 				531CC5D027DFA58800F68FC5 /* String+currencyInputFormatting.swift */,
+				53A221BC2800BA1F00A7F9EC /* View+hideKeyboard.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -433,6 +440,7 @@
 				539E63BC27EF97E6003D01A3 /* BringerOrdersViewModel.swift */,
 				539E63C027F10420003D01A3 /* BringerOrderMapViewModel.swift */,
 				539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */,
+				53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */,
 			);
 			path = Bringing;
 			sourceTree = "<group>";
@@ -465,7 +473,8 @@
 			children = (
 				532BF41A27790A0600D8ADA3 /* BringerOrdersView.swift */,
 				532BF41E27794A4000D8ADA3 /* BringerSelectedOrderView.swift */,
-				532BF422277BD77B00D8ADA3 /* BringerConfirmOrderBuyView.swift */,
+				532BF422277BD77B00D8ADA3 /* BringerConfirmOrderView.swift */,
+				53A221BA2800ABA800A7F9EC /* BringerOfferOrderView.swift */,
 				532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */,
 				532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */,
 				5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */,
@@ -688,6 +697,7 @@
 				539E63B427EE5A81003D01A3 /* CustomMultilineTextbox.swift in Sources */,
 				53BDE53D2785007D00347516 /* CustomSecureTextbox.swift in Sources */,
 				532BF3ED276FAE7D00D8ADA3 /* View+Placeholder.swift in Sources */,
+				53A221BD2800BA1F00A7F9EC /* View+hideKeyboard.swift in Sources */,
 				53A2218127F934F400A7F9EC /* AcceptOfferView.swift in Sources */,
 				53A2217D27F75A2600A7F9EC /* Offer.swift in Sources */,
 				5378495F27A4689F006FF843 /* UserInfoModel.swift in Sources */,
@@ -704,7 +714,9 @@
 				532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */,
 				53BDE54527852B0000347516 /* GeometryGetter.swift in Sources */,
 				532BF3F3276FDD1300D8ADA3 /* KeyboardObserver.swift in Sources */,
+				53A221BF2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift in Sources */,
 				539E63BA27EF7DA0003D01A3 /* OrderComingMapViewModel.swift in Sources */,
+				53A221BB2800ABA800A7F9EC /* BringerOfferOrderView.swift in Sources */,
 				531CC5CF27DC007900F68FC5 /* CustomTextboxCurrencyDecimal.swift in Sources */,
 				539E63BF27EFB418003D01A3 /* SafariView.swift in Sources */,
 				531CC5D127DFA58800F68FC5 /* String+currencyInputFormatting.swift in Sources */,
@@ -719,7 +731,7 @@
 				537718D7276EDB5E00F541B5 /* BringersApp.swift in Sources */,
 				532BF40F27763C1000D8ADA3 /* RatingView.swift in Sources */,
 				53BDE55B278B65BF00347516 /* CLLocationCoordinate2D+Convertible.swift in Sources */,
-				532BF423277BD77C00D8ADA3 /* BringerConfirmOrderBuyView.swift in Sources */,
+				532BF423277BD77C00D8ADA3 /* BringerConfirmOrderView.swift in Sources */,
 				532BF40D27763A7C00D8ADA3 /* UserProfileView.swift in Sources */,
 				53A5E1E62796002000482059 /* ImagePicker.swift in Sources */,
 				539E63B227EE556B003D01A3 /* PlaceOrderViewModel.swift in Sources */,

@@ -132,15 +132,40 @@ struct BringerOrdersView: View {
         
         .sheet(isPresented: $viewModel.isShowingOrder, onDismiss: {
             if !viewModel.isShowingOrder && viewModel.acceptPressed {
-                viewModel.acceptPressed = false
                 viewModel.isShowingBringerConfirm.toggle()
             }
+            if !viewModel.isShowingOrder && viewModel.offerPressed {
+                viewModel.isShowingBringerOffer.toggle()
+            }
+            viewModel.acceptPressed = false
+            viewModel.offerPressed = false
         }) {
             BringerSelectedOrderView(
                 isShowingOrder: $viewModel.isShowingOrder,
                 acceptPressed: $viewModel.acceptPressed,
+                offerPressed: $viewModel.offerPressed,
                 order: $viewModel.currentOrder,
                 currentCoords: $viewModel.currentCoords
+            )
+        }
+        
+        .sheet(isPresented: $viewModel.isShowingBringerOffer, onDismiss: {
+            viewModel.getActiveOrders { (orders) in
+                viewModel.getYourProfile()
+                viewModel.orders = orders
+            }
+            
+            if !viewModel.isShowingBringerOffer && viewModel.confirmPressed {
+                viewModel.isShowingBringerConfirm.toggle()
+                viewModel.confirmPressed = false
+            }
+        }) {
+            BringerOfferOrderView(
+                isShowingBringerOffer: $viewModel.isShowingBringerOffer,
+                confirmPressed: $viewModel.confirmPressed,
+                currentOrder: $viewModel.currentOrder,
+                bringerCoords: $viewModel.currentCoords,
+                currentOffer: $viewModel.currentOffer
             )
         }
         
@@ -156,11 +181,17 @@ struct BringerOrdersView: View {
                 viewModel.confirmPressed = false
                 viewModel.isShowingBringerMap.toggle()
             }
+            if !viewModel.isShowingBringerConfirm && viewModel.offerSent {
+                viewModel.sendOffer(orderID: viewModel.currentOrder.id, offer: viewModel.currentOffer)
+                viewModel.offerSent = false
+            }
         }) {
-            BringerConfirmOrderBuyView(
+            BringerConfirmOrderView(
                 isShowingBringerConfirm: $viewModel.isShowingBringerConfirm,
                 confirmPressed: $viewModel.confirmPressed,
-                currentOrder: $viewModel.currentOrder
+                currentOrder: $viewModel.currentOrder,
+                currentOffer: $viewModel.currentOffer,
+                offerSent: $viewModel.offerSent
             )
         }
         
