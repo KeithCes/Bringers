@@ -11,23 +11,23 @@ import SwiftUI
 struct OfferListButton: View {
     
     @Binding var isShowingOfferConfirm: Bool
-    @Binding var currentOfferAmount: CGFloat
+    @Binding var currentOffer: OfferModel
     
     private var distance: CGFloat
-    private var offerAmount: CGFloat
+    private var offer: OfferModel
     
-    init(isShowingOfferConfirm: Binding<Bool>, currentOfferAmount: Binding<CGFloat>, distance: CGFloat, offerAmount: CGFloat) {
+    init(isShowingOfferConfirm: Binding<Bool>, currentOffer: Binding<OfferModel>, distance: CGFloat, offer: OfferModel) {
         self._isShowingOfferConfirm = isShowingOfferConfirm
-        self._currentOfferAmount = currentOfferAmount
+        self._currentOffer = currentOffer
         self.distance = distance
-        self.offerAmount = offerAmount
+        self.offer = offer
     }
     
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 Button(action: {
-                    self.currentOfferAmount = self.offerAmount
+                    self.currentOffer = self.offer
                     isShowingOfferConfirm.toggle()
                 }) {
                     Rectangle()
@@ -62,7 +62,7 @@ struct OfferListButton: View {
                     .foregroundColor(CustomColors.veryDarkGray.opacity(0.5))
                     .frame(width: (CustomDimensions.width - 20) * 0.199, height: 50)
                     .overlay(
-                        Text("$" + String(format:"%.0f", offerAmount))
+                        Text("$" + String(format:"%.0f", self.offer.offerAmount))
                             .font(.system(size: 18, weight: .regular, design: .rounded))
                             .foregroundColor(CustomColors.seafoamGreen)
                     )

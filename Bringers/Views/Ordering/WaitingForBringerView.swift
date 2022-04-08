@@ -60,9 +60,9 @@ struct WaitingForBringerView: View {
             List(viewModel.offers) { offer in
                 OfferListButton(
                     isShowingOfferConfirm: $viewModel.isShowingOfferConfirm,
-                    currentOfferAmount: $viewModel.currentOfferAmount,
+                    currentOffer: $viewModel.currentOffer,
                     distance: self.order.location.distance(from: offer.bringerLocation),
-                    offerAmount: offer.offerAmount
+                    offer: offer
                 )
             }
             .background(Rectangle()
@@ -108,12 +108,16 @@ struct WaitingForBringerView: View {
         .onChange(of: viewModel.isShowingWaitingForBringer, perform: { _ in
             self.isShowingWaitingForBringer = false
         })
+        .onChange(of: viewModel.isOfferAccepted, perform: { _ in
+            print(order)
+            viewModel.setOrderInProgress(orderID: self.order.id)
+        })
         .sheet(isPresented: $viewModel.isShowingOfferConfirm) {
             AcceptOfferView(
                 isShowingAcceptOffer: $viewModel.isShowingOfferConfirm,
                 isOfferAccepted: $viewModel.isOfferAccepted,
                 originalPrice: self.order.deliveryFee,
-                offerPrice: viewModel.currentOfferAmount
+                offerPrice: viewModel.currentOffer.offerAmount
             )
         }
     }

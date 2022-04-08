@@ -109,8 +109,10 @@ final class OrderComingMapViewModel: NSObject, ObservableObject, CLLocationManag
         
         sendCancelOrder(orderID: orderID) { success in
             guard let success = success, success == true else {
-                self.toastMessage = "Error canceling order"
-                self.isShowingToast.toggle()
+                DispatchQueue.main.async {
+                    self.toastMessage = "Error canceling order"
+                    self.isShowingToast.toggle()
+                }
                 return
             }
             

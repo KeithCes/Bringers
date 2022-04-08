@@ -27,9 +27,8 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
     
     @Published var isShowingOfferConfirm: Bool = false
     @Published var isOfferAccepted: Bool = false
-    @Published var currentOfferAmount: CGFloat = 0
-    
     @Published var offers: [OfferModel] = []
+    @Published var currentOffer: OfferModel = OfferModel()
     
     @Published var region = MKCoordinateRegion(center: DefaultCoords.coords, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
     
@@ -211,17 +210,30 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
                     continue
                 }
                 
-                let order = OfferModel(
+                let offer = OfferModel(
                     id: activeOfferMap.id,
                     bringerID: activeOfferMap.bringerID,
                     bringerLocation: activeOfferMap.bringerLocation,
                     offerAmount: activeOfferMap.offerAmount
                 )
                 
-                allOffers.append(order)
+                allOffers.append(offer)
             }
             
             completion(allOffers)
         })
+    }
+    
+    func setOrderInProgress(orderID: String) {
+        let ref = Database.database().reference()
+        
+        ref.child("activeOrders").child(orderID).updateChildValues(["status" : "inprogress"])
+        ref.child("activeOrders").child(orderID).updateChildValues(["bringerID" : self.currentOffer.bringerID])
+        ref.child("activeOrders").child(orderID).updateChildValues(["bringerLocation" : [self.currentOffer.bringerLocation.latitude, self.currentOffer.bringerLocation.longitude]])
+        ref.child("activeOrders").child(orderID).updateChildValues(["deliveryfee" : self.currentOffer.offerAmount])
+        
+        ref.child("users").child(self.currentOffer.bringerID).child("activeBringers").updateChildValues(["activeBringer" : orderID])
+        
+        self.checkIfOrderInProgress(orderID: orderID)
     }
 }
