@@ -24,6 +24,8 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     @Published var isOrderCancelledMap: Bool = false
     @Published var isShowingSafari: Bool = false
     @Published var offerSent: Bool = false
+    @Published var isShowingBringerWaitingOffer: Bool = false
+    @Published var isOfferAccepted: Bool = false
     
     @Published var orders: [OrderModel] = []
     @Published var currentOrder: OrderModel = OrderModel()

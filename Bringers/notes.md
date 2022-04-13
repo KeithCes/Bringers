@@ -1,4 +1,5 @@
 # stuff to do soon
+- your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
 - put delivery fee on bringerselectredorder
 - bidding on orders? offer on orders?

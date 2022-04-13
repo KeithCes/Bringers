@@ -72,6 +72,8 @@
 		53A221BB2800ABA800A7F9EC /* BringerOfferOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BA2800ABA800A7F9EC /* BringerOfferOrderView.swift */; };
 		53A221BD2800BA1F00A7F9EC /* View+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BC2800BA1F00A7F9EC /* View+hideKeyboard.swift */; };
 		53A221BF2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */; };
+		53A221C1280448EE00A7F9EC /* BringerWaitingOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221C0280448ED00A7F9EC /* BringerWaitingOfferView.swift */; };
+		53A221C32804493800A7F9EC /* BringerWaitingOfferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A221C22804493800A7F9EC /* BringerWaitingOfferViewModel.swift */; };
 		53A5E1E62796002000482059 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E1E52796002000482059 /* ImagePicker.swift */; };
 		53BDE5292784F1CD00347516 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE5282784F1CD00347516 /* FirebaseAnalytics */; };
 		53BDE52B2784F1CD00347516 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 53BDE52A2784F1CD00347516 /* FirebaseAuth */; };
@@ -190,6 +192,8 @@
 		53A221BA2800ABA800A7F9EC /* BringerOfferOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOfferOrderView.swift; sourceTree = "<group>"; };
 		53A221BC2800BA1F00A7F9EC /* View+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideKeyboard.swift"; sourceTree = "<group>"; };
 		53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerOfferOrderViewModel.swift; sourceTree = "<group>"; };
+		53A221C0280448ED00A7F9EC /* BringerWaitingOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerWaitingOfferView.swift; sourceTree = "<group>"; };
+		53A221C22804493800A7F9EC /* BringerWaitingOfferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BringerWaitingOfferViewModel.swift; sourceTree = "<group>"; };
 		53A5E1E52796002000482059 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		53BDE53A2784FE1600347516 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		53BDE53C2785007D00347516 /* CustomSecureTextbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextbox.swift; sourceTree = "<group>"; };
@@ -441,6 +445,7 @@
 				539E63C027F10420003D01A3 /* BringerOrderMapViewModel.swift */,
 				539E63C227F1182D003D01A3 /* BringerOrderCompleteConfirmationViewModel.swift */,
 				53A221BE2800BB5900A7F9EC /* BringerOfferOrderViewModel.swift */,
+				53A221C22804493800A7F9EC /* BringerWaitingOfferViewModel.swift */,
 			);
 			path = Bringing;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				532BF4252782580B00D8ADA3 /* BringerOrderMapView.swift */,
 				532BF42727825C4900D8ADA3 /* BringerInstructionsView.swift */,
 				5398CB4A27BD9E060006A2AB /* BringerOrderCompleteConfirmation.swift */,
+				53A221C0280448ED00A7F9EC /* BringerWaitingOfferView.swift */,
 			);
 			path = Bringing;
 			sourceTree = "<group>";
@@ -709,6 +715,7 @@
 				53A2217F27F7A39100A7F9EC /* OfferListButton.swift in Sources */,
 				532BF415277819FE00D8ADA3 /* ChangePasswordView.swift in Sources */,
 				539E63AC27EE5161003D01A3 /* LoginViewModel.swift in Sources */,
+				53A221C32804493800A7F9EC /* BringerWaitingOfferViewModel.swift in Sources */,
 				532BF42A2783C98600D8ADA3 /* CustomDimensions.swift in Sources */,
 				539E63BD27EF97E7003D01A3 /* BringerOrdersViewModel.swift in Sources */,
 				532BF42827825C4900D8ADA3 /* BringerInstructionsView.swift in Sources */,
@@ -725,6 +732,7 @@
 				532BF421277954C000D8ADA3 /* CustomLabelWithTab.swift in Sources */,
 				539E63A027ECDE3F003D01A3 /* YourProfileViewModel.swift in Sources */,
 				53E7699827D3DEC6000E3C54 /* BuildConfigURL.swift in Sources */,
+				53A221C1280448EE00A7F9EC /* BringerWaitingOfferView.swift in Sources */,
 				537718D9276EDB5E00F541B5 /* ContentView.swift in Sources */,
 				53BDE557278A85E000347516 /* View+isHidden.swift in Sources */,
 				532BF3E5276F96FB00D8ADA3 /* CustomColors.swift in Sources */,

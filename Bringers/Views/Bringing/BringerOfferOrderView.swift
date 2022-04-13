@@ -25,7 +25,7 @@ struct BringerOfferOrderView: View {
             CustomTitleText(labelText: "HOW MUCH WOULD YOU LIKE TO DELIVER THIS ITEM?")
                 .padding(EdgeInsets(top: 20, leading: 20, bottom: 15, trailing: 20))
             
-            if self.currentOrder.deliveryFee > viewModel.offerAmount && viewModel.offerAmount > 0 {
+            if self.currentOrder.deliveryFee >= viewModel.offerAmount && viewModel.offerAmount > 0 {
                 CustomLabel(labelText: "YOUR OFFER MUST BE MORE THAN THE EXISTING DELIVERY FEE", height: 75, fontSize: 14, backgroundColor: CustomColors.lightRed)
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 25, trailing: 20))
             }

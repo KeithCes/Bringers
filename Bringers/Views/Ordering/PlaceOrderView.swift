@@ -216,7 +216,7 @@ struct PlaceOrderView: View {
             OrderComingMapView(
                 isShowingOrderComing: $viewModel.isShowingOrderComing,
                 isOrderCancelledMap: $viewModel.isOrderCancelledMap,
-                order: self.givenOrder.status == "inprogress" ? $givenOrder : $viewModel.order
+                order: (self.givenOrder.status == "inprogress" && self.givenOrder.id.count > 0) ? $givenOrder : $viewModel.order
             )
         }
         .onAppear {

@@ -230,7 +230,7 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
         ref.child("activeOrders").child(orderID).updateChildValues(["status" : "inprogress"])
         ref.child("activeOrders").child(orderID).updateChildValues(["bringerID" : self.currentOffer.bringerID])
         ref.child("activeOrders").child(orderID).updateChildValues(["bringerLocation" : [self.currentOffer.bringerLocation.latitude, self.currentOffer.bringerLocation.longitude]])
-        ref.child("activeOrders").child(orderID).updateChildValues(["deliveryfee" : self.currentOffer.offerAmount])
+        ref.child("activeOrders").child(orderID).updateChildValues(["deliveryFee" : self.currentOffer.offerAmount])
         
         ref.child("users").child(self.currentOffer.bringerID).child("activeBringers").updateChildValues(["activeBringer" : orderID])
         

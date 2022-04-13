@@ -184,6 +184,7 @@ struct BringerOrdersView: View {
             if !viewModel.isShowingBringerConfirm && viewModel.offerSent {
                 viewModel.sendOffer(orderID: viewModel.currentOrder.id, offer: viewModel.currentOffer)
                 viewModel.offerSent = false
+                viewModel.isShowingBringerWaitingOffer.toggle()
             }
         }) {
             BringerConfirmOrderView(
@@ -192,6 +193,20 @@ struct BringerOrdersView: View {
                 currentOrder: $viewModel.currentOrder,
                 currentOffer: $viewModel.currentOffer,
                 offerSent: $viewModel.offerSent
+            )
+        }
+        
+        .fullScreenCover(isPresented: $viewModel.isShowingBringerWaitingOffer, onDismiss: {
+            if viewModel.isOfferAccepted {
+                viewModel.isShowingBringerMap.toggle()
+                viewModel.incrementBringersAccepted()
+            }
+        }) {
+            BringerWaitingOfferView(
+                isShowingBringerWaitingOffer: $viewModel.isShowingBringerWaitingOffer,
+                isOfferAccepted: $viewModel.isOfferAccepted,
+                currentOrder: $viewModel.currentOrder,
+                currentOffer: $viewModel.currentOffer
             )
         }
         
