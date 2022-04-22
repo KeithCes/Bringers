@@ -172,7 +172,7 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
         })
     }
     
-    func setOrderInProgress(order: OrderModel) {
+    func setOrderInProgress(order: OrderModel, completion: @escaping (String) -> Void) {
         let ref = Database.database().reference()
         
         ref.child("activeOrders").child(order.id).updateChildValues(["status" : "inprogress"])
@@ -205,12 +205,18 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
                       error == nil,
                       (response as? HTTPURLResponse)?.statusCode == 200,
                       let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                      let chargeID = json["chargeID"] as? Bool else {
+                      let chargeID = json["chargeID"] as? String else {
+                          completion("")
                           return
                       }
-                ref.child("activeOrders").child(order.id).updateChildValues(["chargeID" : chargeID])
+                completion(chargeID)
             }.resume()
         }
+    }
+    
+    func setChargeID(chargeID: String, orderID: String) {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(orderID).updateChildValues(["chargeID" : chargeID])
     }
     
     func getCardSource(userID: String, completion: @escaping ([String: String]?) -> Void) {

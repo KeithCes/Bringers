@@ -176,7 +176,9 @@ struct BringerOrdersView: View {
             }
             
             if !viewModel.isShowingBringerConfirm && viewModel.confirmPressed {
-                viewModel.setOrderInProgress()
+                viewModel.setOrderInProgress { chargeID in
+                    viewModel.setChargeID(chargeID: chargeID)
+                }
                 viewModel.incrementBringersAccepted()
                 viewModel.confirmPressed = false
                 viewModel.isShowingBringerMap.toggle()

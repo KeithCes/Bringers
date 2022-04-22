@@ -109,7 +109,9 @@ struct WaitingForBringerView: View {
             self.isShowingWaitingForBringer = false
         })
         .onChange(of: viewModel.isOfferAccepted, perform: { _ in
-            viewModel.setOrderInProgress(order: self.order)
+            viewModel.setOrderInProgress(order: self.order) { chargeID in
+                viewModel.setChargeID(chargeID: chargeID, orderID: self.order.id)
+            }
         })
         .sheet(isPresented: $viewModel.isShowingOfferConfirm) {
             AcceptOfferView(
