@@ -1,4 +1,11 @@
 # stuff to do soon
+- BUG WHERE OFFER DECLINED SCREEN DOESNT EXIT ON BRINGER SIDE AND THEN POPS MAP
+- FOR TAKING PAYMENT ON MAP POP
+    -When user saves/updates credit card, save cardID under userInfo on db
+    -We can then use that card ID with the "retrieve card" stripe api call from backend to get all card info
+    -We can then use the card info to create an "STPCardParams" and then create a token with the params
+    -We then create a charge with the token to charge the card
+
 - your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
 - put delivery fee on bringerselectredorder

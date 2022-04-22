@@ -15,8 +15,6 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
     
     @Published var animationAmount: CGFloat = 1
     
-    @Published var paymentIntentID: String = ""
-    
     @Published var timer: Timer?
     
     @Published var isShowingToast: Bool = false
@@ -40,38 +38,30 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
         let userID = Auth.auth().currentUser!.uid
         let ref = Database.database().reference()
         
-        sendCancelOrder(orderID: orderID) { success in
-            guard let success = success, success == true else {
-                self.toastMessage = "Error canceling order"
-                self.isShowingToast.toggle()
-                return
-            }
-
-            // moves order from active to past, closes view
-            ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                // adds to past
-                ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(snapshot.value as! [AnyHashable : Any])
-                
-                // sets date completed
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM/dd/YYYY"
-                let currentDateString = dateFormatter.string(from: Date())
-                
-                ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(["dateCompleted" : currentDateString])
-                
-                // sets order cancelled
-                ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(["status" : "cancelled"])
-                
-                
-                // removes from active
-                ref.child("activeOrders").child(orderID).removeValue()
-                ref.child("users").child(userID).child("activeOrders").removeValue()
-                
-                self.timer?.invalidate()
-                self.isOrderCancelledWaiting = true
-            })
-        }
+        // moves order from active to past, closes view
+        ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            // adds to past
+            ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(snapshot.value as! [AnyHashable : Any])
+            
+            // sets date completed
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/YYYY"
+            let currentDateString = dateFormatter.string(from: Date())
+            
+            ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(["dateCompleted" : currentDateString])
+            
+            // sets order cancelled
+            ref.child("users").child(userID).child("pastOrders").child(orderID).updateChildValues(["status" : "cancelled"])
+            
+            
+            // removes from active
+            ref.child("activeOrders").child(orderID).removeValue()
+            ref.child("users").child(userID).child("activeOrders").removeValue()
+            
+            self.timer?.invalidate()
+            self.isOrderCancelledWaiting = true
+        })
     }
     
     func sendUserLocation(orderID: String) {
@@ -95,48 +85,6 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
                 self.timer?.invalidate()
                 self.isShowingWaitingForBringer = false
             }
-        })
-    }
-    
-    private func sendCancelOrder(orderID: String, completion: @escaping (Bool?) -> Void) {
-        let url = URL(string: "https://bringers-nodejs.vercel.app/cancel-order")!
-
-        getOrderPaymentIntent(orderID: orderID) { _ in
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = try! JSONEncoder().encode([
-                "paymentIntentID" : self.paymentIntentID,
-            ])
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let _ = data, error == nil,
-                      (response as? HTTPURLResponse)?.statusCode == 200 else {
-                          completion(nil)
-                          return
-                      }
-                completion(true)
-            }.resume()
-        }
-    }
-    
-    private func getOrderPaymentIntent(orderID: String, completion: @escaping (Bool?) -> Void) {
-        let ref = Database.database().reference()
-        
-        ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let activeUser = (snapshot.value as? [AnyHashable : Any]) else {
-                completion(nil)
-                return
-            }
-            
-            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
-                completion(nil)
-                return
-            }
-
-            self.paymentIntentID = paymentIntentID
-            completion(true)
         })
     }
     
@@ -224,16 +172,77 @@ final class WaitingForBringerViewModel: NSObject, ObservableObject, CLLocationMa
         })
     }
     
-    func setOrderInProgress(orderID: String) {
+    func setOrderInProgress(order: OrderModel) {
         let ref = Database.database().reference()
         
-        ref.child("activeOrders").child(orderID).updateChildValues(["status" : "inprogress"])
-        ref.child("activeOrders").child(orderID).updateChildValues(["bringerID" : self.currentOffer.bringerID])
-        ref.child("activeOrders").child(orderID).updateChildValues(["bringerLocation" : [self.currentOffer.bringerLocation.latitude, self.currentOffer.bringerLocation.longitude]])
-        ref.child("activeOrders").child(orderID).updateChildValues(["deliveryFee" : self.currentOffer.offerAmount])
+        ref.child("activeOrders").child(order.id).updateChildValues(["status" : "inprogress"])
+        ref.child("activeOrders").child(order.id).updateChildValues(["bringerID" : self.currentOffer.bringerID])
+        ref.child("activeOrders").child(order.id).updateChildValues(["bringerLocation" : [self.currentOffer.bringerLocation.latitude, self.currentOffer.bringerLocation.longitude]])
+        ref.child("activeOrders").child(order.id).updateChildValues(["deliveryFee" : self.currentOffer.offerAmount])
         
-        ref.child("users").child(self.currentOffer.bringerID).child("activeBringers").updateChildValues(["activeBringer" : orderID])
+        ref.child("users").child(self.currentOffer.bringerID).child("activeBringers").updateChildValues(["activeBringer" : order.id])
         
-        self.checkIfOrderInProgress(orderID: orderID)
+        self.checkIfOrderInProgress(orderID: order.id)
+        
+        
+        getCardSource(userID: order.userID) { sourceAndCustomerID in
+            let url = URL(string: "https://bringers-nodejs.vercel.app/charge-customer")!
+            
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let estTax = round(CGFloat(order.maxPrice) * 0.0625 * 100)
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "amount" : "\(Int((self.currentOffer.offerAmount * 100) + (order.maxPrice * 100) + estTax))",
+                "customerID" : sourceAndCustomerID?["customerID"],
+                "sourceID" : sourceAndCustomerID?["defaultSource"]
+            ])
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data,
+                      error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200,
+                      let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                      let chargeID = json["chargeID"] as? Bool else {
+                          return
+                      }
+                ref.child("activeOrders").child(order.id).updateChildValues(["chargeID" : chargeID])
+            }.resume()
+        }
+    }
+    
+    func getCardSource(userID: String, completion: @escaping ([String: String]?) -> Void) {
+        
+        let ref = Database.database().reference()
+        ref.child("users").child(userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeUserInfo = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                return
+            }
+            
+            let url = URL(string: "https://bringers-nodejs.vercel.app/get-customer-details")!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode(["customerID" : activeUserInfoMap.stripeCustomerID])
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data,
+                      error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200,
+                      let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                      let defaultSource = json["defaultSource"] as? String else {
+                          completion(nil)
+                          return
+                      }
+                completion(["defaultSource": defaultSource, "customerID": activeUserInfoMap.stripeCustomerID])
+            }.resume()
+        })
     }
 }
