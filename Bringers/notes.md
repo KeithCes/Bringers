@@ -1,6 +1,4 @@
 # stuff to do soon
-    - fix cancelling on both map views
-    - fix actual price bringer confirm
 - BUG WHERE OFFER DECLINED SCREEN DOESNT EXIT ON BRINGER SIDE AND THEN POPS MAP
 - your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
