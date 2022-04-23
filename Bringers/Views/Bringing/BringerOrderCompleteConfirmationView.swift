@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-struct BringerOrderCompleteConfirmation: View {
+struct BringerOrderCompleteConfirmationView: View {
     
     @StateObject private var viewModel = BringerOrderCompleteConfirmationViewModel()
     
@@ -17,6 +17,7 @@ struct BringerOrderCompleteConfirmation: View {
     @Binding var isOrderSuccessfullyCompleted: Bool
     
     @Binding var currentOrder: OrderModel
+    @Binding var offerAmount: CGFloat
     
     
     var body: some View {
@@ -46,7 +47,7 @@ struct BringerOrderCompleteConfirmation: View {
                         let actualItemPrice = viewModel.actualItemPrice.currencyAsCGFloat()
 
                         if actualItemPrice == self.currentOrder.maxPrice {
-                            viewModel.completeOrderNoRefund(currentOrder: self.currentOrder) { success in
+                            viewModel.completeOrderNoRefund(currentOrder: self.currentOrder, offerAmount: self.offerAmount) { success in
                                 guard let success = success else {
                                     return
                                 }
@@ -57,7 +58,7 @@ struct BringerOrderCompleteConfirmation: View {
                             }
                         }
                         else {
-                            viewModel.completeOrder(currentOrder: self.currentOrder) { success in
+                            viewModel.completeOrder(currentOrder: self.currentOrder, offerAmount: self.offerAmount) { success in
                                 guard let success = success else {
                                     return
                                 }
@@ -87,7 +88,7 @@ struct BringerOrderCompleteConfirmation: View {
                     let actualItemPrice = viewModel.actualItemPrice.currencyAsCGFloat()
                             
                     if actualItemPrice == self.currentOrder.maxPrice {
-                        viewModel.completeOrderNoRefund(currentOrder: self.currentOrder) { success in
+                        viewModel.completeOrderNoRefund(currentOrder: self.currentOrder, offerAmount: self.offerAmount) { success in
                             guard let success = success else {
                                 return
                             }
@@ -98,7 +99,7 @@ struct BringerOrderCompleteConfirmation: View {
                         }
                     }
                     else {
-                        viewModel.completeOrder(currentOrder: self.currentOrder) { success in
+                        viewModel.completeOrder(currentOrder: self.currentOrder, offerAmount: self.offerAmount) { success in
                             guard let success = success else {
                                 return
                             }

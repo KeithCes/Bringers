@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
@@ -17,7 +18,7 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
     
     @Published var actualItemPrice: String = ""
     
-    @Published var paymentIntentID: String = ""
+    @Published var chargeID: String = ""
     
     @Published var isCompleteButtonEnabled: Bool = true
     
@@ -116,16 +117,17 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
         })
     }
     
-    func completeOrder(currentOrder: OrderModel, completion: @escaping (Bool?) -> Void) {
+    func completeOrder(currentOrder: OrderModel, offerAmount: CGFloat, completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order")!
         
         let actualItemPrice = actualItemPrice.currencyAsCGFloat()
         
-        getOrderPaymentIntent(orderID: currentOrder.id) { _ in
+        getOrderChargeID(orderID: currentOrder.id) { _ in
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
             let itemPriceDiff = round(currentOrder.maxPrice * 100 * 1.0625) - round(actualItemPrice * 100 * 1.0625)
             
-            let bringerProfits = currentOrder.deliveryFee * 100 * self.userProfitPercent
+            let finalDeliveryFee = offerAmount > 0 ? offerAmount : currentOrder.deliveryFee
+            let bringerProfits = finalDeliveryFee * 100 * self.userProfitPercent
             
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
             let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
@@ -137,7 +139,7 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
                 "amount" : "\(Int(bringerProfits + actualItemPriceWithTax))",
                 "accountID" : self.bringerInfo.stripeAccountID,
                 "refundAmount" : "\(Int(itemPriceDiff))",
-                "paymentIntentID" : self.paymentIntentID,
+                "chargeID" : self.chargeID,
             ])
             
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -152,12 +154,13 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
         }
     }
     
-    func completeOrderNoRefund(currentOrder: OrderModel, completion: @escaping (Bool?) -> Void) {
+    func completeOrderNoRefund(currentOrder: OrderModel, offerAmount: CGFloat, completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order-norefund")!
         
         let actualItemPrice = actualItemPrice.currencyAsCGFloat()
         
-        let bringerProfits = currentOrder.deliveryFee * 100 * self.userProfitPercent
+        let finalDeliveryFee = offerAmount > 0 ? offerAmount : currentOrder.deliveryFee
+        let bringerProfits = finalDeliveryFee * 100 * self.userProfitPercent
         
         // TODO: calc tax based on location (change 0.0625 to be dynamic)
         let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
@@ -181,7 +184,7 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
         }.resume()
     }
     
-    func getOrderPaymentIntent(orderID: String, completion: @escaping (Bool?) -> Void) {
+    func getOrderChargeID(orderID: String, completion: @escaping (Bool?) -> Void) {
         let ref = Database.database().reference()
         
         ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -191,13 +194,13 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
                 return
             }
             
-            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+            guard let chargeID = (activeUser["chargeID"] as? String) else {
                 self.isCompleteButtonEnabled = true
                 completion(nil)
                 return
             }
 
-            self.paymentIntentID = paymentIntentID
+            self.chargeID = chargeID
             completion(true)
         })
     }

@@ -132,15 +132,40 @@ struct BringerOrdersView: View {
         
         .sheet(isPresented: $viewModel.isShowingOrder, onDismiss: {
             if !viewModel.isShowingOrder && viewModel.acceptPressed {
-                viewModel.acceptPressed = false
                 viewModel.isShowingBringerConfirm.toggle()
             }
+            if !viewModel.isShowingOrder && viewModel.offerPressed {
+                viewModel.isShowingBringerOffer.toggle()
+            }
+            viewModel.acceptPressed = false
+            viewModel.offerPressed = false
         }) {
             BringerSelectedOrderView(
                 isShowingOrder: $viewModel.isShowingOrder,
                 acceptPressed: $viewModel.acceptPressed,
+                offerPressed: $viewModel.offerPressed,
                 order: $viewModel.currentOrder,
                 currentCoords: $viewModel.currentCoords
+            )
+        }
+        
+        .sheet(isPresented: $viewModel.isShowingBringerOffer, onDismiss: {
+            viewModel.getActiveOrders { (orders) in
+                viewModel.getYourProfile()
+                viewModel.orders = orders
+            }
+            
+            if !viewModel.isShowingBringerOffer && viewModel.confirmPressed {
+                viewModel.isShowingBringerConfirm.toggle()
+                viewModel.confirmPressed = false
+            }
+        }) {
+            BringerOfferOrderView(
+                isShowingBringerOffer: $viewModel.isShowingBringerOffer,
+                confirmPressed: $viewModel.confirmPressed,
+                currentOrder: $viewModel.currentOrder,
+                bringerCoords: $viewModel.currentCoords,
+                currentOffer: $viewModel.currentOffer
             )
         }
         
@@ -151,16 +176,39 @@ struct BringerOrdersView: View {
             }
             
             if !viewModel.isShowingBringerConfirm && viewModel.confirmPressed {
-                viewModel.setOrderInProgress()
+                viewModel.setOrderInProgress { chargeID in
+                    viewModel.setChargeID(chargeID: chargeID)
+                }
                 viewModel.incrementBringersAccepted()
                 viewModel.confirmPressed = false
                 viewModel.isShowingBringerMap.toggle()
             }
+            if !viewModel.isShowingBringerConfirm && viewModel.offerSent {
+                viewModel.sendOffer(orderID: viewModel.currentOrder.id, offer: viewModel.currentOffer)
+                viewModel.offerSent = false
+                viewModel.isShowingBringerWaitingOffer.toggle()
+            }
         }) {
-            BringerConfirmOrderBuyView(
+            BringerConfirmOrderView(
                 isShowingBringerConfirm: $viewModel.isShowingBringerConfirm,
                 confirmPressed: $viewModel.confirmPressed,
-                currentOrder: $viewModel.currentOrder
+                currentOrder: $viewModel.currentOrder,
+                currentOffer: $viewModel.currentOffer,
+                offerSent: $viewModel.offerSent
+            )
+        }
+        
+        .fullScreenCover(isPresented: $viewModel.isShowingBringerWaitingOffer, onDismiss: {
+            if viewModel.isOfferAccepted {
+                viewModel.isShowingBringerMap.toggle()
+                viewModel.incrementBringersAccepted()
+            }
+        }) {
+            BringerWaitingOfferView(
+                isShowingBringerWaitingOffer: $viewModel.isShowingBringerWaitingOffer,
+                isOfferAccepted: $viewModel.isOfferAccepted,
+                currentOrder: $viewModel.currentOrder,
+                currentOffer: $viewModel.currentOffer
             )
         }
         
@@ -184,7 +232,8 @@ struct BringerOrdersView: View {
                 isShowingBringerMap: $viewModel.isShowingBringerMap,
                 isOrderCancelledMap: $viewModel.isOrderCancelledMap,
                 currentOrder: self.givenOrder.status == "inprogress" ? $givenOrder : $viewModel.currentOrder,
-                currentCoords: $viewModel.currentCoords
+                currentCoords: $viewModel.currentCoords,
+                currentOffer: $viewModel.currentOffer
             )
         }
         .sheet(isPresented: $viewModel.isShowingSafari) {

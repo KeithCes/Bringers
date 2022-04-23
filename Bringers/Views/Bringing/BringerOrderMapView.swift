@@ -17,6 +17,7 @@ struct BringerOrderMapView: View {
     @Binding var isOrderCancelledMap: Bool
     @Binding var currentOrder: OrderModel
     @Binding var currentCoords: CLLocationCoordinate2D
+    @Binding var currentOffer: OfferModel
     
     
     var body: some View {
@@ -190,10 +191,11 @@ struct BringerOrderMapView: View {
                 viewModel.deactivateOrder(orderID: self.currentOrder.id, isCompleted: true)
             }
         }) {
-            BringerOrderCompleteConfirmation(
+            BringerOrderCompleteConfirmationView(
                 isShowingBringerCompleteConfirmation: $viewModel.isShowingBringerCompleteConfirmation,
                 isOrderSuccessfullyCompleted: $viewModel.isOrderSuccessfullyCompleted,
-                currentOrder: $currentOrder
+                currentOrder: $currentOrder,
+                offerAmount: $currentOffer.offerAmount
             )
         }
     }

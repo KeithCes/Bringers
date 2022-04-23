@@ -16,14 +16,20 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     
     @Published var isShowingOrder: Bool = false
     @Published var acceptPressed: Bool = false
+    @Published var offerPressed: Bool = false
     @Published var isShowingBringerConfirm: Bool = false
+    @Published var isShowingBringerOffer: Bool = false
     @Published var confirmPressed: Bool = false
     @Published var isShowingBringerMap: Bool = false
     @Published var isOrderCancelledMap: Bool = false
     @Published var isShowingSafari: Bool = false
+    @Published var offerSent: Bool = false
+    @Published var isShowingBringerWaitingOffer: Bool = false
+    @Published var isOfferAccepted: Bool = false
     
     @Published var orders: [OrderModel] = []
     @Published var currentOrder: OrderModel = OrderModel()
+    @Published var currentOffer: OfferModel = OfferModel()
     
     @Published var isProgressViewHidden: Bool = false
     
@@ -113,7 +119,7 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
         })
     }
     
-    func setOrderInProgress() {
+    func setOrderInProgress(completion: @escaping (String) -> Void) {
         let ref = Database.database().reference()
         let userID = Auth.auth().currentUser!.uid
         
@@ -122,6 +128,73 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
         ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["bringerLocation" : [self.currentCoords.latitude, self.currentCoords.longitude]])
         
         ref.child("users").child(userID).child("activeBringers").updateChildValues(["activeBringer" : self.currentOrder.id])
+        
+        
+        getCardSource(userID: currentOrder.userID) { sourceAndCustomerID in
+            let url = URL(string: "https://bringers-nodejs.vercel.app/charge-customer")!
+            
+            // TODO: calc tax based on location (change 0.0625 to be dynamic)
+            let estTax = round(CGFloat(self.currentOrder.maxPrice) * 0.0625 * 100)
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode([
+                "amount" : "\(Int((self.currentOrder.deliveryFee * 100) + (self.currentOrder.maxPrice * 100) + estTax))",
+                "customerID" : sourceAndCustomerID?["customerID"],
+                "sourceID" : sourceAndCustomerID?["defaultSource"]
+            ])
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data,
+                      error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200,
+                      let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                      let chargeID = json["chargeID"] as? String else {
+                          completion("")
+                          return
+                      }
+                completion(chargeID)
+            }.resume()
+        }
+    }
+    
+    func setChargeID(chargeID: String) {
+        let ref = Database.database().reference()
+        ref.child("activeOrders").child(self.currentOrder.id).updateChildValues(["chargeID" : chargeID])
+    }
+    
+    func getCardSource(userID: String, completion: @escaping ([String: String]?) -> Void) {
+        
+        let ref = Database.database().reference()
+        ref.child("users").child(userID).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let activeUserInfo = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            guard let activeUserInfoMap = UserInfo.from(activeUserInfo) else {
+                return
+            }
+            
+            let url = URL(string: "https://bringers-nodejs.vercel.app/get-customer-details")!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode(["customerID" : activeUserInfoMap.stripeCustomerID])
+            
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                guard let data = data,
+                      error == nil,
+                      (response as? HTTPURLResponse)?.statusCode == 200,
+                      let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
+                      let defaultSource = json["defaultSource"] as? String else {
+                          completion(nil)
+                          return
+                      }
+                completion(["defaultSource": defaultSource, "customerID": activeUserInfoMap.stripeCustomerID])
+            }.resume()
+        })
     }
     
     func getYourProfile() {
@@ -295,5 +368,20 @@ final class BringerOrdersViewModel: NSObject, ObservableObject, CLLocationManage
     
     func getCurrentCoords() -> CLLocationCoordinate2D {
         return self.currentCoords
+    }
+    
+    func sendOffer(orderID: String, offer: OfferModel) {
+        
+        let ref = Database.database().reference()
+        let userID = Auth.auth().currentUser!.uid
+        
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["id" : offer.id])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["bringerID" : offer.bringerID])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["bringerLocation" : [offer.bringerLocation.latitude, offer.bringerLocation.longitude]])
+        ref.child("activeOrders").child(orderID).child("offers").child(userID).updateChildValues(["offerAmount" : offer.offerAmount])
+    }
+    
+    func acceptOrder() {
+        
     }
 }

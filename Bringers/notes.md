@@ -1,8 +1,11 @@
 # stuff to do soon
-- bidding on orders? offer on orders?
-- add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
+- your profit should have "*" since might not be true "profit" after gas and stuff
+- time to check formatting on all device types again (maybe change from padding/frame confusion?)
+    - also double check vocab ("much" vs "much money")
+- put delivery fee on bringerselectredorder (clarity check on all screens?)
+- add cancel confrimartion (DONT refund stripe fee on cancel if already on maps (charged))
 - might be bug with incrementing? double check...
-- TESTING!!!!ote
+- TESTING!!!!
 
 # shit to do if bored
 - TESTING!!!!

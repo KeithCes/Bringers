@@ -185,13 +185,15 @@ struct PlaceOrderView: View {
         
         .fullScreenCover(isPresented: $viewModel.isShowingWaitingForBringer, onDismiss: {
             if (!viewModel.isShowingWaitingForBringer && !viewModel.isOrderCancelledWaiting) {
+                // TODO: On accept offer from waiting, we need this sleep or the map view doesn't pop; definitely a bug somewhere...
+                sleep(1)
                 viewModel.isShowingOrderComing.toggle()
-                self.givenOrder = OrderModel()
             }
             else if viewModel.isOrderCancelledWaiting {
                 viewModel.incrementOrdersCanceled()
             }
             viewModel.isOrderCancelledWaiting = false
+            self.givenOrder.status = "inprogress"
         }) {
             WaitingForBringerView(
                 isShowingWaitingForBringer: $viewModel.isShowingWaitingForBringer,
@@ -214,10 +216,13 @@ struct PlaceOrderView: View {
             OrderComingMapView(
                 isShowingOrderComing: $viewModel.isShowingOrderComing,
                 isOrderCancelledMap: $viewModel.isOrderCancelledMap,
-                order: self.givenOrder.status == "inprogress" ? $givenOrder : $viewModel.order
+                order: (self.givenOrder.status == "inprogress" && self.givenOrder.id.count > 0) ? $givenOrder : $viewModel.order
             )
         }
         .onAppear {
+            
+            self.hideKeyboard()
+            
             DispatchQueue.main.async {
                 viewModel.getYourProfile()
             }
