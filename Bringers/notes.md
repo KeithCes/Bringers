@@ -1,8 +1,8 @@
 # stuff to do soon
 - your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
-- put delivery fee on bringerselectredorder
-- add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
+- put delivery fee on bringerselectredorder (clarity check on all screens?)
+- add cancel confrimartion (DONT refund stripe fee on cancel if already on maps (charged))
 - might be bug with incrementing? double check...
 - TESTING!!!!
 
