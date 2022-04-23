@@ -38,6 +38,7 @@ final class BringerWaitingOfferViewModel: ObservableObject {
         
         ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let snapshotDict = (snapshot.value as? NSDictionary) else {
+                self.isShowingWaitingForBringer.toggle()
                 return
             }
             
@@ -47,8 +48,8 @@ final class BringerWaitingOfferViewModel: ObservableObject {
             
             if bringerID == userID {
                 self.isOfferAccepted = true
-                self.isShowingWaitingForBringer.toggle()
             }
+            self.isShowingWaitingForBringer.toggle()
         })
     }
 }

@@ -1,5 +1,4 @@
 # stuff to do soon
-- BUG WHERE OFFER DECLINED SCREEN DOESNT EXIT ON BRINGER SIDE AND THEN POPS MAP
 - your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
 - put delivery fee on bringerselectredorder
