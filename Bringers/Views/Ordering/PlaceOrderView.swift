@@ -220,6 +220,9 @@ struct PlaceOrderView: View {
             )
         }
         .onAppear {
+            
+            self.hideKeyboard()
+            
             DispatchQueue.main.async {
                 viewModel.getYourProfile()
             }
