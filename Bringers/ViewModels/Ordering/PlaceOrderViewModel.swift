@@ -75,6 +75,7 @@ final class PlaceOrderViewModel: ObservableObject {
             isShowingConfirm.toggle()
         }
         else {
+            // TODO: add error toasts based on fields
             print("error")
         }
     }

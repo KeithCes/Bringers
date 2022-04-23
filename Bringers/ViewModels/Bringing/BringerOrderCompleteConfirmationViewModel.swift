@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
@@ -116,7 +117,7 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
         })
     }
     
-    func completeOrder(currentOrder: OrderModel, completion: @escaping (Bool?) -> Void) {
+    func completeOrder(currentOrder: OrderModel, offerAmount: CGFloat, completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order")!
         
         let actualItemPrice = actualItemPrice.currencyAsCGFloat()
@@ -125,7 +126,8 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
             let itemPriceDiff = round(currentOrder.maxPrice * 100 * 1.0625) - round(actualItemPrice * 100 * 1.0625)
             
-            let bringerProfits = currentOrder.deliveryFee * 100 * self.userProfitPercent
+            let finalDeliveryFee = offerAmount > 0 ? offerAmount : currentOrder.deliveryFee
+            let bringerProfits = finalDeliveryFee * 100 * self.userProfitPercent
             
             // TODO: calc tax based on location (change 0.0625 to be dynamic)
             let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)
@@ -152,12 +154,13 @@ final class BringerOrderCompleteConfirmationViewModel: ObservableObject {
         }
     }
     
-    func completeOrderNoRefund(currentOrder: OrderModel, completion: @escaping (Bool?) -> Void) {
+    func completeOrderNoRefund(currentOrder: OrderModel, offerAmount: CGFloat, completion: @escaping (Bool?) -> Void) {
         let url = URL(string: "https://bringers-nodejs.vercel.app/complete-order-norefund")!
         
         let actualItemPrice = actualItemPrice.currencyAsCGFloat()
         
-        let bringerProfits = currentOrder.deliveryFee * 100 * self.userProfitPercent
+        let finalDeliveryFee = offerAmount > 0 ? offerAmount : currentOrder.deliveryFee
+        let bringerProfits = finalDeliveryFee * 100 * self.userProfitPercent
         
         // TODO: calc tax based on location (change 0.0625 to be dynamic)
         let actualItemPriceWithTax = round(actualItemPrice * 100 * 1.0625)

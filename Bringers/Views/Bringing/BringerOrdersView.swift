@@ -232,7 +232,8 @@ struct BringerOrdersView: View {
                 isShowingBringerMap: $viewModel.isShowingBringerMap,
                 isOrderCancelledMap: $viewModel.isOrderCancelledMap,
                 currentOrder: self.givenOrder.status == "inprogress" ? $givenOrder : $viewModel.currentOrder,
-                currentCoords: $viewModel.currentCoords
+                currentCoords: $viewModel.currentCoords,
+                currentOffer: $viewModel.currentOffer
             )
         }
         .sheet(isPresented: $viewModel.isShowingSafari) {
