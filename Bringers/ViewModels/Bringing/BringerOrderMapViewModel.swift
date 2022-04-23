@@ -30,7 +30,7 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
     
     @Published var ordererInfo: UserInfoModel = UserInfoModel()
     
-    @Published var paymentIntentID: String = ""
+    @Published var chargeID: String = ""
     
     @Published var timer: Timer?
     
@@ -272,13 +272,13 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
             completion(true)
             return
         }
-        getOrderPaymentIntent(orderID: orderID) { _ in
+        getOrderChargeID(orderID: orderID) { _ in
             
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try! JSONEncoder().encode([
-                "paymentIntentID" : self.paymentIntentID,
+                "chargeID" : self.chargeID,
             ])
             
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -295,7 +295,7 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
         }
     }
     
-    func getOrderPaymentIntent(orderID: String, completion: @escaping (Bool?) -> Void) {
+    func getOrderChargeID(orderID: String, completion: @escaping (Bool?) -> Void) {
         let ref = Database.database().reference()
         
         ref.child("activeOrders").child(orderID).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -304,12 +304,12 @@ final class BringerOrderMapViewModel: NSObject, ObservableObject, CLLocationMana
                 return
             }
             
-            guard let paymentIntentID = (activeUser["paymentIntentID"] as? String) else {
+            guard let chargeID = (activeUser["chargeID"] as? String) else {
                 completion(nil)
                 return
             }
 
-            self.paymentIntentID = paymentIntentID
+            self.chargeID = chargeID
             completion(true)
         })
     }

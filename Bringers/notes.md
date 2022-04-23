@@ -1,18 +1,10 @@
 # stuff to do soon
+    - fix cancelling on both map views
+    - fix actual price bringer confirm
 - BUG WHERE OFFER DECLINED SCREEN DOESNT EXIT ON BRINGER SIDE AND THEN POPS MAP
-- FOR TAKING PAYMENT ON MAP POP
-    -When user saves/updates credit card, save cardID under userInfo on db
-    -We can then use that card ID with the "retrieve card" stripe api call from backend to get all card info
-    -We can then use the card info to create an "STPCardParams" and then create a token with the params
-    -We then create a charge with the token to charge the card
-
 - your profit should have "*" since might not be true "profit" after gas and stuff
 - time to check formatting on all device types again (maybe change from padding/frame confusion?)
 - put delivery fee on bringerselectredorder
-- bidding on orders? offer on orders?
-    - scrollview on waiting for bringers with list of all offers, overlay on each button when tapped accepts offer (confirmation screen?)
-    - bringer confrim view add button "OFFER"
-        - on offer press open view similar to bringer complete with a way to type money you want to offer (int numbers)
 - add stripe fee (no refund of stripe fee on cancel?) (MAYBE WE TAKE MONEY ONLY WHEN ORDER ACCEPTED???)
 - might be bug with incrementing? double check...
 - TESTING!!!!
